@@ -1,7 +1,7 @@
 freezing-octo-bear
 ==================
 
-Small Wicket based Web Application with Android Companion to make your office Club Mate supply tracking easier
+Small Wicket based Web Application with [Android Companion](https://github.com/atomfrede/mustached-nemesis) to make your office Club Mate supply tracking easier
 
 Contributors
 ============
