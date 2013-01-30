@@ -2,6 +2,7 @@ package de.atomfrede.mate.domain.dao;
 
 import javax.annotation.Resource;
 
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
@@ -16,7 +17,11 @@ public abstract class AbstractDAO <EntityClass extends AbstractEntity> implement
 	protected SessionFactory sessionFactory;
 	
 	public Session getSession(){
-		return sessionFactory.getCurrentSession();
+		try{
+			return sessionFactory.getCurrentSession();
+		}catch(HibernateException he){
+			return sessionFactory.openSession();
+		}
 	}
 	
 	public void persist(EntityClass entity) {
