@@ -14,16 +14,13 @@ import de.atomfrede.mate.domain.entities.user.User;
 @Repository(value = "userDao")
 public class UserDaoImpl extends AbstractDAO<User> implements UserDao {
 
+	public UserDaoImpl(){
+		super(User.class);
+	}
+	
 	@Override
 	public List<User> list(long offset, long count) {
 		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<User> findAll() {
-		// TODO Auto-generated method stub
-
 		return null;
 	}
 
@@ -46,11 +43,6 @@ public class UserDaoImpl extends AbstractDAO<User> implements UserDao {
 	}
 
 	@Override
-	public void persist(User entity) {
-		super.persist(entity);
-	}
-
-	@Override
 	public User merge(User entity) {
 		// TODO Auto-generated method stub
 		return null;
@@ -60,12 +52,6 @@ public class UserDaoImpl extends AbstractDAO<User> implements UserDao {
 	public long size() {
 		// TODO Auto-generated method stub
 		return 0;
-	}
-
-	@Override
-	public Class<User> getClazz() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override

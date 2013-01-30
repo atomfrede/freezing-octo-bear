@@ -1,8 +1,8 @@
 package de.atomfrede.mate.domain.entities.user;
 
-import javax.annotation.Resource;
+import java.util.List;
 
-import org.hibernate.SessionFactory;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,16 +24,21 @@ public class UserDaoTest {
 	@Autowired
 	UserDao userDao;
 	
-	@Test
+	@Before
 	public void addUser(){
 		User user = new User();
 		user.setEmail("max@muster.org");
 		user.setFirstname("Max");
 		user.setLastname("Muster");
 		user.setUsername("mmuster");
-		userDao.persist(user);
-		
-		
+		userDao.persist(user);	
+	}
+	
+	@Test
+	public void findAllTest(){
+		List<User> allUsers = userDao.findAll();
+		assertNotNull(allUsers);
+		assertEquals(1, allUsers.size());
 	}
 	
 	@Test
