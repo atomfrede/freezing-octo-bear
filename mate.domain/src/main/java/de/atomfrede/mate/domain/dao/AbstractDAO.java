@@ -83,6 +83,12 @@ public abstract class AbstractDAO<EntityClass extends AbstractEntity>
 	}
 	
 	@Override
+	public long count() {
+		return ((Long) getSession().createQuery("select count(*) from "+clazz.getSimpleName())
+				.uniqueResult()).intValue();
+	}
+	
+	@Override
 	public Class<EntityClass> getClazz(){
 		return clazz;
 	}

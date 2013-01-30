@@ -13,12 +13,6 @@ public class UserDaoImpl extends AbstractDAO<User> implements UserDao {
 	}
 
 	@Override
-	public long count() {
-		return ((Long) getSession().createQuery("select count(*) from User")
-				.uniqueResult()).intValue();
-	}
-	
-	@Override
 	public User getByUserName(String userName) {
 		// TODO Auto-generated method stub
 		return null;
