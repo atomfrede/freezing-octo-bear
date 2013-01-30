@@ -21,11 +21,8 @@ public class UserDaoTest {
 	@Autowired
 	ApplicationContext context;
 	
-//	@Autowired
-//	UserDao userDao;
-	
-//	@Resource
-//	SessionFactory sessionFactory;
+	@Autowired
+	UserDao userDao;
 	
 	@Test
 	public void addUser(){
@@ -34,7 +31,9 @@ public class UserDaoTest {
 		user.setFirstname("Max");
 		user.setLastname("Muster");
 		user.setUsername("mmuster");
-//		userDao.persist(user);
+		userDao.persist(user);
+		
+		
 	}
 	
 	@Test
