@@ -1,7 +1,5 @@
 package de.atomfrede.mate.service.user;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +13,11 @@ public class UserServiceImpl implements UserService{
 
 	@Autowired
 	private UserDao userDao;
+
+	@Override
+	public User getByUsername(String username) {
+		return userDao.getByUserName(username);
+	}
 	
 
 }
