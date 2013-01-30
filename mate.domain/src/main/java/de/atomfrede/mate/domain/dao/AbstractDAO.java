@@ -8,6 +8,7 @@ import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,6 +36,18 @@ public abstract class AbstractDAO<EntityClass extends AbstractEntity>
 		}
 	}
 
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly=true)
+	public List<EntityClass> list(long offset, long count) {
+		Session session = this.sessionFactory.getCurrentSession();
+
+		Criteria crit = session.createCriteria(getClazz());
+		crit.setFirstResult((int)offset);
+		crit.setMaxResults((int)count);
+
+		return crit.list();
+	}
+	
 	@Transactional
 	public void persist(EntityClass entity) {
 		getSession().saveOrUpdate(entity);
@@ -59,6 +72,14 @@ public abstract class AbstractDAO<EntityClass extends AbstractEntity>
 		Criteria criteria = getSession().createCriteria(getClazz());
 		List<EntityClass> entities = (List<EntityClass>) criteria.list();
 		return entities;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly= true)
+	public EntityClass findByProperty(String propertyName, Object propertyValue){
+		Criteria crit = getSession().createCriteria(clazz);
+		crit.add(Restrictions.eq(propertyName, propertyValue));
+		return (EntityClass) crit.uniqueResult();
 	}
 	
 	@Override
