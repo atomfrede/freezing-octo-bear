@@ -24,8 +24,6 @@ public interface DAO<EntityClass extends IEntity> {
 
 	EntityClass merge(EntityClass entity);
 
-	EntityManager getEntityManager();
-
 	long size();
 
 	Class<EntityClass> getClazz();

@@ -1,16 +1,39 @@
 package de.atomfrede.mate.domain.dao;
 
-import de.atomfrede.mate.domain.entities.AbstractEntity;
+import javax.annotation.Resource;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.stereotype.Repository;
+
+import de.atomfrede.mate.domain.entities.AbstractEntity;
+import de.atomfrede.mate.domain.entities.user.User;
+
+@Repository
 public abstract class AbstractDAO <EntityClass extends AbstractEntity> implements DAO<EntityClass>{
 
+	@Resource
+	protected SessionFactory sessionFactory;
+	
+	public Session getSession(){
+		return sessionFactory.getCurrentSession();
+	}
+	
 	public void persist(EntityClass entity) {
-        getEntityManager().persist(entity);
+		getSession().saveOrUpdate(entity);
+		getSession().flush();
     }
 
     public void remove(EntityClass entity) {
-        getEntityManager().remove(entity);
+    	getSession().delete(entity);
+    	getSession().flush();
     }
+    
+    @SuppressWarnings("unchecked")
+	@Override
+   	public EntityClass findById(Long id) {
+   		return (EntityClass) getSession().get(getClazz(), id);
+   	}
 
 
 }

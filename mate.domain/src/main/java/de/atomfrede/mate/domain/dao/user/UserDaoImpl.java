@@ -2,11 +2,17 @@ package de.atomfrede.mate.domain.dao.user;
 
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 
+import org.hibernate.SessionFactory;
+import org.springframework.stereotype.Repository;
+
+import de.atomfrede.mate.domain.dao.AbstractDAO;
 import de.atomfrede.mate.domain.entities.user.User;
 
-public class UserDaoImpl implements UserDao{
+@Repository(value = "userDao")
+public class UserDaoImpl extends AbstractDAO<User> implements UserDao {
 
 	@Override
 	public List<User> list(long offset, long count) {
@@ -17,12 +23,7 @@ public class UserDaoImpl implements UserDao{
 	@Override
 	public List<User> findAll() {
 		// TODO Auto-generated method stub
-		return null;
-	}
 
-	@Override
-	public User findById(Long id) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -35,29 +36,22 @@ public class UserDaoImpl implements UserDao{
 	@Override
 	public void remove(User entity) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void removeSafely(User entity) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void persist(User entity) {
-		// TODO Auto-generated method stub
-		
+		super.persist(entity);
 	}
 
 	@Override
 	public User merge(User entity) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public EntityManager getEntityManager() {
 		// TODO Auto-generated method stub
 		return null;
 	}
