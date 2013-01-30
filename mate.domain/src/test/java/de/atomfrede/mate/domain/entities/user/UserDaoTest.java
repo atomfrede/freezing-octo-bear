@@ -3,7 +3,10 @@ package de.atomfrede.mate.domain.entities.user;
 import java.util.List;
 
 import static org.junit.Assert.*;
+
+import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,14 +27,21 @@ public class UserDaoTest {
 	@Autowired
 	UserDao userDao;
 	
+	User testUser;
+	
 	@Before
 	public void addUser(){
-		User user = new User();
-		user.setEmail("max@muster.org");
-		user.setFirstname("Max");
-		user.setLastname("Muster");
-		user.setUsername("mmuster");
-		userDao.persist(user);	
+		testUser = new User();
+		testUser.setEmail("max@muster.org");
+		testUser.setFirstname("Max");
+		testUser.setLastname("Muster");
+		testUser.setUsername("mmuster");
+		userDao.persist(testUser);	
+	}
+	
+	@After
+	public void clear(){
+		userDao.remove(testUser);
 	}
 	
 	@Test
@@ -42,7 +52,7 @@ public class UserDaoTest {
 	}
 	
 	@Test
-    public void getUserById() {
+	public void deleteTest(){
 		
 	}
 

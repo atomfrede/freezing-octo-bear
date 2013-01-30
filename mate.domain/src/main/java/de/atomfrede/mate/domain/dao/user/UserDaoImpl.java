@@ -31,12 +31,6 @@ public class UserDaoImpl extends AbstractDAO<User> implements UserDao {
 	}
 
 	@Override
-	public void remove(User entity) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void removeSafely(User entity) {
 		// TODO Auto-generated method stub
 

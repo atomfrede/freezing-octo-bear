@@ -14,9 +14,10 @@ import org.hibernate.annotations.Parameter;
 import de.atomfrede.mate.domain.entities.AbstractEntity;
 
 @Entity
-@Table(name = "user", uniqueConstraints = @UniqueConstraint(columnNames = {
-		"username", "email" }))
+@Table(name = "user", uniqueConstraints=@UniqueConstraint(columnNames = {"username", "email"}) )
 public class User extends AbstractEntity {
+
+	private static final long serialVersionUID = -8695856794737512171L;
 
 	@GenericGenerator(name = "UserIdGenerator", strategy = "org.hibernate.id.MultipleHiLoPerTableGenerator", parameters = {
 			@Parameter(name = "table", value = "IdentityGenerator"),

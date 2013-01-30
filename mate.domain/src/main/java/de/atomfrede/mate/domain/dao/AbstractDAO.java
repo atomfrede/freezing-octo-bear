@@ -9,6 +9,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import de.atomfrede.mate.domain.entities.AbstractEntity;
 import de.atomfrede.mate.domain.entities.user.User;
@@ -34,11 +35,13 @@ public abstract class AbstractDAO<EntityClass extends AbstractEntity>
 		}
 	}
 
+	@Transactional
 	public void persist(EntityClass entity) {
 		getSession().saveOrUpdate(entity);
 		getSession().flush();
 	}
-
+	
+	@Transactional
 	public void remove(EntityClass entity) {
 		getSession().delete(entity);
 		getSession().flush();
@@ -53,8 +56,6 @@ public abstract class AbstractDAO<EntityClass extends AbstractEntity>
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<EntityClass> findAll() {
-		System.out.println("getSession "+getSession());
-		System.out.println("Clazz "+getClazz());
 		Criteria criteria = getSession().createCriteria(getClazz());
 		List<EntityClass> entities = (List<EntityClass>) criteria.list();
 		return entities;
