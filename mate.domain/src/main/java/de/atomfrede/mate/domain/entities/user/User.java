@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
@@ -19,6 +21,11 @@ public class User extends AbstractEntity {
 
 	private static final long serialVersionUID = -8695856794737512171L;
 
+	public static String cryptPass(String password) {
+		// easy encrypt
+		return DigestUtils.sha256Hex(password);
+	}
+	
 	@GenericGenerator(name = "UserIdGenerator", strategy = "org.hibernate.id.MultipleHiLoPerTableGenerator", parameters = {
 			@Parameter(name = "table", value = "IdentityGenerator"),
 			@Parameter(name = "primary_key_column", value = "sequence_name"),
@@ -87,7 +94,16 @@ public class User extends AbstractEntity {
 	}
 
 	public void setPassword(String password) {
-		this.password = password;
+		this.password = User.cryptPass(password);
+	}
+	
+	public boolean isPassword(String plainText) {
+		if (StringUtils.isEmpty(plainText)) {
+			return false;
+		}
+		// don't encrypt password because after
+		// Model.setPassword in form already encrypted
+		return password.equals(plainText);
 	}
 
 }

@@ -14,7 +14,6 @@ public class UserDaoImpl extends AbstractDAO<User> implements UserDao {
 
 	@Override
 	public User getByUserName(String userName) {
-		// TODO Auto-generated method stub
-		return null;
+		return findByProperty("username", userName);
 	}
 }
