@@ -73,7 +73,6 @@ public abstract class BasePage<T> extends GenericWebPage<T> {
 
 		// show brand name
 		navbar.brandName(Model.of("Mate Tracker"));
-
 		navbar.addComponents(NavbarComponents.transform(
 				Navbar.ComponentPosition.LEFT,
 				new NavbarButton<Homepage>(Homepage.class, Model.of("Home")).setIconType(IconType.home)
