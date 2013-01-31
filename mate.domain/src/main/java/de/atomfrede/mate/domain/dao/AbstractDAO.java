@@ -8,7 +8,9 @@ import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import de.atomfrede.mate.domain.entities.AbstractEntity;
 import de.atomfrede.mate.domain.entities.user.User;
@@ -34,11 +36,25 @@ public abstract class AbstractDAO<EntityClass extends AbstractEntity>
 		}
 	}
 
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly=true)
+	public List<EntityClass> list(long offset, long count) {
+		Session session = this.sessionFactory.getCurrentSession();
+
+		Criteria crit = session.createCriteria(getClazz());
+		crit.setFirstResult((int)offset);
+		crit.setMaxResults((int)count);
+
+		return crit.list();
+	}
+	
+	@Transactional
 	public void persist(EntityClass entity) {
 		getSession().saveOrUpdate(entity);
 		getSession().flush();
 	}
-
+	
+	@Transactional
 	public void remove(EntityClass entity) {
 		getSession().delete(entity);
 		getSession().flush();
@@ -53,11 +69,23 @@ public abstract class AbstractDAO<EntityClass extends AbstractEntity>
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<EntityClass> findAll() {
-		System.out.println("getSession "+getSession());
-		System.out.println("Clazz "+getClazz());
 		Criteria criteria = getSession().createCriteria(getClazz());
 		List<EntityClass> entities = (List<EntityClass>) criteria.list();
 		return entities;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly= true)
+	public EntityClass findByProperty(String propertyName, Object propertyValue){
+		Criteria crit = getSession().createCriteria(clazz);
+		crit.add(Restrictions.eq(propertyName, propertyValue));
+		return (EntityClass) crit.uniqueResult();
+	}
+	
+	@Override
+	public long count() {
+		return ((Long) getSession().createQuery("select count(*) from "+clazz.getSimpleName())
+				.uniqueResult()).intValue();
 	}
 	
 	@Override
