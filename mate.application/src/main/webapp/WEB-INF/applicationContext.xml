@@ -23,7 +23,7 @@ http://www.springframework.org/schema/util
 >
 	<import resource="classpath:domain-context.xml"/>
 	<mvc:annotation-driven/>
-	<context:component-scan base-package="de.atomfrede.mate.application"/>
+	<context:component-scan base-package="de.atomfrede.mate"/>
 	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>
 	<bean
 		id="wicketApplication"

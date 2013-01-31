@@ -17,7 +17,7 @@ http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
 "
 >
 	<context:annotation-config/>
-	<context:component-scan base-package="de.atomfrede.members"/>
+	<context:component-scan base-package="de.atomfrede.mate"/>
 	<bean
 		id="placeholderConfig"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
@@ -95,5 +95,4 @@ http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
 	<!-- tells Spring to put transactional advice on any class or method that
 		has an @Transactional annotation on it -->
 	<tx:annotation-driven/>
-	<context:component-scan base-package="de.atomfrede.mate.domain"/>
 </beans>
