@@ -19,8 +19,6 @@ public class User extends AbstractEntity {
 
 	private static final long serialVersionUID = -8695856794737512171L;
 
-	private static final long serialVersionUID = -8695856794737512171L;
-
 	@GenericGenerator(name = "UserIdGenerator", strategy = "org.hibernate.id.MultipleHiLoPerTableGenerator", parameters = {
 			@Parameter(name = "table", value = "IdentityGenerator"),
 			@Parameter(name = "primary_key_column", value = "sequence_name"),

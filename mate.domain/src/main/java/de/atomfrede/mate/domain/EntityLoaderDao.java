@@ -2,7 +2,6 @@ package de.atomfrede.mate.domain;
 
 import java.io.Serializable;
 
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
