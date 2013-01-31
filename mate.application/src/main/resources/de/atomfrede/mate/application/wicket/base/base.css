@@ -6,6 +6,11 @@ body {
 	margin: 5px;
 }
 
+.login-feedback{
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
 .form-box {
 	background: -moz-linear-gradient(center top, #FFFFFF 0px, #DDDDDD 100%)
 		repeat scroll 0 0 transparent;
