@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import de.atomfrede.mate.domain.dao.user.UserDao;
+import de.atomfrede.mate.domain.entities.account.Account;
 import de.atomfrede.mate.domain.entities.user.User;
 
 @Service(value = "userService")
@@ -71,6 +72,7 @@ public class UserServiceImpl implements UserService {
 		user.setLastname(lastname);
 		user.setPassword(password);
 		user.setEmail(email);
+		user.setAccount(new Account());
 
 		userDao.persist(user);
 		return user;

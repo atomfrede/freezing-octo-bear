@@ -9,32 +9,34 @@
 </head>
 <body class="main-content">
 
-	<div class="container-fluid">
+	<div class="container">
 		<div wicket:id="navbar"></div>
-		<div class="row-fluid">
 
-			<div class="span2">
-				<!-- Sidebar content -->
-				<p>
-					<button class="btn btn-primary" type="button">Default
-						button</button>
-					<button class="btn" type="button">Default button</button>
-				</p>
-				<p>
-					<button class="btn btn-primary" type="button">Default
-						button</button>
-					<button class="btn" type="button">Default button</button>
-				</p>
+		<div style="padding-top: 40px;">
+			Hello World
+			<div class="btn-group">
+				<button class="btn">Action</button>
+				<button class="btn dropdown-toggle" data-toggle="dropdown">
+					<span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu">
+					<li><a href="#">Action</a></li>
+					<li><a href="#">Another action</a></li>
+					<li><a href="#">Something else here</a></li>
+					<li class="divider"></li>
+					<li><a href="#">Separated link</a></li>
+				</ul>
 			</div>
-			<div class="span10">
-
-				<!--Body content-->
-				<div>
-					<wicket:child />
-				</div>
-			</div>
-
 		</div>
+
+
+		<!--Body content-->
+		<div>
+			<wicket:child />
+		</div>
+
+
+
 	</div>
 	<wicket:panel wicket:id="footer"></wicket:panel>
 
