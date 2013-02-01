@@ -1,10 +1,16 @@
 package de.atomfrede.mate.domain.entities.user;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -14,6 +20,8 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import de.atomfrede.mate.domain.entities.AbstractEntity;
+import de.atomfrede.mate.domain.entities.account.Account;
+import de.atomfrede.mate.domain.entities.consumption.Consumption;
 
 @Entity
 @Table(name = "user", uniqueConstraints=@UniqueConstraint(columnNames = {"username", "email"}) )
@@ -51,7 +59,14 @@ public class User extends AbstractEntity {
 
 	@Column(name = "password")
 	protected String password;
-
+	
+	@OneToOne(cascade={CascadeType.ALL})
+	@JoinColumn(name="account", nullable=false)
+	protected Account account;
+	
+	@OneToMany(cascade={CascadeType.ALL})
+	protected List<Consumption> consumptions;
+	
 	@Override
 	public Long getId() {
 		return id;
