@@ -33,5 +33,9 @@ public class LoginPage extends AbstractBasePage {
 			e.printStackTrace();
 		}
 	}
+	
+	private void addDummyBottles(){
+		
+	}
 
 }
