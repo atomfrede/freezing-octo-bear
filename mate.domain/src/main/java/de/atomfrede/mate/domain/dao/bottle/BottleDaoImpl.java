@@ -1,5 +1,9 @@
 package de.atomfrede.mate.domain.dao.bottle;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.hibernate.FlushMode;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +21,16 @@ public class BottleDaoImpl extends AbstractDAO<Bottle> implements BottleDao {
 	@Transactional(readOnly = true)
 	public Bottle getNotConsumedBottle() {
 		return findByProperty("consumed", false);
+	}
+
+	@Transactional
+	public void addBottles(int numberOfBottles) {
+		for (int i = 0; i < numberOfBottles; i++) {
+			Bottle newBottle = new Bottle();
+			getSession().saveOrUpdate(newBottle);
+		}
+		getSession().flush();
+
 	}
 
 }
