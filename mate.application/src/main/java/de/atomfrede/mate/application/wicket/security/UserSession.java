@@ -8,6 +8,11 @@ import de.atomfrede.mate.domain.entities.user.User;
 public class UserSession<T extends UserAuthModel> extends WebSession implements
 		IUserSession<T> {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4564013929977304560L;
+	
 	// default user, ex. AnonymousUser
 	protected T defaultUser;
 	// current user

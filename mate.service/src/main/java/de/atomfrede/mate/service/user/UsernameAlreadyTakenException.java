@@ -8,4 +8,9 @@ package de.atomfrede.mate.service.user;
  */
 public class UsernameAlreadyTakenException extends Exception {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3791439658364773235L;
+
 }

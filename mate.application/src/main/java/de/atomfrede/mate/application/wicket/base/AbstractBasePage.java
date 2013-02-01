@@ -9,6 +9,11 @@ import de.agilecoders.wicket.Bootstrap;
 
 public abstract class AbstractBasePage extends WebPage {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3218440126562724757L;
+
 	@Override
 	public void renderHead(IHeaderResponse response) {
 		super.renderHead(response);

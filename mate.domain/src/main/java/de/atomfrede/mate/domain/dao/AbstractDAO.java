@@ -13,7 +13,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import de.atomfrede.mate.domain.entities.AbstractEntity;
-import de.atomfrede.mate.domain.entities.user.User;
 
 @Repository
 public abstract class AbstractDAO<EntityClass extends AbstractEntity>
