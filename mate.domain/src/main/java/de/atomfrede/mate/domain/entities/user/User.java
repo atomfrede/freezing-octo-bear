@@ -24,7 +24,8 @@ import de.atomfrede.mate.domain.entities.account.Account;
 import de.atomfrede.mate.domain.entities.consumption.Consumption;
 
 @Entity
-@Table(name = "user", uniqueConstraints=@UniqueConstraint(columnNames = {"username", "email"}) )
+@Table(name = "user", uniqueConstraints = @UniqueConstraint(columnNames = {
+		"username", "email" }))
 public class User extends AbstractEntity {
 
 	private static final long serialVersionUID = -8695856794737512171L;
@@ -33,7 +34,7 @@ public class User extends AbstractEntity {
 		// easy encrypt
 		return DigestUtils.sha256Hex(password);
 	}
-	
+
 	@GenericGenerator(name = "UserIdGenerator", strategy = "org.hibernate.id.MultipleHiLoPerTableGenerator", parameters = {
 			@Parameter(name = "table", value = "IdentityGenerator"),
 			@Parameter(name = "primary_key_column", value = "sequence_name"),
@@ -44,29 +45,29 @@ public class User extends AbstractEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.TABLE, generator = "UserIdGenerator")
 	protected Long id;
-	
+
 	@Column(name = "firstname")
 	protected String firstname;
-	
+
 	@Column(name = "lastname")
 	protected String lastname;
-	
+
 	@Column(name = "username")
 	protected String username;
-	
+
 	@Column(name = "email")
 	protected String email;
 
 	@Column(name = "password")
 	protected String password;
-	
-	@OneToOne(cascade={CascadeType.ALL})
-	@JoinColumn(name="account", nullable=false)
+
+	@OneToOne(cascade = { CascadeType.ALL })
+	@JoinColumn(name = "account", nullable = false)
 	protected Account account;
-	
-	@OneToMany(cascade={CascadeType.ALL})
+
+	@OneToMany(cascade = { CascadeType.ALL })
 	protected List<Consumption> consumptions;
-	
+
 	@Override
 	public Long getId() {
 		return id;
@@ -111,7 +112,7 @@ public class User extends AbstractEntity {
 	public void setPassword(String password) {
 		this.password = User.cryptPass(password);
 	}
-	
+
 	public boolean isPassword(String plainText) {
 		if (StringUtils.isEmpty(plainText)) {
 			return false;
@@ -119,6 +120,27 @@ public class User extends AbstractEntity {
 		// don't encrypt password because after
 		// Model.setPassword in form already encrypted
 		return password.equals(plainText);
+	}
+
+	public Account getAccount() {
+		return account;
+	}
+
+	public void setAccount(Account account) {
+		this.account = account;
+	}
+
+	public List<Consumption> getConsumptions() {
+		return consumptions;
+	}
+
+	public void setConsumptions(List<Consumption> consumptions) {
+		this.consumptions = consumptions;
+	}
+	
+	public void consume(Consumption consumption){
+		this.consumptions.add(consumption);
+		account.decreaseBy(1.0);
 	}
 
 }

@@ -3,7 +3,7 @@ package de.atomfrede.mate.service.user;
 import de.atomfrede.mate.domain.entities.user.User;
 import de.atomfrede.mate.service.EntityService;
 
-public interface UserService extends EntityService<User>{
+public interface UserService extends EntityService<User> {
 
 	public User getByUsername(String username);
 
@@ -17,5 +17,7 @@ public interface UserService extends EntityService<User>{
 	 * @param password
 	 * @return
 	 */
-	public User createUser(String username, String firstname, String lastname, String email, String password) throws UsernameAlreadyTakenException;
+	public User createUser(String username, String firstname, String lastname,
+			String email, String password) throws UsernameAlreadyTakenException;
+
 }
