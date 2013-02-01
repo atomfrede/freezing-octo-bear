@@ -26,13 +26,10 @@ public class LogoutPage extends AbstractBasePage {
 	WebMarkupContainer successContainer;
 
 	public LogoutPage() {
-		System.out.println("Counter = "+counter);
 		UserAuthModel userModel = new UserAuthModel(User.class, -1L);
 
 		successContainer = new WebMarkupContainer("logout-success");
-
 		add(successContainer);
-		
 		successContainer.setVisible(false);
 		
 		add(new LoginPanel("loginPanel", userModel));
@@ -60,7 +57,8 @@ public class LogoutPage extends AbstractBasePage {
 	public void doLogout() {
 		getSession().invalidateNow();
 		getSession().invalidate();
-		UserSession session = (UserSession) Session.get();
+		@SuppressWarnings("unchecked")
+		UserSession<UserAuthModel> session = (UserSession<UserAuthModel>) Session.get();
 		session.setUser(new UserAuthModel(User.class, -1L));
 		loggedOut = true;
 	}
