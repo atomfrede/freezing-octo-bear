@@ -128,10 +128,7 @@ public class WicketApplication extends WebApplication implements
 
 	@Override
 	public Session newSession(Request request, Response response) {
-		System.out.println("Getting new session ");
 		UserSession<UserAuthModel> session = new UserSession<UserAuthModel>(request);
-		System.out.println("Session is "+session.getUser());
-		
 		return session;
 	}
 	
