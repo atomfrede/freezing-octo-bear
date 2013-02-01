@@ -20,11 +20,16 @@ public class SimpleUserAuthorizationStrategy implements IAuthorizationStrategy{
 			return true;
 		}
 		
+		if(LogoutPage.class.isAssignableFrom(componentClass)){
+			return true;
+		}
+		
 		if(LoginPage.class.isAssignableFrom(componentClass)){
 			return true;
 		}
 		
 		UserSession session = (UserSession)Session.get();
+		System.out.println("User "+session.getUser().isAnonymous);
 		if(session.getUser().isAnonymous){
 			throw new RestartResponseAtInterceptPageException(LoginPage.class);
 		}

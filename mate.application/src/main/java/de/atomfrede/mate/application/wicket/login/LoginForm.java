@@ -11,6 +11,7 @@ import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import de.atomfrede.mate.application.wicket.base.AbstractBaseForm;
+import de.atomfrede.mate.application.wicket.logout.LogoutPage;
 import de.atomfrede.mate.application.wicket.security.UserAuthModel;
 import de.atomfrede.mate.domain.entities.user.User;
 import de.atomfrede.mate.service.user.UserService;
@@ -104,6 +105,8 @@ public class LoginForm extends AbstractBaseForm<User> {
 		}
 		getSession().setUser(new UserAuthModel(User.class, user.getId()));
 
+		LogoutPage.reset();
+		
 		setResponsePage(getApp().getHomePage());
 		return;
 

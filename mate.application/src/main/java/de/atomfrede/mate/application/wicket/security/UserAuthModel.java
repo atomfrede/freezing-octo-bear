@@ -21,6 +21,8 @@ public class UserAuthModel extends AbstractEntityModel<User> {
 		super(clazz, id);
 		if (id != null && !id.equals(-1L)) {
 			isAnonymous = false;
+		}else{
+			isAnonymous = true;
 		}
 	}
 
