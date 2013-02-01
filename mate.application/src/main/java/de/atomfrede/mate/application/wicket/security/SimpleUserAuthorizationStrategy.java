@@ -9,6 +9,7 @@ import org.apache.wicket.authorization.IAuthorizationStrategy;
 import org.apache.wicket.request.component.IRequestableComponent;
 
 import de.atomfrede.mate.application.wicket.login.LoginPage;
+import de.atomfrede.mate.application.wicket.logout.LogoutPage;
 
 public class SimpleUserAuthorizationStrategy implements IAuthorizationStrategy{
 

@@ -98,6 +98,7 @@ public class LoginForm extends AbstractBaseForm<User> {
 			// Check if the password is correct for the user found by the
 			// provided username
 			if(!user.isPassword(password)){
+				error("Benutzer nicht gefunden oder Password nicht korrekt.");
 				return;
 			}
 		}
