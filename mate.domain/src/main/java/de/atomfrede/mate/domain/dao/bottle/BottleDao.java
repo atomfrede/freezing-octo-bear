@@ -5,7 +5,9 @@ import de.atomfrede.mate.domain.entities.bottle.Bottle;
 
 public interface BottleDao extends DAO<Bottle>{
 
-	public Bottle getNotConsumedBottle();
-	
 	public void addBottles(int numberOfBottles);
+	
+	public Bottle getNextNotConsumedBottle();
+	
+	public int getNotConsumedBottles();
 }

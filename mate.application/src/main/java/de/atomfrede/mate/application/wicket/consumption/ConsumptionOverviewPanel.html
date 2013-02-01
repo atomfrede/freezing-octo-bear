@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:wicket="http://wicket.apache.org/">
+
+	<wicket:panel>
+		<div>
+		
+
+			<div class="content-main">
+				<h3>Verbrauch</h3>
+	
+				<table class="table table-hover table-bordered">
+					<thead>
+
+						<tr>
+							<th>Datum</th>
+							<th>User</th>
+							<th>Vorname</th>
+							<th>Nachname</th>
+							<th>Gesamt</th>
+							<th>Konto</th>
+						</tr>
+					</thead>
+					<tbody>
+						<span wicket:id="consumptions">
+							<tr>
+								<td><span wicket:id="date"></span></td>
+								<td><span wicket:id="username"></span></td>
+								<td><span wicket:id="firstname"></span></td>
+								<td><span wicket:id="lastname"></span></td>
+								<td><span wicket:id="all"></span></td>
+								<td><span wicket:id="account"></span></td>
+							</tr>
+						</span>
+					</tbody>
+				</table>
+				<div wicket:id="pager"></div>
+			</div>
+
+		</div>
+	</wicket:panel>
+
+</html>

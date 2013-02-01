@@ -3,7 +3,9 @@ package de.atomfrede.mate.domain.dao.bottle;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.FlushMode;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,12 +19,6 @@ public class BottleDaoImpl extends AbstractDAO<Bottle> implements BottleDao {
 		super(Bottle.class);
 	}
 
-	@Override
-	@Transactional(readOnly = true)
-	public Bottle getNotConsumedBottle() {
-		return findByProperty("consumed", false);
-	}
-
 	@Transactional
 	public void addBottles(int numberOfBottles) {
 		for (int i = 0; i < numberOfBottles; i++) {
@@ -32,5 +28,23 @@ public class BottleDaoImpl extends AbstractDAO<Bottle> implements BottleDao {
 		getSession().flush();
 
 	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public Bottle getNextNotConsumedBottle() {
+		Criteria crit = getSession().createCriteria(Bottle.class);
+		crit.add(Restrictions.eq("consumed", false));
+
+		return (Bottle) crit.list().get(0);
+	}
+
+	@Override
+	public int getNotConsumedBottles() {
+		Criteria crit = getSession().createCriteria(Bottle.class);
+		crit.add(Restrictions.eq("consumed", false));
+		return crit.list().size();
+	}
+	
+	
 
 }

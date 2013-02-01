@@ -62,4 +62,9 @@ public class BottleServiceImpl implements BottleService {
 
 	}
 
+	@Override
+	public int getNumberOfNotConsumedBottles() {
+		return bottleDao.getNotConsumedBottles();
+	}
+
 }

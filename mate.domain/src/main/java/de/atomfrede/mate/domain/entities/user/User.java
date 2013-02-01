@@ -1,5 +1,6 @@
 package de.atomfrede.mate.domain.entities.user;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -139,6 +140,9 @@ public class User extends AbstractEntity {
 	}
 	
 	public void consume(Consumption consumption){
+		if(consumptions == null){
+			consumptions = new ArrayList<Consumption>();
+		}
 		this.consumptions.add(consumption);
 		account.decreaseBy(1.0);
 	}

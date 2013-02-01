@@ -66,7 +66,7 @@ public class ConsumptionServiceImpl implements ConsumptionService {
 	@Override
 	@Transactional
 	public void consumeBottle(User user) {
-		Bottle consumedBottle = bottleDao.getNotConsumedBottle();
+		Bottle consumedBottle = bottleDao.getNextNotConsumedBottle();
 		consumedBottle.consume();
 		
 		bottleDao.persist(consumedBottle);

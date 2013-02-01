@@ -26,6 +26,7 @@ import de.atomfrede.mate.application.wicket.security.ISecureApplication;
 import de.atomfrede.mate.application.wicket.security.SimpleUserAuthorizationStrategy;
 import de.atomfrede.mate.application.wicket.security.UserAuthModel;
 import de.atomfrede.mate.application.wicket.security.UserSession;
+import de.atomfrede.mate.domain.entities.user.User;
 
 @Component(value = "wicketApplication")
 public class WicketApplication extends WebApplication implements
@@ -125,6 +126,7 @@ public class WicketApplication extends WebApplication implements
 	public Class<? extends Page> getLoginPage() {
 		return LoginPage.class;
 	}
+	
 
 	@Override
 	public Session newSession(Request request, Response response) {

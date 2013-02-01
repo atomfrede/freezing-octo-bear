@@ -2,19 +2,28 @@ package de.atomfrede.mate.application.wicket;
 
 import java.util.Properties;
 
+import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.Component;
+import org.apache.wicket.ajax.AjaxEventBehavior;
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.head.CssHeaderItem;
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.html.GenericWebPage;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.request.resource.CssResourceReference;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import de.agilecoders.wicket.Bootstrap;
+import de.agilecoders.wicket.markup.html.bootstrap.button.ButtonBehavior;
 import de.agilecoders.wicket.markup.html.bootstrap.button.ButtonSize;
 import de.agilecoders.wicket.markup.html.bootstrap.button.ButtonType;
+import de.agilecoders.wicket.markup.html.bootstrap.button.TypedAjaxButton;
 import de.agilecoders.wicket.markup.html.bootstrap.button.TypedButton;
+import de.agilecoders.wicket.markup.html.bootstrap.button.TypedLink;
 import de.agilecoders.wicket.markup.html.bootstrap.button.dropdown.MenuBookmarkablePageLink;
 import de.agilecoders.wicket.markup.html.bootstrap.extensions.button.DropDownAutoOpen;
 import de.agilecoders.wicket.markup.html.bootstrap.image.IconType;
@@ -30,12 +39,24 @@ import de.atomfrede.mate.application.wicket.login.LoginPage;
 import de.atomfrede.mate.application.wicket.logout.LogoutPage;
 import de.atomfrede.mate.application.wicket.security.UserAuthModel;
 import de.atomfrede.mate.application.wicket.security.UserSession;
+import de.atomfrede.mate.domain.entities.user.User;
+import de.atomfrede.mate.service.bottle.BottleService;
+import de.atomfrede.mate.service.consumption.ConsumptionService;
 
 public abstract class BasePage<T> extends GenericWebPage<T> {
 
+	@SpringBean
+	protected ConsumptionService consumptionService;
+	
+	@SpringBean
+	protected BottleService bottleService;
+
+	protected User currentUser;
+	
+	TypedLink<Void> bottleBtn;
+
 	public BasePage() {
 		super();
-
 		commonInit(new PageParameters());
 	}
 
@@ -47,7 +68,6 @@ public abstract class BasePage<T> extends GenericWebPage<T> {
 	 */
 	public BasePage(IModel<T> model) {
 		super(model);
-
 		commonInit(new PageParameters());
 	}
 
@@ -59,7 +79,6 @@ public abstract class BasePage<T> extends GenericWebPage<T> {
 	 */
 	public BasePage(PageParameters parameters) {
 		super(parameters);
-
 		commonInit(parameters);
 	}
 
@@ -70,31 +89,85 @@ public abstract class BasePage<T> extends GenericWebPage<T> {
 		return WicketApplication.get().getProperties();
 	}
 
+	@Override
+	public void onBeforeRender(){
+		super.onBeforeRender();
+		System.out.println("Number of not consumed bottles "+bottleService.getNumberOfNotConsumedBottles());
+		if(bottleService.getNumberOfNotConsumedBottles() == 0){
+			bottleBtn.add(new AttributeAppender("class", " disabled"));
+			bottleBtn.setEnabled(false);
+		}else{
+			bottleBtn.add(new AttributeModifier("class", "btn btn-block btn-large btn-primary"));
+			bottleBtn.setEnabled(true);
+		}
+	}
+	
 	private void commonInit(PageParameters pageParameters) {
 
-		TypedButton bottleBtn = new TypedButton("btn-get-bottle", ButtonType.Primary);
+		currentUser = getSession().getUser().getObject();
+		initConsumeButton();
+		initCrateButton();
+		initUserButton();
+
+		
+		add(newNavbar("navbar"));
+		add(new Footer("footer"));
+	}
+
+	@SuppressWarnings("serial")
+	protected void initUserButton() {
+		TypedLink<Void> userAdminBtn = new TypedLink<Void>("btn-user-admin",
+				ButtonType.Default) {
+
+			@Override
+			public void onClick() {
+				// TODO Auto-generated method stub
+
+			}
+		};
+
+		userAdminBtn.setIconType(IconType.user).setSize(ButtonSize.Large)
+				.setLabel(Model.of("Benutzer")).setInverted(false);
+		
+		add(userAdminBtn);
+	}
+
+	@SuppressWarnings("serial")
+	protected void initCrateButton() {
+		TypedLink<Void> createBtn = new TypedLink<Void>("btn-crate",
+				ButtonType.Default) {
+
+			@Override
+			public void onClick() {
+				bottleService.newCrate();
+			}
+		};
+
+		createBtn.setIconType(IconType.gift).setSize(ButtonSize.Large);
+		createBtn.setLabel(Model.of("Versorgung")).setInverted(false);
+
+		add(createBtn);
+	}
+
+	@SuppressWarnings("serial")
+	protected void initConsumeButton() {
+
+		bottleBtn = new TypedLink<Void>("btn-get-bottle",
+				ButtonType.Primary) {
+
+			@Override
+			public void onClick() {
+				consumeClicked();
+
+			}
+		};
 		bottleBtn.setIconType(IconType.briefcase);
 		bottleBtn.setSize(ButtonSize.Large);
 		bottleBtn.setLabel(Model.of("Erfrischung"));
-		
-		TypedButton createBtn = new TypedButton("btn-crate", ButtonType.Default)
-			.setIconType(IconType.gift)
-			.setSize(ButtonSize.Large)
-			.setLabel(Model.of("Versorgung"))
-			.setInverted(false);
 
-		
-		TypedButton userAdminBtn = new TypedButton("btn-user-admin", ButtonType.Default)
-				.setIconType(IconType.home)
-				.setSize(ButtonSize.Large)
-				.setLabel(Model.of("Benutzer"))
-				.setInverted(false);
-		
 		add(bottleBtn);
-		add(createBtn);
-		add(userAdminBtn);
-		add(newNavbar("navbar"));
-		add(new Footer("footer"));
+		
+		
 	}
 
 	protected Navbar newNavbar(String markupId) {
@@ -119,13 +192,8 @@ public abstract class BasePage<T> extends GenericWebPage<T> {
 		return navbar;
 	}
 
-	private Component newAddonsDropDownButton() {
-		return new NavbarDropDownButton(Model.of("User"))
-				.addButton(
-						new MenuBookmarkablePageLink<LoginPage>(
-								LoginPage.class, Model.of("Logout"))
-								.setIconType(IconType.off))
-				.setIconType(IconType.user).add(new DropDownAutoOpen());
+	protected void consumeClicked() {
+		consumptionService.consumeBottle(currentUser);
 	}
 
 	@Override

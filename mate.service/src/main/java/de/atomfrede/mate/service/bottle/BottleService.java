@@ -17,4 +17,7 @@ public interface BottleService extends EntityService<Bottle>{
 	 */
 	public void addBottles(int numberOfBottles);
 	
+	public int getNumberOfNotConsumedBottles();
+
+	
 }

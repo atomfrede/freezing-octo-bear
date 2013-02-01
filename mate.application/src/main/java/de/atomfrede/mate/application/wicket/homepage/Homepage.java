@@ -3,6 +3,7 @@ package de.atomfrede.mate.application.wicket.homepage;
 import org.wicketstuff.annotation.mount.MountPath;
 
 import de.atomfrede.mate.application.wicket.BasePage;
+import de.atomfrede.mate.application.wicket.consumption.ConsumptionOverviewPanel;
 
 @MountPath(value = "/", alt = "/home")
 public class Homepage extends BasePage<Void> {
@@ -12,6 +13,7 @@ public class Homepage extends BasePage<Void> {
 
 	public Homepage() {
 		super();
+		add(new ConsumptionOverviewPanel("consumptions"));
 	}
 
 
