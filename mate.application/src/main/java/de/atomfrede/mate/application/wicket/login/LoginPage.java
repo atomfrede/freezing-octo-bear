@@ -24,6 +24,10 @@ public class LoginPage extends AbstractBasePage {
 	private void addDummyUser(){
 		try {
 			userService.createUser("fred", "Frederik", "Hahne", "fred@mail.de", "fred");
+			userService.createUser("max", "Max", "Mustermann", "max@muster.de", "max");
+			userService.createUser("max1", "Max1", "Mustermann", "max@muster.de", "max");
+			userService.createUser("max2", "Max2", "Mustermann", "max@muster.de", "max");
+			userService.createUser("max3", "Max2", "Mustermann", "max@muster.de", "max");
 		} catch (UsernameAlreadyTakenException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -12,6 +12,9 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.request.resource.CssResourceReference;
 
 import de.agilecoders.wicket.Bootstrap;
+import de.agilecoders.wicket.markup.html.bootstrap.button.ButtonSize;
+import de.agilecoders.wicket.markup.html.bootstrap.button.ButtonType;
+import de.agilecoders.wicket.markup.html.bootstrap.button.TypedButton;
 import de.agilecoders.wicket.markup.html.bootstrap.button.dropdown.MenuBookmarkablePageLink;
 import de.agilecoders.wicket.markup.html.bootstrap.extensions.button.DropDownAutoOpen;
 import de.agilecoders.wicket.markup.html.bootstrap.image.IconType;
@@ -69,6 +72,27 @@ public abstract class BasePage<T> extends GenericWebPage<T> {
 
 	private void commonInit(PageParameters pageParameters) {
 
+		TypedButton bottleBtn = new TypedButton("btn-get-bottle", ButtonType.Primary);
+		bottleBtn.setIconType(IconType.briefcase);
+		bottleBtn.setSize(ButtonSize.Large);
+		bottleBtn.setLabel(Model.of("Erfrischung"));
+		
+		TypedButton createBtn = new TypedButton("btn-crate", ButtonType.Default)
+			.setIconType(IconType.gift)
+			.setSize(ButtonSize.Large)
+			.setLabel(Model.of("Versorgung"))
+			.setInverted(false);
+
+		
+		TypedButton userAdminBtn = new TypedButton("btn-user-admin", ButtonType.Default)
+				.setIconType(IconType.home)
+				.setSize(ButtonSize.Large)
+				.setLabel(Model.of("Benutzer"))
+				.setInverted(false);
+		
+		add(bottleBtn);
+		add(createBtn);
+		add(userAdminBtn);
 		add(newNavbar("navbar"));
 		add(new Footer("footer"));
 	}
