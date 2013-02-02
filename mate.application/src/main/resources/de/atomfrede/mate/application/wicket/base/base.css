@@ -2,6 +2,10 @@ body {
 	height: 100%
 }
 
+.register-link{
+	margin-left: 5px;
+}
+
 .content {
 	margin: 5px;
 }
