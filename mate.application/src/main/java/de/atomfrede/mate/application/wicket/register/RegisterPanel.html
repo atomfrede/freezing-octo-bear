@@ -1,0 +1,62 @@
+<html xmlns:wicket="http://wicket.apache.org/">
+<body>
+	<wicket:panel>
+		<div class="form-box box-round">
+			<form id="register_form" wicket:id="registerForm"
+				class="form-horizontal">
+				<fieldset class="form-content">
+					<legend>Register</legend>
+					<div class="alert-error register-feedback"
+						wicket:id="feedbackPanel"></div>
+					<div wicket:id="username_container" class="control-group">
+						<label class="control-label" for="register_form_username"><wicket:message
+								key="username">Benutzername</wicket:message>:</label>
+						<div class="controls">
+							<input type="text" wicket:id="username"
+								id="register_form_username" placeholder="Benutzername" />
+						</div>
+					</div>
+					<div wicket:id="password_container" class="control-group">
+						<label class="control-label" for="register_form_password"><wicket:message
+								key="Password">Password</wicket:message>:</label>
+						<div class="controls">
+							<input class="error" type="password" wicket:id="password"
+								id="register_form_password" />
+						</div>
+					</div>
+					<div wicket:id="password_container_2" class="control-group">
+						<label class="control-label" for="register_form_password_2"><wicket:message
+								key="Password">Password</wicket:message>:</label>
+						<div class="controls">
+							<input class="error" type="password" wicket:id="password_2"
+								id="register_form_password_2" />
+						</div>
+					</div>
+					<div wicket:id="email_container" class="control-group">
+						<label class="control-label" for="register_form_email"><wicket:message
+								key="email">E-Mail</wicket:message>:</label>
+						<div class="controls">
+							<input class="error" type="text" wicket:id="email"
+								id="register_form_email" placeholder="john.doe@example.org" />
+						</div>
+					</div>
+					<div class="control-group">
+						<div class="controls">
+							<input wicket:message="value:register" class="btn btn-primary"
+								type="submit" value="register" />
+							<!-- 					<button wicket:message="value:Login" type="submit" class="btn" value="Login" >Login</button> -->
+						</div>
+					</div>
+
+				</fieldset>
+			</form>
+		</div>
+	</wicket:panel>
+
+	<!-- 	<wicket:panel> -->
+
+	<!-- 	</wicket:panel> -->
+
+
+</body>
+</html>

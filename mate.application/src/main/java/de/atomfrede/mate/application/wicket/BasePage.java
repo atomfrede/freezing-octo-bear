@@ -127,7 +127,7 @@ public abstract class BasePage<T> extends GenericWebPage<T> {
 		};
 
 		userAdminBtn.setIconType(IconType.user).setSize(ButtonSize.Large)
-				.setLabel(Model.of("Benutzer")).setInverted(false);
+				.setLabel(Model.of("Mein Konto")).setInverted(false);
 		
 		add(userAdminBtn);
 	}
