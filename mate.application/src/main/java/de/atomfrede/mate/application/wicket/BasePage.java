@@ -92,7 +92,6 @@ public abstract class BasePage<T> extends GenericWebPage<T> {
 	@Override
 	public void onBeforeRender(){
 		super.onBeforeRender();
-		System.out.println("Number of not consumed bottles "+bottleService.getNumberOfNotConsumedBottles());
 		if(bottleService.getNumberOfNotConsumedBottles() == 0){
 			bottleBtn.add(new AttributeAppender("class", " disabled"));
 			bottleBtn.setEnabled(false);
@@ -161,7 +160,7 @@ public abstract class BasePage<T> extends GenericWebPage<T> {
 
 			}
 		};
-		bottleBtn.setIconType(IconType.briefcase);
+		bottleBtn.setIconType(IconType.shoppingcart);
 		bottleBtn.setSize(ButtonSize.Large);
 		bottleBtn.setLabel(Model.of("Erfrischung"));
 
