@@ -4,17 +4,23 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import de.atomfrede.mate.domain.entities.user.User;
+
 @Controller
-public class RestInterface {
+public class LoginController {
 
 	@ResponseBody
-	@RequestMapping(value = "/test", method = RequestMethod.GET)
-	public String test(HttpServletRequest request, HttpServletResponse response) {
-		return "Test";
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	public User login(@RequestHeader("Authorization") String basicAuth,
+			HttpServletRequest request, HttpServletResponse response) {
+		
+
+		return null;
 	}
 
 }
