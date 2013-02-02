@@ -6,12 +6,14 @@ import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import de.atomfrede.mate.application.wicket.base.AbstractBaseForm;
 import de.atomfrede.mate.application.wicket.logout.LogoutPage;
+import de.atomfrede.mate.application.wicket.register.RegisterPage;
 import de.atomfrede.mate.application.wicket.security.UserAuthModel;
 import de.atomfrede.mate.domain.entities.user.User;
 import de.atomfrede.mate.service.user.UserService;
@@ -24,6 +26,7 @@ import de.atomfrede.mate.service.user.UserService;
  * @author fred
  * 
  */
+@SuppressWarnings("serial")
 public class LoginForm extends AbstractBaseForm<User> {
 
 	@SpringBean
@@ -33,6 +36,8 @@ public class LoginForm extends AbstractBaseForm<User> {
 	PasswordTextField passwordTextField;
 	FeedbackPanel feedbackPanel;
 	WebMarkupContainer usernameContainer, passwordContainer;
+	
+	Link<Void> registerLink;
 
 	public LoginForm(String id, UserAuthModel model) {
 		super(id, new CompoundPropertyModel<User>(model));
@@ -54,10 +59,16 @@ public class LoginForm extends AbstractBaseForm<User> {
 
 		passwordTextField = new PasswordTextField("password");
 		passwordContainer.add(passwordTextField);
-	}
+		
+		registerLink = new Link<Void>("register-link") {
 
-	protected void setFeedbackPanel(FeedbackPanel feedback) {
-		this.feedbackPanel = feedback;
+			@Override
+			public void onClick() {
+				setResponsePage(RegisterPage.class);
+			}
+		};
+		
+		add(registerLink);
 	}
 
 	@Override
