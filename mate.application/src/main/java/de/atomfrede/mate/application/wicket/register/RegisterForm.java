@@ -7,21 +7,24 @@ import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
+import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.validation.validator.EmailAddressValidator;
 
 import de.atomfrede.mate.application.wicket.base.AbstractBaseForm;
+import de.atomfrede.mate.application.wicket.logout.LogoutPage;
 import de.atomfrede.mate.application.wicket.security.UserAuthModel;
 import de.atomfrede.mate.domain.entities.user.AnonymousUser;
 import de.atomfrede.mate.domain.entities.user.User;
 import de.atomfrede.mate.service.user.UserService;
+import de.atomfrede.mate.service.user.UsernameAlreadyTakenException;
 
 @SuppressWarnings("serial")
 public class RegisterForm extends AbstractBaseForm<User> {
 
 	@SpringBean
 	UserService userService;
-	
+
 	TextField<String> usernameTextField, emailTextField;
 	PasswordTextField passwordTextField, passwordTextField2;
 	FeedbackPanel feedbackPanel;
@@ -29,7 +32,7 @@ public class RegisterForm extends AbstractBaseForm<User> {
 			passwordContainer2;
 
 	public RegisterForm(String id, UserAuthModel model) {
-		super(id, model);
+		super(id, new CompoundPropertyModel<User>(model));
 
 		feedbackPanel = new FeedbackPanel("feedbackPanel");
 		add(feedbackPanel);
@@ -65,7 +68,7 @@ public class RegisterForm extends AbstractBaseForm<User> {
 		emailContainer.add(emailTextField);
 
 	}
-	
+
 	@Override
 	protected void onBeforeRender() {
 		if (!hasError()) {
@@ -83,62 +86,93 @@ public class RegisterForm extends AbstractBaseForm<User> {
 		}
 		super.onBeforeRender();
 	}
-	
+
 	@Override
 	protected void onError() {
 		// Only on validation errors we make the feedbackpanel visible
 		this.feedbackPanel.setVisible(true);
-		if(usernameTextField.hasErrorMessage()){
-			this.usernameContainer.add(new AttributeAppender("class", " error"));
-		}else{
+		if (usernameTextField.hasErrorMessage()) {
+			this.usernameContainer
+					.add(new AttributeAppender("class", " error"));
+		} else {
 			this.usernameContainer.add(new AttributeModifier("class",
 					"control-group"));
 		}
-		
-		if(passwordTextField.hasErrorMessage()){
-			this.passwordContainer.add(new AttributeAppender("class", " error"));
-		}else{
+
+		if (passwordTextField.hasErrorMessage()) {
+			this.passwordContainer
+					.add(new AttributeAppender("class", " error"));
+		} else {
 			this.passwordContainer.add(new AttributeModifier("class",
 					"control-group"));
 		}
-		
-		if(passwordTextField2.hasErrorMessage()){
-			this.passwordContainer2.add(new AttributeAppender("class", " error"));
-		}else{
+
+		if (passwordTextField2.hasErrorMessage()) {
+			this.passwordContainer2
+					.add(new AttributeAppender("class", " error"));
+		} else {
 			this.passwordContainer2.add(new AttributeModifier("class",
 					"control-group"));
 		}
-		
-		if(emailTextField.hasErrorMessage()){
+
+		if (emailTextField.hasErrorMessage()) {
 			this.emailContainer.add(new AttributeAppender("class", " error"));
-		}else{
+		} else {
 			this.emailContainer.add(new AttributeModifier("class",
 					"control-group"));
 		}
-		
+
 	}
-	
+
 	@Override
 	public void onSubmit() {
 		String username = getModel().getObject().getUsername();
 		String password1 = getModel().getObject().getPassword();
 		String password2 = "";
-		if(getModel().getObject() instanceof AnonymousUser){
-			password2 = ((AnonymousUser)getModel().getObject()).getPassword_2();
+		if (getModel().getObject() instanceof AnonymousUser) {
+			password2 = ((AnonymousUser) getModel().getObject())
+					.getPassword_2();
 		}
 		String email = getModel().getObject().getEmail();
-		
-		//First check if the passwords are equal
-		if(!password1.equals(password2)){
-			//Error Message here
+
+		boolean passwordError = false;
+		boolean usernameError = false;
+		// First check if the passwords are equal
+		if (!password1.equals(User.cryptPass(password2))) {
+			// Error Message here
+			error("Passwörter stimmen nicht überein!");
+			passwordError = true;
+
+		}
+
+		// Then check if the user name is not taken already
+		if (!userService.canCreateUser(username)) {
+			// Error Message here
+			error("Benutzername bereist vergeben.");
+			usernameError = true;
 		}
 		
-		//Then check if the user name is not taken already
-		if(!userService.canCreateUser(username)){
-			//Error Message here
+		if(passwordError || usernameError){
+			return;
 		}
-		
-		
+
+		try {
+			User user = userService.createUser(username, "", "", email,
+					password2);
+
+			getSession().setUser(new UserAuthModel(User.class, user.getId()));
+
+			LogoutPage.reset();
+
+			setResponsePage(getApp().getHomePage());
+			return;
+
+		} catch (UsernameAlreadyTakenException e) {
+			// Very unlikely to occur here because we have checked it before
+		}
+
+		return;
+
 	}
 
 }
