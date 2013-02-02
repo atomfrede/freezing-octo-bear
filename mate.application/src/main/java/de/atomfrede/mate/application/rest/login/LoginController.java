@@ -27,6 +27,7 @@ public class LoginController {
 	public User login(@RequestHeader("Authorization") String basicAuth,
 			HttpServletRequest request, HttpServletResponse response) {
 
+		response.setContentType("application/json, UTF-8");
 		try {
 			HashMap<String, Object> loginResult = tokenUtil
 					.generateAccessToken(basicAuth);
