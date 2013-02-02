@@ -84,4 +84,10 @@ public class UserServiceImpl implements UserService {
 		return user;
 	}
 
+	@Override
+	public boolean canCreateUser(String username) {
+		User user = userDao.getByUserName(username);
+		return user == null;
+	}
+
 }
