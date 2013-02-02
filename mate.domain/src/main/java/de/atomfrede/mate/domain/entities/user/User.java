@@ -21,13 +21,14 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import de.atomfrede.mate.domain.entities.AbstractEntity;
+import de.atomfrede.mate.domain.entities.JsonTransferable;
 import de.atomfrede.mate.domain.entities.account.Account;
 import de.atomfrede.mate.domain.entities.consumption.Consumption;
 
 @Entity
 @Table(name = "user", uniqueConstraints = @UniqueConstraint(columnNames = {
 		"username", "email" }))
-public class User extends AbstractEntity {
+public class User extends AbstractEntity implements JsonTransferable<User>{
 
 	private static final long serialVersionUID = -8695856794737512171L;
 
@@ -61,6 +62,9 @@ public class User extends AbstractEntity {
 
 	@Column(name = "password")
 	protected String password;
+	
+	@Column(name = "accessToken", unique=true)
+	protected String accessToken;
 
 	@OneToOne(cascade = { CascadeType.ALL })
 	@JoinColumn(name = "account", nullable = false)
@@ -72,6 +76,10 @@ public class User extends AbstractEntity {
 	@Override
 	public Long getId() {
 		return id;
+	}
+	
+	private void setId(Long id){
+		this.id = id;
 	}
 
 	public String getFirstname() {
@@ -122,6 +130,14 @@ public class User extends AbstractEntity {
 		// Model.setPassword in form already encrypted
 		return password.equals(plainText);
 	}
+	
+	public boolean isPasswordPlain(String plainPassword){
+		if (StringUtils.isEmpty(plainPassword)) {
+			return false;
+		}
+		
+		return password.equals(cryptPass(plainPassword));
+	}
 
 	public Account getAccount() {
 		return account;
@@ -145,6 +161,18 @@ public class User extends AbstractEntity {
 		}
 		this.consumptions.add(consumption);
 		account.decreaseBy(1.0);
+	}
+	
+	@Override
+	public User toJsonTransferable() {
+		User clone = new User();
+		clone.setFirstname(firstname);
+		clone.setLastname(lastname);
+		clone.setUsername(username);
+		clone.setEmail(email);
+		clone.setAccount(account);
+		clone.setId(getId());
+		return clone;
 	}
 
 }
