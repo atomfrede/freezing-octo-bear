@@ -10,6 +10,7 @@ import org.apache.wicket.request.component.IRequestableComponent;
 
 import de.atomfrede.mate.application.wicket.login.LoginPage;
 import de.atomfrede.mate.application.wicket.logout.LogoutPage;
+import de.atomfrede.mate.application.wicket.register.RegisterPage;
 
 public class SimpleUserAuthorizationStrategy implements IAuthorizationStrategy{
 
@@ -17,6 +18,10 @@ public class SimpleUserAuthorizationStrategy implements IAuthorizationStrategy{
 	public <T extends IRequestableComponent> boolean isInstantiationAuthorized(
 			Class<T> componentClass) {
 		if(!Page.class.isAssignableFrom(componentClass)){
+			return true;
+		}
+		
+		if(RegisterPage.class.isAssignableFrom(componentClass)){
 			return true;
 		}
 		
