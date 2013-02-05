@@ -14,5 +14,7 @@ public interface ConsumptionService extends EntityService<Consumption> {
 	 * @param user
 	 */
 	public void consumeBottle(User user);
+	
+	public int getConsumedBottles(User user);
 
 }

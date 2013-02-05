@@ -66,6 +66,7 @@ public class ConsumptionServiceImpl implements ConsumptionService {
 	@Override
 	@Transactional
 	public void consumeBottle(User user) {
+		User mUser = userDao.findById(user.getId());
 		Bottle consumedBottle = bottleDao.getNextNotConsumedBottle();
 		consumedBottle.consume();
 		
@@ -73,14 +74,20 @@ public class ConsumptionServiceImpl implements ConsumptionService {
 		
 		Consumption consumption = new Consumption();
 		consumption.setBottle(consumedBottle);
-		consumption.setConsumedBy(user);
+		consumption.setConsumedBy(mUser);
 		consumption.setConsumptionDate(new Date());
 		
 		consumptionDao.persist(consumption);
 		
-		user.consume(consumption);
+		mUser.consume(consumption);
 		
-		userDao.persist(user);
+	
+		userDao.persist(mUser);
 
+	}
+
+	@Override
+	public int getConsumedBottles(User user) {
+		return consumptionDao.findAllByProperty("consumedBy", user).size();
 	}
 }

@@ -14,6 +14,8 @@ public interface DAO<EntityClass extends IEntity> {
 
 	EntityClass findByProperty(String propertyName, Object propertyValue);
 
+	List<EntityClass> findAllByProperty(String propertName, Object propertyValue);
+	
 	void remove(EntityClass entity);
 
 	void persist(EntityClass entity);

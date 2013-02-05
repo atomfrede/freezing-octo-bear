@@ -192,7 +192,7 @@ public abstract class BasePage<T> extends GenericWebPage<T> {
 	}
 
 	protected void consumeClicked() {
-		consumptionService.consumeBottle(currentUser);
+		consumptionService.consumeBottle(getSession().getUser().getObject());
 	}
 
 	@Override

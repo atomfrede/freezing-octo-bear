@@ -9,6 +9,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.service.jta.platform.internal.ResinJtaPlatform;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -79,6 +80,14 @@ public abstract class AbstractDAO<EntityClass extends AbstractEntity>
 		Criteria crit = getSession().createCriteria(clazz);
 		crit.add(Restrictions.eq(propertyName, propertyValue));
 		return (EntityClass) crit.uniqueResult();
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly= true)
+	public List<EntityClass> findAllByProperty(String propertyName, Object propertyValue){
+		Criteria crit = getSession().createCriteria(clazz);
+		crit.add(Restrictions.eq(propertyName, propertyValue));
+		return crit.list();
 	}
 	
 	@Override

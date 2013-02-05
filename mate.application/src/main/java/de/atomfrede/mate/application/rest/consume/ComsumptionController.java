@@ -27,6 +27,32 @@ public class ComsumptionController {
 	ConsumptionService consumptionService;
 	
 	@ResponseBody
+	@RequestMapping(value = "/consume/count", method=RequestMethod.GET)
+	public int getConsumedBottles(@RequestHeader("Authorization") String basicAuth,
+			HttpServletRequest request, HttpServletResponse response){
+		try {
+			HashMap<String, Object> loginResult = tokenUtil
+					.generateAccessToken(basicAuth);
+
+			User user = (User) loginResult.get(TokenUtil.USER_KEY);
+			if (user != null) {
+				return consumptionService.getConsumedBottles(user);
+//				consumptionService.consumeBottle(user);
+//				return user.toJsonTransferable();
+			}
+			throw new LoginFailedException();
+
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (LoginFailedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return -1;
+	}
+	@ResponseBody
 	@RequestMapping(value = "/consume", method = RequestMethod.PUT)
 	public User getRefreshed(@RequestHeader("Authorization") String basicAuth,
 			HttpServletRequest request, HttpServletResponse response){
