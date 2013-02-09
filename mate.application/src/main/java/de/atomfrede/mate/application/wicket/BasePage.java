@@ -10,6 +10,7 @@ import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.head.CssHeaderItem;
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.html.GenericWebPage;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
@@ -32,6 +33,7 @@ import de.agilecoders.wicket.markup.html.bootstrap.navbar.Navbar;
 import de.agilecoders.wicket.markup.html.bootstrap.navbar.NavbarButton;
 import de.agilecoders.wicket.markup.html.bootstrap.navbar.NavbarComponents;
 import de.agilecoders.wicket.markup.html.bootstrap.navbar.NavbarDropDownButton;
+import de.atomfrede.mate.application.wicket.account.MyAccountPage;
 import de.atomfrede.mate.application.wicket.base.AbstractBasePage;
 import de.atomfrede.mate.application.wicket.footer.Footer;
 import de.atomfrede.mate.application.wicket.homepage.Homepage;
@@ -54,6 +56,8 @@ public abstract class BasePage<T> extends GenericWebPage<T> {
 	protected User currentUser;
 	
 	TypedLink<Void> bottleBtn;
+	
+	Label availableMatesLabel;
 
 	public BasePage() {
 		super();
@@ -99,6 +103,10 @@ public abstract class BasePage<T> extends GenericWebPage<T> {
 			bottleBtn.add(new AttributeModifier("class", "btn btn-block btn-large btn-primary"));
 			bottleBtn.setEnabled(true);
 		}
+		
+		remove(availableMatesLabel);
+		availableMatesLabel = new Label("available-mates", "Verfügbare Mates: "+bottleService.getNumberOfNotConsumedBottles());
+		add(availableMatesLabel);
 	}
 	
 	private void commonInit(PageParameters pageParameters) {
@@ -111,6 +119,9 @@ public abstract class BasePage<T> extends GenericWebPage<T> {
 		
 		add(newNavbar("navbar"));
 		add(new Footer("footer"));
+		
+		availableMatesLabel = new Label("available-mates", "Verfügbare Mates: "+bottleService.getNumberOfNotConsumedBottles());
+		add(availableMatesLabel);
 	}
 
 	@SuppressWarnings("serial")
@@ -121,6 +132,7 @@ public abstract class BasePage<T> extends GenericWebPage<T> {
 			@Override
 			public void onClick() {
 				// TODO Auto-generated method stub
+				setResponsePage(MyAccountPage.class);
 
 			}
 		};

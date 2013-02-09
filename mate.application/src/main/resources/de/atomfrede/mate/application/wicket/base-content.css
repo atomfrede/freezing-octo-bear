@@ -2,6 +2,10 @@ body {
 	height: 100%;
 }
 
+.available-mates {
+	margin-top: 5px;	
+}
+
 .main-wrapper {
 	padding-top: 60px;
 	height: 100%;
