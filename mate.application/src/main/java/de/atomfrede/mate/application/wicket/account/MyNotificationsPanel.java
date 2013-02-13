@@ -1,13 +1,19 @@
 package de.atomfrede.mate.application.wicket.account;
 
 import org.apache.wicket.markup.html.panel.Panel;
-import org.apache.wicket.model.IModel;
+
+import de.atomfrede.mate.application.wicket.model.AbstractEntityModel;
+import de.atomfrede.mate.domain.entities.user.User;
 
 public class MyNotificationsPanel extends Panel {
 
-	public MyNotificationsPanel(String id, IModel<?> model) {
+	public MyNotificationsPanel(String id, AbstractEntityModel<User> model) {
 		super(id, model);
 		// TODO Auto-generated constructor stub
+		add(new MyNotificationsForm("notificationForm", model));
 	}
+	
+	
+	
 
 }
