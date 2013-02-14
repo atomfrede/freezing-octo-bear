@@ -72,6 +72,15 @@ public class User extends AbstractEntity implements JsonTransferable<User>{
 
 	@OneToMany(cascade = { CascadeType.ALL })
 	protected List<Consumption> consumptions;
+	
+	@Column(name = "gcmDeviceId")
+	protected String gcmDeviceId;
+	
+	@Column(name = "mailNotification")
+	protected boolean mailNotification;
+	
+	@Column(name = "mobileNotification")
+	protected boolean mobileNotification;
 
 	@Override
 	public Long getId() {
@@ -163,6 +172,30 @@ public class User extends AbstractEntity implements JsonTransferable<User>{
 		account.decreaseBy(1.0);
 	}
 	
+	public String getGcmDeviceId() {
+		return gcmDeviceId;
+	}
+
+	public void setGcmDeviceId(String gcmDeviceId) {
+		this.gcmDeviceId = gcmDeviceId;
+	}
+
+	public boolean isMailNotification() {
+		return mailNotification;
+	}
+
+	public void setMailNotification(boolean mailNotification) {
+		this.mailNotification = mailNotification;
+	}
+
+	public boolean isMobileNotification() {
+		return mobileNotification;
+	}
+
+	public void setMobileNotification(boolean mobileNotification) {
+		this.mobileNotification = mobileNotification;
+	}
+
 	@Override
 	public User toJsonTransferable() {
 		User clone = new User();
