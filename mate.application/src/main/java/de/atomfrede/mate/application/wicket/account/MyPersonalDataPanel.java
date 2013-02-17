@@ -1,13 +1,20 @@
 package de.atomfrede.mate.application.wicket.account;
 
 import org.apache.wicket.markup.html.panel.Panel;
-import org.apache.wicket.model.IModel;
 
+import de.atomfrede.mate.application.wicket.model.AbstractEntityModel;
+import de.atomfrede.mate.domain.entities.user.User;
+
+@SuppressWarnings("serial")
 public class MyPersonalDataPanel extends Panel {
 
-	public MyPersonalDataPanel(String id, IModel<?> model) {
+
+
+	public MyPersonalDataPanel(String id, AbstractEntityModel<User> model) {
 		super(id, model);
-		// TODO Auto-generated constructor stub
+		add(new MyPersonalDataForm("personalDataForm", model));
+		
+		
 	}
 
 }

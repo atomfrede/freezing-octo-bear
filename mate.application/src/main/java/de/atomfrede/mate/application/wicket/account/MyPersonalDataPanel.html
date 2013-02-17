@@ -2,7 +2,21 @@
 <html xmlns:wicket="http://wicket.apache.org/">
 
 	<wicket:panel>
-		My Notifications Panel
+		<div>
+		<form id="personal_data_form" wicket:id="personalDataForm">
+			<fieldset>
+				<legend>Persönlich Daten</legend>
+				<label>Vorname</label>
+				<input type="text" wicket:id="firstname" placeholder="Vorname">
+				<label>Nachname</label>
+				<input type="text" wicket:id="lastname" placeholder="Nachname">
+				<label>Mail</label>
+				<input type="text" wicket:id="mail" placeholder="john.doe@example.org">
+				<br/>
+				<button type="submit" class="btn">Speichern</button>
+			</fieldset>
+		</form>
+	</div>
 	</wicket:panel>
 	
 </html>
