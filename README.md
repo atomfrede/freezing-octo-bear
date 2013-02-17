@@ -3,6 +3,29 @@ Office Mate Tracking
 
 Small Wicket based Web Application with [Android Companion](https://github.com/atomfrede/mustached-nemesis) to make your office Club Mate supply tracking easier
 
+Example MySQL Properties
+========================
+    
+     connection pool config (c3p0 ComboPooledDataSource)
+     # all time values are in seconds
+     c3p0.minPoolSize=1
+     c3p0.maxPoolSize=200
+     c3p0.maxConnectionAge=3800
+     c3p0.maxIdleTime=3600
+     c3p0.checkoutTimeout=20000
+     c3p0.idleConnectionTestPeriod=300
+     c3p0.automaticTestTable=jdbc_pool_check
+     
+     # connect data
+     jdbc.driver=com.mysql.jdbc.Driver
+     jdbc.url=jdbc:mysql://YOUR-DATABASE?characterEncoding=utf8
+     jdbc.username=USERNAME
+     jdbc.password=PASSWORD
+     hibernate.dialect=de.atomfrede.mate.domain.MySQL5InnoDBUtf8Dialect
+     hibernate.show_sql=true
+     hibernate.hbm2ddl.auto=create
+    
+
 Contributors
 ============
 
