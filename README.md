@@ -25,6 +25,10 @@ Example MySQL Properties
      hibernate.show_sql=true
      hibernate.hbm2ddl.auto=create
     
+Setup
+=====
+
+Jetty: Adapt your Database Configuration (e.g. MySQL), build it, put the war into Jetty's webapps folder: you're done.
 
 Contributors
 ============
