@@ -4,6 +4,11 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
 >
+	<scm>
+		<url>https://github.com/atomfrede/freezing-octo-bear/</url>
+		<connection>scm:git:git://github.com/atomfrede/freezing-octo-bear.git</connection>
+		<developerConnection>scm:git:git@github.com:atomfrede/freezing-octo-bear.git</developerConnection>
+	</scm>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.atomfrede</groupId>
 	<artifactId>mate</artifactId>
