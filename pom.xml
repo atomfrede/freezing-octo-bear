@@ -15,7 +15,9 @@
 	<packaging>pom</packaging>
 	<version>0.1</version>
 	<properties>
-		<wicket.version>6.5.0</wicket.version>
+		<wicket.version>6.6.0</wicket.version>
+		<apache.wicket.bootstrap.version> 0.7 
+		</apache.wicket.bootstrap.version>
 		<slf4j.version>1.6.6</slf4j.version>
 		<jetty.version>8.1.7.v20120910</jetty.version>
 		<spring.version>3.2.1.RELEASE</spring.version>

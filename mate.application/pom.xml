@@ -72,6 +72,11 @@
 			<version>${wicket.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>org.apache.wicket</groupId>
+			<artifactId>wicket-bootstrap</artifactId>
+			<version>${apache.wicket.bootstrap.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>de.agilecoders.wicket</groupId>
 			<artifactId>bootstrap</artifactId>
 			<version>${wicket.bootstrap.version}</version>
