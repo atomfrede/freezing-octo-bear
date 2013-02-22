@@ -111,7 +111,7 @@ public abstract class BasePage<T> extends GenericWebPage<T> {
 	
 	private void commonInit(PageParameters pageParameters) {
 
-		currentUser = getSession().getUser().getObject();
+		currentUser = getMySession().getUser().getObject();
 		initConsumeButton();
 		initCrateButton();
 		initUserButton();
@@ -204,7 +204,7 @@ public abstract class BasePage<T> extends GenericWebPage<T> {
 	}
 
 	protected void consumeClicked() {
-		consumptionService.consumeBottle(getSession().getUser().getObject());
+		consumptionService.consumeBottle(getMySession().getUser().getObject());
 	}
 
 	@Override
@@ -218,12 +218,11 @@ public abstract class BasePage<T> extends GenericWebPage<T> {
 	}
 
 	@SuppressWarnings("unchecked")
-	@Override
-	public UserSession<UserAuthModel> getSession() {
+	public UserSession<UserAuthModel> getMySession() {
 		return (UserSession<UserAuthModel>) super.getSession();
 	}
 
 	public UserAuthModel getUser() {
-		return getSession().getUser();
+		return getMySession().getUser();
 	}
 }

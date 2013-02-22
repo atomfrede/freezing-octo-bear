@@ -12,7 +12,7 @@ import de.atomfrede.mate.application.wicket.security.UserSession;
 import de.atomfrede.mate.domain.entities.user.User;
 import de.atomfrede.mate.service.user.UserService;
 
-@MountPath(value = "/", alt = "/logout")
+@MountPath(value = "/logout", alt = "/logout")
 public class LogoutPage extends AbstractBasePage {
 
 	private static final long serialVersionUID = 2053750825891259558L;

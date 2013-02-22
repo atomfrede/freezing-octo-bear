@@ -9,13 +9,11 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.service.jta.platform.internal.ResinJtaPlatform;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import de.atomfrede.mate.domain.entities.AbstractEntity;
 
-@Repository
 public abstract class AbstractDAO<EntityClass extends AbstractEntity>
 		implements DAO<EntityClass> {
 
@@ -39,7 +37,7 @@ public abstract class AbstractDAO<EntityClass extends AbstractEntity>
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly=true)
 	public List<EntityClass> list(long offset, long count) {
-		Session session = this.sessionFactory.getCurrentSession();
+		Session session = getSession();
 
 		Criteria crit = session.createCriteria(getClazz());
 		crit.setFirstResult((int)offset);
