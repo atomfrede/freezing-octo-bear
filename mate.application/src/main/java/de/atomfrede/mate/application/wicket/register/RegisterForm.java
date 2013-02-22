@@ -159,7 +159,7 @@ public class RegisterForm extends AbstractBaseForm<User> {
 		try {
 			User user = userService.createUser(username, "", "", email,
 					password2);
-
+			
 			getSession().setUser(new UserAuthModel(User.class, user.getId()));
 
 			LogoutPage.reset();

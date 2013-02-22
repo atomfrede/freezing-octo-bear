@@ -4,6 +4,7 @@ import java.util.Properties;
 
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.Component;
+import org.apache.wicket.Session;
 import org.apache.wicket.ajax.AjaxEventBehavior;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.behavior.AttributeAppender;
@@ -111,7 +112,7 @@ public abstract class BasePage<T> extends GenericWebPage<T> {
 	
 	private void commonInit(PageParameters pageParameters) {
 
-		currentUser = getMySession().getUser().getObject();
+		currentUser = getSession().getUser().getObject();
 		initConsumeButton();
 		initCrateButton();
 		initUserButton();
@@ -204,7 +205,7 @@ public abstract class BasePage<T> extends GenericWebPage<T> {
 	}
 
 	protected void consumeClicked() {
-		consumptionService.consumeBottle(getMySession().getUser().getObject());
+		consumptionService.consumeBottle(getSession().getUser().getObject());
 	}
 
 	@Override
@@ -218,11 +219,11 @@ public abstract class BasePage<T> extends GenericWebPage<T> {
 	}
 
 	@SuppressWarnings("unchecked")
-	public UserSession<UserAuthModel> getMySession() {
-		return (UserSession<UserAuthModel>) super.getSession();
+	public UserSession<UserAuthModel> getSession() {
+		return (UserSession<UserAuthModel>) Session.get();
 	}
 
 	public UserAuthModel getUser() {
-		return getMySession().getUser();
+		return getSession().getUser();
 	}
 }

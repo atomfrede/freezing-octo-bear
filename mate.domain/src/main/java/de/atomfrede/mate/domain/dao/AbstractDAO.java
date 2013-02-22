@@ -9,11 +9,13 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import de.atomfrede.mate.domain.entities.AbstractEntity;
 
+@Component
 public abstract class AbstractDAO<EntityClass extends AbstractEntity>
 		implements DAO<EntityClass> {
 

@@ -46,7 +46,6 @@ public class UserSession<T extends UserAuthModel> extends WebSession implements
 	@Override
     public void invalidate() {
     	super.invalidate();
-    	System.out.println("Session Invalidated...");
     	setUser(defaultUser);
     }
 

@@ -21,12 +21,20 @@ public class UserAuthModel extends AbstractEntityModel<User> {
 		super(clazz, id);
 		if (id != null && !id.equals(-1L)) {
 			isAnonymous = false;
-		}else{
+		} else {
 			isAnonymous = true;
 		}
 	}
 
+	@Override
 	public User getObject() {
+		try {
+			//FIXME CHeck why this throws an exception for newly created/registered users
+			// saying no hibernate session is available 
+			entity.getId();
+		} catch (Exception e) {
+			entity = null;
+		}
 		if (entity == null) {
 			if (id != null) {
 				entity = load(id);
@@ -39,11 +47,12 @@ public class UserAuthModel extends AbstractEntityModel<User> {
 			}
 		}
 		return entity;
+
 	}
 
 	protected User load(Serializable id) {
 		if (!isAnonymous) {
-			return (User)mateEntityLoader.load(clazz, id);
+			return (User) mateEntityLoader.load(clazz, id);
 		} else {
 			return new AnonymousUser();
 		}
