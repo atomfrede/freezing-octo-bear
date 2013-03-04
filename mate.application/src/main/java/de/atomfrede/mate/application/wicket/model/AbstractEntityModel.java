@@ -47,6 +47,13 @@ public class AbstractEntityModel<T extends AbstractEntity>
 	}
 
 	public T getObject() {
+		try {
+			//FIXME CHeck why this throws an exception for newly created/registered users
+			// saying no hibernate session is available 
+			entity.getId();
+		} catch (Exception e) {
+			entity = null;
+		}
 		if (entity == null) {
 			if (id != null) {
 				entity = load(id);

@@ -15,8 +15,8 @@ public class MyAccountPage extends BasePage<User>{
 	public MyAccountPage(){
 		super();
 		User mUser = userService.findById(getSession().getUser().entity.getId());
-		add(new MyAccountPanel("myAccount", new AbstractEntityModel<User>(mUser)));
-		add(new MyPersonalDataPanel("myData", new AbstractEntityModel<User>(mUser)));
-		add(new MyNotificationsPanel("myNotifications", new AbstractEntityModel<User>(mUser)));
+		add(new MyAccountPanel("myAccount", new AbstractEntityModel<User>(User.class, mUser.getId())));
+		add(new MyPersonalDataPanel("myData", new AbstractEntityModel<User>(User.class, mUser.getId())));
+		add(new MyNotificationsPanel("myNotifications", new AbstractEntityModel<User>(User.class, mUser.getId())));
 	}
 }
