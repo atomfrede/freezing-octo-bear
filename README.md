@@ -3,6 +3,8 @@ Office Mate Tracking
 
 Small Wicket based Web Application with [Android Companion](https://github.com/atomfrede/mustached-nemesis) to make your office Club Mate supply tracking easier
 
+[![endorse](http://api.coderwall.com/atomfrede/endorsecount.png)](http://coderwall.com/atomfrede)
+
 Example MySQL Properties
 ========================
     
