@@ -25,7 +25,7 @@ public class LoginPage extends AbstractBasePage {
 
 	public LoginPage() {
 //		addDummyBottles();
-//		addDummyUser();
+		addDummyUser();
 		
 		UserAuthModel userModel = new UserAuthModel(User.class, -1L);
 		add(new LoginPanel("loginPanel", userModel));
@@ -34,14 +34,14 @@ public class LoginPage extends AbstractBasePage {
 	private void addDummyUser(){
 		try {
 			User fred = userService.createUser("fred", "Frederik", "Hahne", "fred@mail.de", "fred");
-			User max = userService.createUser("max", "Max", "Mustermann", "max@muster.de", "max");
-			userService.createUser("max1", "Max1", "Mustermann", "max@muster.de", "max");
-			userService.createUser("max2", "Max2", "Mustermann", "max@muster.de", "max");
-			userService.createUser("max3", "Max2", "Mustermann", "max@muster.de", "max");
+			//User max = userService.createUser("max", "Max", "Mustermann", "max@muster.de", "max");
+			//userService.createUser("max1", "Max1", "Mustermann", "max@muster.de", "max");
+			//user//Service.createUser("max2", "Max2", "Mustermann", "max@muster.de", "max");
+			//userSe//rvice.createUser("max3", "Max2", "Mustermann", "max@muster.de", "max");
 			
-			consumptionService.consumeBottle(fred);
-			consumptionService.consumeBottle(fred);
-			consumptionService.consumeBottle(max);
+//			consumptionService.consumeBottle(fred);
+//			consumptionService.consumeBottle(fred);
+//			consumptionService.consumeBottle(max);
 		} catch (UsernameAlreadyTakenException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -49,7 +49,7 @@ public class LoginPage extends AbstractBasePage {
 	}
 	
 	private void addDummyBottles(){
-		bottleService.newCrate();
+		//bottleService.newCrate();
 		
 	}
 

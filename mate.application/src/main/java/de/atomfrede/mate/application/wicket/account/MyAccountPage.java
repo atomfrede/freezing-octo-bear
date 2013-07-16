@@ -10,7 +10,7 @@ import de.atomfrede.mate.service.user.UserService;
 public class MyAccountPage extends BasePage<User>{
 	
 	@SpringBean
-	UserService userService;
+	private UserService userService;
 
 	public MyAccountPage(){
 		super();

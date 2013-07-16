@@ -41,7 +41,7 @@ public class Account extends AbstractEntity {
 	}
 
 	public double increaseBy(double increment) {
-		this.value += increment;
+		this.value = this.value + increment;
 		return this.value;
 	}
 

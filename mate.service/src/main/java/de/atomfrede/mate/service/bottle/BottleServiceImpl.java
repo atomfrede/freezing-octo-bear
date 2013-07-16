@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import de.atomfrede.mate.domain.dao.bottle.BottleDao;
+import de.atomfrede.mate.domain.dao.user.UserDao;
 import de.atomfrede.mate.domain.entities.bottle.Bottle;
+import de.atomfrede.mate.domain.entities.user.User;
 
 @Service(value = "bottleService")
 @Transactional(rollbackFor = Exception.class)
@@ -15,6 +17,9 @@ public class BottleServiceImpl implements BottleService {
 
 	@Autowired
 	private BottleDao bottleDao;
+	
+	@Autowired
+	private UserDao userDao;
 
 	@Override
 	public List<Bottle> list(long offset, long count) {
@@ -51,9 +56,10 @@ public class BottleServiceImpl implements BottleService {
 		return bottleDao.count();
 	}
 
-	@Override
-	public void newCrate() {
+	public void newCrate(User provider){
 		addBottles(20);
+		provider.getAccount().increaseBy(20*1.00);
+		userDao.persist(provider);
 	}
 
 	@Override

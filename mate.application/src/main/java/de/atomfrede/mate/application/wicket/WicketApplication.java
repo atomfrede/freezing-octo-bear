@@ -16,17 +16,16 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import org.wicketstuff.annotation.scan.AnnotatedMountScanner;
 
-import de.agilecoders.wicket.Bootstrap;
-import de.agilecoders.wicket.settings.BootstrapSettings;
-import de.agilecoders.wicket.settings.BootswatchThemeProvider;
-import de.agilecoders.wicket.settings.ThemeProvider;
+import de.agilecoders.wicket.core.Bootstrap;
+import de.agilecoders.wicket.core.settings.BootstrapSettings;
+import de.agilecoders.wicket.core.settings.ThemeProvider;
+import de.agilecoders.wicket.themes.settings.BootswatchThemeProvider;
 import de.atomfrede.mate.application.wicket.homepage.Homepage;
 import de.atomfrede.mate.application.wicket.login.LoginPage;
 import de.atomfrede.mate.application.wicket.security.ISecureApplication;
 import de.atomfrede.mate.application.wicket.security.SimpleUserAuthorizationStrategy;
 import de.atomfrede.mate.application.wicket.security.UserAuthModel;
 import de.atomfrede.mate.application.wicket.security.UserSession;
-import de.atomfrede.mate.domain.entities.user.User;
 
 @Component(value = "wicketApplication")
 public class WicketApplication extends WebApplication implements
@@ -104,8 +103,8 @@ public class WicketApplication extends WebApplication implements
 
 	private void configureBootstrap() {
 		final BootstrapSettings settings = new BootstrapSettings();
-		settings.useJqueryPP(false).useModernizr(false).useResponsiveCss(true)
-				.setJsResourceFilterName("footer-container");
+//		settings.useJqueryPP(false).useModernizr(false).useResponsiveCss(true)
+//				.setJsResourceFilterName("footer-container");
 
 		// reactivate if new less4j version is available:
 		// settings.getBootstrapLessCompilerSettings().setUseLessCompiler(usesDevelopmentConfig());

@@ -3,42 +3,31 @@ package de.atomfrede.mate.application.wicket;
 import java.util.Properties;
 
 import org.apache.wicket.AttributeModifier;
-import org.apache.wicket.Component;
 import org.apache.wicket.Session;
-import org.apache.wicket.ajax.AjaxEventBehavior;
-import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.head.CssHeaderItem;
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.html.GenericWebPage;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.request.resource.CssResourceReference;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
-import de.agilecoders.wicket.Bootstrap;
-import de.agilecoders.wicket.markup.html.bootstrap.button.ButtonBehavior;
-import de.agilecoders.wicket.markup.html.bootstrap.button.ButtonSize;
-import de.agilecoders.wicket.markup.html.bootstrap.button.ButtonType;
-import de.agilecoders.wicket.markup.html.bootstrap.button.TypedAjaxButton;
-import de.agilecoders.wicket.markup.html.bootstrap.button.TypedButton;
-import de.agilecoders.wicket.markup.html.bootstrap.button.TypedLink;
-import de.agilecoders.wicket.markup.html.bootstrap.button.dropdown.MenuBookmarkablePageLink;
-import de.agilecoders.wicket.markup.html.bootstrap.extensions.button.DropDownAutoOpen;
-import de.agilecoders.wicket.markup.html.bootstrap.image.IconType;
-import de.agilecoders.wicket.markup.html.bootstrap.navbar.ImmutableNavbarComponent;
-import de.agilecoders.wicket.markup.html.bootstrap.navbar.Navbar;
-import de.agilecoders.wicket.markup.html.bootstrap.navbar.NavbarButton;
-import de.agilecoders.wicket.markup.html.bootstrap.navbar.NavbarComponents;
-import de.agilecoders.wicket.markup.html.bootstrap.navbar.NavbarDropDownButton;
+import de.agilecoders.wicket.core.Bootstrap;
+import de.agilecoders.wicket.core.markup.html.bootstrap.button.BootstrapLink;
+import de.agilecoders.wicket.core.markup.html.bootstrap.button.Buttons;
+import de.agilecoders.wicket.core.markup.html.bootstrap.button.TypedLink;
+import de.agilecoders.wicket.core.markup.html.bootstrap.image.IconType;
+import de.agilecoders.wicket.core.markup.html.bootstrap.navbar.ImmutableNavbarComponent;
+import de.agilecoders.wicket.core.markup.html.bootstrap.navbar.Navbar;
+import de.agilecoders.wicket.core.markup.html.bootstrap.navbar.NavbarButton;
+import de.agilecoders.wicket.core.markup.html.bootstrap.navbar.NavbarComponents;
 import de.atomfrede.mate.application.wicket.account.MyAccountPage;
 import de.atomfrede.mate.application.wicket.base.AbstractBasePage;
 import de.atomfrede.mate.application.wicket.footer.Footer;
 import de.atomfrede.mate.application.wicket.homepage.Homepage;
-import de.atomfrede.mate.application.wicket.login.LoginPage;
 import de.atomfrede.mate.application.wicket.logout.LogoutPage;
 import de.atomfrede.mate.application.wicket.security.UserAuthModel;
 import de.atomfrede.mate.application.wicket.security.UserSession;
@@ -56,7 +45,7 @@ public abstract class BasePage<T> extends GenericWebPage<T> {
 
 	protected User currentUser;
 	
-	TypedLink<Void> bottleBtn;
+	BootstrapLink<Void> bottleBtn;
 	
 	Label availableMatesLabel;
 
@@ -99,10 +88,10 @@ public abstract class BasePage<T> extends GenericWebPage<T> {
 		super.onBeforeRender();
 		if(bottleService.getNumberOfNotConsumedBottles() == 0){
 			bottleBtn.add(new AttributeAppender("class", " disabled"));
-			bottleBtn.setEnabled(false);
+//			bottleBtn.setEnabled(false);
 		}else{
-			bottleBtn.add(new AttributeModifier("class", "btn btn-block btn-large btn-primary"));
-			bottleBtn.setEnabled(true);
+			bottleBtn.add(new AttributeModifier("class", "btn  btn-large btn-primary btn btn-large btn-block"));
+//			bottleBtn.setEnabled(true);
 		}
 		
 		remove(availableMatesLabel);
@@ -127,18 +116,17 @@ public abstract class BasePage<T> extends GenericWebPage<T> {
 
 	@SuppressWarnings("serial")
 	protected void initUserButton() {
-		TypedLink<Void> userAdminBtn = new TypedLink<Void>("btn-user-admin",
-				ButtonType.Default) {
+		BootstrapLink<Void> userAdminBtn = new BootstrapLink<Void>("btn-user-admin",
+				Buttons.Type.Default) {
 
 			@Override
 			public void onClick() {
-				// TODO Auto-generated method stub
 				setResponsePage(MyAccountPage.class);
 
 			}
 		};
 
-		userAdminBtn.setIconType(IconType.user).setSize(ButtonSize.Large)
+		userAdminBtn.setIconType(IconType.user).setSize(Buttons.Size.Large)
 				.setLabel(Model.of("Mein Konto")).setInverted(false);
 		
 		add(userAdminBtn);
@@ -146,16 +134,17 @@ public abstract class BasePage<T> extends GenericWebPage<T> {
 
 	@SuppressWarnings("serial")
 	protected void initCrateButton() {
-		TypedLink<Void> createBtn = new TypedLink<Void>("btn-crate",
-				ButtonType.Default) {
+		BootstrapLink<Void> createBtn = new BootstrapLink<Void>("btn-crate",
+				Buttons.Type.Default) {
 
 			@Override
 			public void onClick() {
-				bottleService.newCrate();
+				User provider = ((UserSession<UserAuthModel>)getSession()).getUser().getObject();
+				bottleService.newCrate(provider);
 			}
 		};
 
-		createBtn.setIconType(IconType.gift).setSize(ButtonSize.Large);
+		createBtn.setIconType(IconType.gift).setSize(Buttons.Size.Large);
 		createBtn.setLabel(Model.of("Versorgung")).setInverted(false);
 
 		add(createBtn);
@@ -164,17 +153,19 @@ public abstract class BasePage<T> extends GenericWebPage<T> {
 	@SuppressWarnings("serial")
 	protected void initConsumeButton() {
 
-		bottleBtn = new TypedLink<Void>("btn-get-bottle",
-				ButtonType.Primary) {
+		bottleBtn = new BootstrapLink<Void>("btn-get-bottle",  Buttons.Type.Primary) {
 
 			@Override
 			public void onClick() {
-				consumeClicked();
-
+				if(bottleService.getNumberOfNotConsumedBottles() > 0){
+					consumeClicked();
+				}
 			}
 		};
+		
+
 		bottleBtn.setIconType(IconType.shoppingcart);
-		bottleBtn.setSize(ButtonSize.Large);
+		bottleBtn.setSize(Buttons.Size.Large);
 		bottleBtn.setLabel(Model.of("Erfrischung"));
 
 		add(bottleBtn);

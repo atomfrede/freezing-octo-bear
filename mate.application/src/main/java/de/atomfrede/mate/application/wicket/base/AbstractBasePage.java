@@ -5,7 +5,8 @@ import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.request.resource.CssResourceReference;
 
-import de.agilecoders.wicket.Bootstrap;
+import de.agilecoders.wicket.core.Bootstrap;
+
 
 public abstract class AbstractBasePage extends WebPage {
 
