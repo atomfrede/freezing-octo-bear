@@ -76,10 +76,10 @@ public class User extends AbstractEntity implements JsonTransferable<User>{
 	@Column(name = "gcmDeviceId")
 	protected String gcmDeviceId;
 	
-	@Column(name = "mailNotification")
+	@Column(name = "mailNotification", columnDefinition = "BIT", length = 1)
 	protected boolean mailNotification;
 	
-	@Column(name = "mobileNotification")
+	@Column(name = "mobileNotification", columnDefinition = "BIT", length = 1)
 	protected boolean mobileNotification;
 
 	@Override

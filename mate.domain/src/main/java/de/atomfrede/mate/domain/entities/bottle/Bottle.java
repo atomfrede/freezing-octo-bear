@@ -32,7 +32,7 @@ public class Bottle extends AbstractEntity {
 		return id;
 	}
 
-	@Column(name = "consumed")
+	@Column(name = "consumed", columnDefinition = "BIT", length = 1)
 	protected boolean consumed;
 
 	public boolean isConsumed() {
