@@ -11,7 +11,7 @@ import de.atomfrede.mate.service.consumption.ConsumptionService;
 import de.atomfrede.mate.service.user.UserService;
 import de.atomfrede.mate.service.user.UsernameAlreadyTakenException;
 
-@MountPath(value = "/login", alt = "/login")
+@MountPath(value = "/login")
 public class LoginPage extends AbstractBasePage {
 
 	@SpringBean
