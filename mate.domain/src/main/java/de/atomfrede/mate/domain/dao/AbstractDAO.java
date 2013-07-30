@@ -59,6 +59,12 @@ public abstract class AbstractDAO<EntityClass extends AbstractEntity>
 		getSession().delete(entity);
 		getSession().flush();
 	}
+	
+	@Transactional
+	public void remove(Long id){
+		EntityClass toDelete = (EntityClass) getSession().load(getClazz(), id);
+		getSession().delete(toDelete);
+	}
 
 	@SuppressWarnings("unchecked")
 	@Override
