@@ -8,6 +8,7 @@ import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
@@ -45,6 +46,24 @@ public abstract class AbstractDAO<EntityClass extends AbstractEntity>
 		crit.setFirstResult((int)offset);
 		crit.setMaxResults((int)count);
 
+		return crit.list();
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly=true)
+	public List<EntityClass> list(long offset, long count, String orderProperty, boolean desc) {
+		Session session = getSession();
+		
+		Criteria crit = session.createCriteria(getClazz());
+		if(desc) {
+			crit.addOrder(Order.desc(orderProperty));
+		} else {
+			crit.addOrder(Order.asc(orderProperty));
+		}
+		
+		crit.setFirstResult((int)offset);
+		crit.setMaxResults((int)count);
+		
 		return crit.list();
 	}
 	

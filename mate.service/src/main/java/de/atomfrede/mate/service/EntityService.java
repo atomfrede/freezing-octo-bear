@@ -7,6 +7,8 @@ import de.atomfrede.mate.domain.entities.IEntity;
 public interface EntityService<EntityClass extends IEntity> {
 
 	List<EntityClass> list(long offset, long count);
+	
+	List<EntityClass> list(long offset, long count, String orderProperty, boolean desc);
 
 	List<EntityClass> findAll();
 

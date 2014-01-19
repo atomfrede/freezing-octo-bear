@@ -25,6 +25,12 @@ public class BottleServiceImpl implements BottleService {
 	public List<Bottle> list(long offset, long count) {
 		return bottleDao.list(offset, count);
 	}
+	
+	@Override
+	public List<Bottle> list(long offset, long count, String orderProperty,
+			boolean desc) {
+		return bottleDao.list(offset, count, orderProperty, desc);
+	}
 
 	@Override
 	public List<Bottle> findAll() {

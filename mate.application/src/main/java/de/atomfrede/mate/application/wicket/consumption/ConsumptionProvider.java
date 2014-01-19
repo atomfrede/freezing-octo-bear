@@ -30,7 +30,7 @@ public class ConsumptionProvider implements IDataProvider<Consumption>{
 
 	@Override
 	public Iterator<? extends Consumption> iterator(long first, long count) {
-		return consumptionService.list(first, count).iterator();
+		return consumptionService.list(first, count, "consumptionDate", true).iterator();
 	}
 
 	@Override

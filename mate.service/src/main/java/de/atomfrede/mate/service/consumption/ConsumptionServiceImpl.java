@@ -31,7 +31,14 @@ public class ConsumptionServiceImpl implements ConsumptionService {
 	public List<Consumption> list(long offset, long count) {
 		return consumptionDao.list(offset, count);
 	}
-
+	
+	
+	@Override
+	public List<Consumption> list(long offset, long count,
+			String orderProperty, boolean desc) {
+		return consumptionDao.list(offset, count, orderProperty, desc);
+	}
+	
 	@Override
 	public List<Consumption> findAll() {
 		return consumptionDao.findAll();
@@ -90,4 +97,5 @@ public class ConsumptionServiceImpl implements ConsumptionService {
 	public int getConsumedBottles(User user) {
 		return consumptionDao.findAllByProperty("consumedBy", user).size();
 	}
+	
 }
