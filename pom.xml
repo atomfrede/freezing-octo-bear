@@ -15,7 +15,7 @@
 	<packaging>pom</packaging>
 	<version>0.1</version>
 	<properties>
-		<wicket.version>6.9.0</wicket.version>
+		<wicket.version>6.13.0</wicket.version>
 		<apache.wicket.bootstrap.version> 0.8.4 
 		</apache.wicket.bootstrap.version>
 		<slf4j.version>1.6.6</slf4j.version>
