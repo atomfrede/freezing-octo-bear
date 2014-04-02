@@ -13,15 +13,12 @@ http://www.springframework.org/schema/context/spring-context-3.0.xsd
 http://www.springframework.org/schema/tx
 http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
 http://www.springframework.org/schema/aop
-http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
-"
->
+http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 	<context:annotation-config/>
 	<context:component-scan base-package="de.atomfrede.mate"/>
 	<bean
 		id="placeholderConfig"
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
-	>
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="location">
 			<value>classpath:application.properties</value>
 		</property>
@@ -31,8 +28,7 @@ http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
 	</bean>
 	<bean
 		id="dataSource"
-		class="com.mchange.v2.c3p0.ComboPooledDataSource"
-	>
+		class="com.mchange.v2.c3p0.ComboPooledDataSource">
 		<property name="driverClass">
 			<value>${jdbc.driver}</value>
 		</property>
@@ -67,8 +63,7 @@ http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
 	</bean>
 	<bean
 		id="sessionFactory"
-		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean"
-	>
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
 		<property name="dataSource">
 			<ref bean="dataSource"/>
 		</property>
@@ -86,8 +81,7 @@ http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
 	<!-- setup transaction manager -->
 	<bean
 		id="transactionManager"
-		class="org.springframework.orm.hibernate4.HibernateTransactionManager"
-	>
+		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
 		<property
 			name="sessionFactory"
 			ref="sessionFactory"/>
