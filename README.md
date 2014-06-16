@@ -3,6 +3,7 @@ Office Mate Tracking
 
 Small Wicket based Web Application with [Android Companion](https://github.com/atomfrede/mustached-nemesis) to make your office Club Mate supply tracking easier
 
+[![Build Status](https://travis-ci.org/atomfrede/freezing-octo-bear.svg?branch=master)](https://travis-ci.org/atomfrede/freezing-octo-bear)
 [![Build Status](https://drone.io/github.com/atomfrede/freezing-octo-bear/status.png)](https://drone.io/github.com/atomfrede/freezing-octo-bear/latest)
 [![endorse](http://api.coderwall.com/atomfrede/endorsecount.png)](http://coderwall.com/atomfrede)
 
