@@ -5,9 +5,13 @@ import java.util.Properties;
 
 import org.apache.wicket.Application;
 import org.apache.wicket.Page;
+import org.apache.wicket.RuntimeConfigurationType;
 import org.apache.wicket.Session;
 import org.apache.wicket.WicketRuntimeException;
 import org.apache.wicket.protocol.http.WebApplication;
+import org.apache.wicket.protocol.https.HttpsConfig;
+import org.apache.wicket.protocol.https.HttpsMapper;
+import org.apache.wicket.protocol.https.Scheme;
 import org.apache.wicket.request.Request;
 import org.apache.wicket.request.Response;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
@@ -35,7 +39,7 @@ public class WicketApplication extends WebApplication implements
 
 	@Autowired
 	private ApplicationContext mApplicationContext;
-	
+
 	public WicketApplication() {
 	}
 
@@ -59,12 +63,24 @@ public class WicketApplication extends WebApplication implements
 
 		// enable ajax debug etc.
 		getDebugSettings().setDevelopmentUtilitiesEnabled(true);
-		
 
 		new AnnotatedMountScanner().scanPackage(
 				"de.atomfrede.mate.application.*").mount(this);
-		
-//		addDummyUsers();
+
+		setRootRequestMapper(new HttpsMapper(getRootRequestMapper(),
+				new HttpsConfig(8080, 8443)) {
+
+			@Override
+			protected Scheme getDesiredSchemeFor(Class pageClass) {
+				if (getConfigurationType() == RuntimeConfigurationType.DEVELOPMENT) {
+					return Scheme.HTTP;
+				} else {
+					return Scheme.HTTP;
+				}
+			}
+		});
+
+		// addDummyUsers();
 	}
 
 	protected void initSpring() {
@@ -103,8 +119,8 @@ public class WicketApplication extends WebApplication implements
 
 	private void configureBootstrap() {
 		final BootstrapSettings settings = new BootstrapSettings();
-//		settings.useJqueryPP(false).useModernizr(false).useResponsiveCss(true)
-//				.setJsResourceFilterName("footer-container");
+		// settings.useJqueryPP(false).useModernizr(false).useResponsiveCss(true)
+		// .setJsResourceFilterName("footer-container");
 
 		// reactivate if new less4j version is available:
 		// settings.getBootstrapLessCompilerSettings().setUseLessCompiler(usesDevelopmentConfig());
@@ -125,13 +141,16 @@ public class WicketApplication extends WebApplication implements
 	public Class<? extends Page> getLoginPage() {
 		return LoginPage.class;
 	}
-	
 
 	@Override
 	public Session newSession(Request request, Response response) {
-		UserSession<UserAuthModel> session = new UserSession<UserAuthModel>(request);
+		UserSession<UserAuthModel> session = new UserSession<UserAuthModel>(
+				request);
 		return session;
 	}
-	
 
+	@Override
+	public RuntimeConfigurationType getConfigurationType() {
+		return RuntimeConfigurationType.DEPLOYMENT;
+	}
 }

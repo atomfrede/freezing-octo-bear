@@ -4,6 +4,8 @@ import java.util.Properties;
 
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.Session;
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.head.CssHeaderItem;
 import org.apache.wicket.markup.head.IHeaderResponse;
@@ -11,14 +13,16 @@ import org.apache.wicket.markup.html.GenericWebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.protocol.https.RequireHttps;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.request.resource.CssResourceReference;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import de.agilecoders.wicket.core.Bootstrap;
 import de.agilecoders.wicket.core.markup.html.bootstrap.button.BootstrapLink;
+import de.agilecoders.wicket.core.markup.html.bootstrap.button.ButtonBehavior;
 import de.agilecoders.wicket.core.markup.html.bootstrap.button.Buttons;
-import de.agilecoders.wicket.core.markup.html.bootstrap.button.TypedLink;
+import de.agilecoders.wicket.core.markup.html.bootstrap.dialog.TextContentModal;
 import de.agilecoders.wicket.core.markup.html.bootstrap.image.IconType;
 import de.agilecoders.wicket.core.markup.html.bootstrap.navbar.ImmutableNavbarComponent;
 import de.agilecoders.wicket.core.markup.html.bootstrap.navbar.Navbar;
@@ -35,6 +39,7 @@ import de.atomfrede.mate.domain.entities.user.User;
 import de.atomfrede.mate.service.bottle.BottleService;
 import de.atomfrede.mate.service.consumption.ConsumptionService;
 
+@RequireHttps
 public abstract class BasePage<T> extends GenericWebPage<T> {
 
 	@SpringBean
@@ -48,6 +53,8 @@ public abstract class BasePage<T> extends GenericWebPage<T> {
 	BootstrapLink<Void> bottleBtn;
 	
 	Label availableMatesLabel;
+	
+	private TextContentModal modalWarning;
 
 	public BasePage() {
 		super();
@@ -112,8 +119,41 @@ public abstract class BasePage<T> extends GenericWebPage<T> {
 		
 		availableMatesLabel = new Label("available-mates", "Verfügbare Mates: "+bottleService.getNumberOfNotConsumedBottles());
 		add(availableMatesLabel);
+		
+		setupModal();
 	}
 
+	private void setupModal() {
+		modalWarning = new TextContentModal("modal-prompt",
+				Model.of("Nur fortfahren, wenn du tatsächlich einen Kasten Club Mate ins Lager gestellt hast!"));
+		modalWarning.addCloseButton(Model.of("Abbrechen"));
+		modalWarning.header(Model.of("Ein neuer Kasten Club Mate?!"));
+		
+
+		AjaxLink<String> doPut = new AjaxLink<String>("button", Model.of("Kasten spenden")) {
+
+			@Override
+			protected void onConfigure() {
+				super.onConfigure();
+
+				setBody(getDefaultModel());
+				add(new ButtonBehavior(Buttons.Type.Warning));
+				// add(new IconBehavior(IconType.remove));
+			}
+			
+			@Override
+			public void onClick(AjaxRequestTarget target) {
+				doPutCrate();
+				target.appendJavaScript("$('.modal').modal('close');");
+				setResponsePage(Homepage.class);
+			}
+		};
+		
+		
+		modalWarning.addButton(doPut);
+		add(modalWarning);
+	}
+	
 	@SuppressWarnings("serial")
 	protected void initUserButton() {
 		BootstrapLink<Void> userAdminBtn = new BootstrapLink<Void>("btn-user-admin",
@@ -132,6 +172,15 @@ public abstract class BasePage<T> extends GenericWebPage<T> {
 		add(userAdminBtn);
 	}
 
+	protected void reallyPutCrate() {
+		modalWarning.show(true);
+	}
+	
+	protected void doPutCrate() {
+		User provider = ((UserSession<UserAuthModel>)getSession()).getUser().getObject();
+		bottleService.newCrate(provider);
+	}
+	
 	@SuppressWarnings("serial")
 	protected void initCrateButton() {
 		BootstrapLink<Void> createBtn = new BootstrapLink<Void>("btn-crate",
@@ -139,8 +188,7 @@ public abstract class BasePage<T> extends GenericWebPage<T> {
 
 			@Override
 			public void onClick() {
-				User provider = ((UserSession<UserAuthModel>)getSession()).getUser().getObject();
-				bottleService.newCrate(provider);
+				reallyPutCrate();
 			}
 		};
 
