@@ -25,6 +25,7 @@ import de.atomfrede.mate.domain.entities.JsonTransferable;
 import de.atomfrede.mate.domain.entities.account.Account;
 import de.atomfrede.mate.domain.entities.consumption.Consumption;
 
+
 @Entity
 @Table(name = "user", uniqueConstraints = @UniqueConstraint(columnNames = {
 		"username", "email" }))
@@ -81,6 +82,12 @@ public class User extends AbstractEntity implements JsonTransferable<User>{
 	
 	@Column(name = "mobileNotification", columnDefinition = "BIT", length = 1)
 	protected boolean mobileNotification;
+	
+	@Column(name = "role")
+	protected Role role;
+	
+	@Column(name = "active", columnDefinition = "BIT", length = 1)
+	protected boolean active;
 
 	@Override
 	public Long getId() {
@@ -194,6 +201,22 @@ public class User extends AbstractEntity implements JsonTransferable<User>{
 
 	public void setMobileNotification(boolean mobileNotification) {
 		this.mobileNotification = mobileNotification;
+	}
+	
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
+	
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 
 	@Override

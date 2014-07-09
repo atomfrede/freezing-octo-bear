@@ -1,5 +1,7 @@
 package de.atomfrede.mate.application.wicket;
 
+import static de.atomfrede.mate.application.wicket.MessageUtils._;
+
 import java.util.Properties;
 
 import org.apache.wicket.AttributeModifier;
@@ -35,6 +37,8 @@ import de.atomfrede.mate.application.wicket.homepage.Homepage;
 import de.atomfrede.mate.application.wicket.logout.LogoutPage;
 import de.atomfrede.mate.application.wicket.security.UserAuthModel;
 import de.atomfrede.mate.application.wicket.security.UserSession;
+import de.atomfrede.mate.application.wicket.user.UserPage;
+import de.atomfrede.mate.domain.entities.user.Role;
 import de.atomfrede.mate.domain.entities.user.User;
 import de.atomfrede.mate.service.bottle.BottleService;
 import de.atomfrede.mate.service.consumption.ConsumptionService;
@@ -227,7 +231,7 @@ public abstract class BasePage<T> extends GenericWebPage<T> {
 		navbar.setPosition(Navbar.Position.TOP);
 
 		// show brand name
-		navbar.brandName(Model.of("Mate Tracker"));
+		navbar.brandName(Model.of("matetracker.de"));
 		navbar.addComponents(NavbarComponents.transform(
 				Navbar.ComponentPosition.LEFT, new NavbarButton<Homepage>(
 						Homepage.class, Model.of("Home"))
@@ -235,10 +239,19 @@ public abstract class BasePage<T> extends GenericWebPage<T> {
 
 		));
 
-		navbar.addComponents(new ImmutableNavbarComponent(
-				new NavbarButton<LogoutPage>(LogoutPage.class, Model
-						.of("Logout")).setIconType(IconType.off),
-				Navbar.ComponentPosition.RIGHT));
+
+		navbar.addComponents(NavbarComponents.transform(
+				Navbar.ComponentPosition.RIGHT, new NavbarButton<UserPage>(
+						UserPage.class, Model.of(_("menu.user").getString()))
+						.setIconType(IconType.user)));
+		
+		if(getUser().getObject().getRole() == Role.Admin) {
+			navbar.addComponents(new ImmutableNavbarComponent(
+					new NavbarButton<LogoutPage>(LogoutPage.class, Model
+							.of("Logout")).setIconType(IconType.off),
+					Navbar.ComponentPosition.RIGHT));
+		}
+	
 
 		return navbar;
 	}

@@ -75,7 +75,7 @@ public class WicketApplication extends WebApplication implements
 				if (getConfigurationType() == RuntimeConfigurationType.DEVELOPMENT) {
 					return Scheme.HTTP;
 				} else {
-					return Scheme.HTTP;
+					return Scheme.HTTPS;
 				}
 			}
 		});
@@ -151,6 +151,6 @@ public class WicketApplication extends WebApplication implements
 
 	@Override
 	public RuntimeConfigurationType getConfigurationType() {
-		return RuntimeConfigurationType.DEPLOYMENT;
+		return RuntimeConfigurationType.DEVELOPMENT;
 	}
 }

@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import de.atomfrede.mate.domain.dao.user.UserDao;
 import de.atomfrede.mate.domain.entities.account.Account;
+import de.atomfrede.mate.domain.entities.user.Role;
 import de.atomfrede.mate.domain.entities.user.User;
 
 @Service(value = "userService")
@@ -72,6 +73,18 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User createUser(String username, String firstname, String lastname,
 			String email, String password) throws UsernameAlreadyTakenException {
+		return createUser(username, firstname, lastname, email, password, Role.User);
+	}
+	
+	@Override
+	public User createAdminUser(String username, String firstname,
+			String lastname, String email, String password)
+			throws UsernameAlreadyTakenException {
+		return createUser(username, firstname, lastname, email, password, Role.Admin);
+	}
+	
+	private User createUser(String username, String firstname,
+			String lastname, String email, String password, Role userRole) throws UsernameAlreadyTakenException {
 		User possibleUser = userDao.findByProperty("username", username);
 		if (possibleUser != null) {
 			log.error("Username already take. Can't create user with user name "
@@ -86,6 +99,7 @@ public class UserServiceImpl implements UserService {
 		user.setPassword(password);
 		user.setEmail(email);
 		user.setAccount(new Account());
+		user.setRole(userRole);
 
 		userDao.persist(user);
 		return user;
@@ -96,5 +110,20 @@ public class UserServiceImpl implements UserService {
 		User user = userDao.getByUserName(username);
 		return user == null;
 	}
+
+	@Override
+	public User deactivateUserByName(final String username) {
+		User possibleUser = userDao.findByProperty("username", username);
+		if(possibleUser != null) {
+			possibleUser.setActive(false);
+			userDao.persist(possibleUser);
+			
+			return possibleUser;
+		} else {
+			throw new IllegalArgumentException("A user with username "+username+" doesn't exist.");
+		}
+	}
+
+	
 
 }

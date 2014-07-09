@@ -20,6 +20,11 @@ public interface UserService extends EntityService<User> {
 	public User createUser(String username, String firstname, String lastname,
 			String email, String password) throws UsernameAlreadyTakenException;
 	
+	public User createAdminUser(String username, String firstname, String lastname,
+			String email, String password) throws UsernameAlreadyTakenException;
+	
 	public boolean canCreateUser(String username);
+	
+	public User deactivateUserByName(String username);
 
 }

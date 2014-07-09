@@ -33,7 +33,7 @@ public class LoginPage extends AbstractBasePage {
 	
 	private void addDummyUser(){
 		try {
-			User fred = userService.createUser("fred", "Frederik", "Hahne", "fred@mail.de", "fred");
+			User fred = userService.createAdminUser("fred", "Frederik", "Hahne", "fred@mail.de", "fred");
 			//User max = userService.createUser("max", "Max", "Mustermann", "max@muster.de", "max");
 			//userService.createUser("max1", "Max1", "Mustermann", "max@muster.de", "max");
 			//user//Service.createUser("max2", "Max2", "Mustermann", "max@muster.de", "max");
