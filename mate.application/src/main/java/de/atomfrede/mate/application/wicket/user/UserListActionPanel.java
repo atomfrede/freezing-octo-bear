@@ -8,6 +8,8 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 import de.agilecoders.wicket.core.markup.html.bootstrap.button.BootstrapLink;
 import de.agilecoders.wicket.core.markup.html.bootstrap.button.Buttons;
 import de.agilecoders.wicket.core.markup.html.bootstrap.image.IconType;
+import de.atomfrede.mate.application.wicket.user.detail.UserDetailPage;
+import de.atomfrede.mate.application.wicket.user.detail.UserDetailPage.Type;
 
 @SuppressWarnings("serial")
 public class UserListActionPanel extends Panel {
@@ -36,8 +38,8 @@ public class UserListActionPanel extends Panel {
 
 	private void onNewUser() {
 		PageParameters params = new PageParameters();
-		//params.add(UserDetailPage.EDIT_TYPE, Type.Create);
-		//params.add(UserDetailPage.USER_ID, "-1");
-		//setResponsePage(UserDetailPage.class, params);
+		params.add(UserDetailPage.EDIT_TYPE, Type.Create);
+		params.add(UserDetailPage.USER_ID, "-1");
+		setResponsePage(UserDetailPage.class, params);
 	}
 }

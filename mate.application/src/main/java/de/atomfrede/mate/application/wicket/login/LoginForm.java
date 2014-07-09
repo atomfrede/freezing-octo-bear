@@ -15,6 +15,7 @@ import de.atomfrede.mate.application.wicket.base.AbstractBaseForm;
 import de.atomfrede.mate.application.wicket.logout.LogoutPage;
 import de.atomfrede.mate.application.wicket.register.RegisterPage;
 import de.atomfrede.mate.application.wicket.security.UserAuthModel;
+import de.atomfrede.mate.domain.entities.user.Role;
 import de.atomfrede.mate.domain.entities.user.User;
 import de.atomfrede.mate.service.user.UserService;
 
@@ -107,12 +108,19 @@ public class LoginForm extends AbstractBaseForm<User> {
 			error("Benutzer nicht gefunden oder Password nicht korrekt.");
 			return;
 		} else {
-			// Check if the password is correct for the user found by the
-			// provided username
-			if(!user.isPassword(password)){
-				error("Benutzer nicht gefunden oder Password nicht korrekt.");
+			
+			if(user.isActive() || user.getRole() == Role.Admin) {
+				// Check if the password is correct for the user found by the
+				// provided username
+				if(!user.isPassword(password)){
+					error("Benutzer nicht gefunden oder Password nicht korrekt.");
+					return;
+				}
+			} else {
+				error("Benutzer noch nicht freigeschaltet");
 				return;
 			}
+			
 		}
 		getSession().setUser(new UserAuthModel(User.class, user.getId()));
 

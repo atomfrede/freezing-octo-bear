@@ -6,6 +6,7 @@ import static de.atomfrede.mate.application.wicket.MessageUtils._;
 import org.apache.wicket.Session;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
+import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.panel.Panel;
@@ -16,14 +17,19 @@ import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
+import de.agilecoders.wicket.core.markup.html.bootstrap.button.BootstrapAjaxLink;
 import de.agilecoders.wicket.core.markup.html.bootstrap.button.BootstrapLink;
 import de.agilecoders.wicket.core.markup.html.bootstrap.button.ButtonBehavior;
 import de.agilecoders.wicket.core.markup.html.bootstrap.button.Buttons;
+import de.agilecoders.wicket.core.markup.html.bootstrap.components.PopoverBehavior;
+import de.agilecoders.wicket.core.markup.html.bootstrap.components.TooltipBehavior;
 import de.agilecoders.wicket.core.markup.html.bootstrap.dialog.TextContentModal;
 import de.agilecoders.wicket.core.markup.html.bootstrap.image.IconType;
 import de.agilecoders.wicket.core.markup.html.bootstrap.navigation.ajax.BootstrapAjaxPagingNavigator;
 import de.atomfrede.mate.application.wicket.security.UserAuthModel;
 import de.atomfrede.mate.application.wicket.security.UserSession;
+import de.atomfrede.mate.application.wicket.user.detail.UserDetailPage;
+import de.atomfrede.mate.application.wicket.user.detail.UserDetailPage.Type;
 import de.atomfrede.mate.domain.entities.user.User;
 import de.atomfrede.mate.service.user.UserService;
 
@@ -124,6 +130,38 @@ public class UserListPanel extends Panel {
 
 				item.add(editUser);
 				item.add(deleteUser);
+				
+				BootstrapAjaxLink<String> approveLink = new BootstrapAjaxLink<String>(
+						"user.action.activate", Model.of("Mein Text"),
+						Buttons.Type.Primary) {
+
+					@Override
+					public void onClick(AjaxRequestTarget target) {
+						switchActivateUser(userId);
+						target.add(wmc);
+					}
+				};
+
+				approveLink.setSize(Buttons.Size.Mini);
+
+				System.out.println("Item is active: "+item.getModelObject().isActive());
+				if (item.getModelObject().isActive()) {
+					approveLink.setLabel(_("user.active"))
+							.setIconType(IconType.okcircle)
+							.setType(Buttons.Type.Success);
+					
+					approveLink.add(new TooltipBehavior(_("user.action.make.inactive")));
+				} else {
+					approveLink.setLabel(_("user.inactive"))
+							.setIconType(IconType.bancircle)
+							.setType(Buttons.Type.Warning);
+					approveLink.add(new TooltipBehavior(_("user.action.make.active")));
+				}
+
+				approveLink.add(new AttributeAppender("style",
+						" min-width: 65px;"));
+
+				item.add(approveLink);
 			}
 
 		};
@@ -134,11 +172,17 @@ public class UserListPanel extends Panel {
 		add(wmc);
 	}
 
+	private void switchActivateUser(long id) {
+		User user = userService.findById(id);
+		user.setActive(!user.isActive());
+		userService.persist(user);
+	}
+	
 	private void editUser(long id) {
 		PageParameters params = new PageParameters();
-		//params.add(UserDetailPage.EDIT_TYPE, Type.Edit);
-		//params.add(UserDetailPage.USER_ID, id);
-		//setResponsePage(UserDetailPage.class, params);
+		params.add(UserDetailPage.EDIT_TYPE, Type.Edit);
+		params.add(UserDetailPage.USER_ID, id);
+		setResponsePage(UserDetailPage.class, params);
 	}
 
 	private void deleteUser(final long id, String fullname, String username) {

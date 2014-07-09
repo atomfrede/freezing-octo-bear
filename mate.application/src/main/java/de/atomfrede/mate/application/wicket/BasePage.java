@@ -11,6 +11,7 @@ import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.head.CssHeaderItem;
 import org.apache.wicket.markup.head.IHeaderResponse;
+import org.apache.wicket.markup.head.JavaScriptHeaderItem;
 import org.apache.wicket.markup.html.GenericWebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.model.IModel;
@@ -18,6 +19,7 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.protocol.https.RequireHttps;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.request.resource.CssResourceReference;
+import org.apache.wicket.request.resource.JavaScriptResourceReference;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import de.agilecoders.wicket.core.Bootstrap;
@@ -267,6 +269,11 @@ public abstract class BasePage<T> extends GenericWebPage<T> {
 				BasePage.class, "base-content.css")));
 		response.render(CssHeaderItem.forReference(new CssResourceReference(
 				AbstractBasePage.class, "base.css")));
+		response.render(CssHeaderItem.forReference(new CssResourceReference(
+				BasePage.class, "bootstrap-select.min.css")));
+		response.render(JavaScriptHeaderItem
+				.forReference(new JavaScriptResourceReference(
+						BasePage.class, "bootstrap-select.min.js")));
 		Bootstrap.renderHead(response);
 	}
 
