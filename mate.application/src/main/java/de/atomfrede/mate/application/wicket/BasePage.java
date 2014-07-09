@@ -50,16 +50,16 @@ public abstract class BasePage<T> extends GenericWebPage<T> {
 
 	@SpringBean
 	protected ConsumptionService consumptionService;
-	
+
 	@SpringBean
 	protected BottleService bottleService;
 
 	protected User currentUser;
-	
+
 	BootstrapLink<Void> bottleBtn;
-	
+
 	Label availableMatesLabel;
-	
+
 	private TextContentModal modalWarning;
 
 	public BasePage() {
@@ -97,21 +97,24 @@ public abstract class BasePage<T> extends GenericWebPage<T> {
 	}
 
 	@Override
-	public void onBeforeRender(){
+	public void onBeforeRender() {
 		super.onBeforeRender();
-		if(bottleService.getNumberOfNotConsumedBottles() == 0){
+		if (bottleService.getNumberOfNotConsumedBottles() == 0) {
 			bottleBtn.add(new AttributeAppender("class", " disabled"));
-//			bottleBtn.setEnabled(false);
-		}else{
-			bottleBtn.add(new AttributeModifier("class", "btn  btn-large btn-primary btn btn-large btn-block"));
-//			bottleBtn.setEnabled(true);
+			// bottleBtn.setEnabled(false);
+		} else {
+			bottleBtn.add(new AttributeModifier("class",
+					"btn  btn-large btn-primary btn btn-large btn-block"));
+			// bottleBtn.setEnabled(true);
 		}
-		
+
 		remove(availableMatesLabel);
-		availableMatesLabel = new Label("available-mates", "Verfügbare Mates: "+bottleService.getNumberOfNotConsumedBottles());
+		availableMatesLabel = new Label("available-mates",
+				"Verfügbare Mates: " +
+						bottleService.getNumberOfNotConsumedBottles());
 		add(availableMatesLabel);
 	}
-	
+
 	private void commonInit(PageParameters pageParameters) {
 
 		currentUser = getSession().getUser().getObject();
@@ -119,24 +122,26 @@ public abstract class BasePage<T> extends GenericWebPage<T> {
 		initCrateButton();
 		initUserButton();
 
-		
 		add(newNavbar("navbar"));
 		add(new Footer("footer"));
-		
-		availableMatesLabel = new Label("available-mates", "Verfügbare Mates: "+bottleService.getNumberOfNotConsumedBottles());
+
+		availableMatesLabel = new Label("available-mates",
+				"Verfügbare Mates: " +
+						bottleService.getNumberOfNotConsumedBottles());
 		add(availableMatesLabel);
-		
+
 		setupModal();
 	}
 
 	private void setupModal() {
-		modalWarning = new TextContentModal("modal-prompt",
+		modalWarning = new TextContentModal(
+				"modal-prompt",
 				Model.of("Nur fortfahren, wenn du tatsächlich einen Kasten Club Mate ins Lager gestellt hast!"));
 		modalWarning.addCloseButton(Model.of("Abbrechen"));
 		modalWarning.header(Model.of("Ein neuer Kasten Club Mate?!"));
-		
 
-		AjaxLink<String> doPut = new AjaxLink<String>("button", Model.of("Kasten spenden")) {
+		AjaxLink<String> doPut = new AjaxLink<String>("button",
+				Model.of("Kasten spenden")) {
 
 			@Override
 			protected void onConfigure() {
@@ -146,7 +151,7 @@ public abstract class BasePage<T> extends GenericWebPage<T> {
 				add(new ButtonBehavior(Buttons.Type.Warning));
 				// add(new IconBehavior(IconType.remove));
 			}
-			
+
 			@Override
 			public void onClick(AjaxRequestTarget target) {
 				doPutCrate();
@@ -154,16 +159,15 @@ public abstract class BasePage<T> extends GenericWebPage<T> {
 				setResponsePage(Homepage.class);
 			}
 		};
-		
-		
+
 		modalWarning.addButton(doPut);
 		add(modalWarning);
 	}
-	
+
 	@SuppressWarnings("serial")
 	protected void initUserButton() {
-		BootstrapLink<Void> userAdminBtn = new BootstrapLink<Void>("btn-user-admin",
-				Buttons.Type.Default) {
+		BootstrapLink<Void> userAdminBtn = new BootstrapLink<Void>(
+				"btn-user-admin", Buttons.Type.Default) {
 
 			@Override
 			public void onClick() {
@@ -174,19 +178,20 @@ public abstract class BasePage<T> extends GenericWebPage<T> {
 
 		userAdminBtn.setIconType(IconType.user).setSize(Buttons.Size.Large)
 				.setLabel(Model.of("Mein Konto")).setInverted(false);
-		
+
 		add(userAdminBtn);
 	}
 
 	protected void reallyPutCrate() {
 		modalWarning.show(true);
 	}
-	
+
 	protected void doPutCrate() {
-		User provider = ((UserSession<UserAuthModel>)getSession()).getUser().getObject();
+		User provider = ((UserSession<UserAuthModel>) getSession()).getUser()
+				.getObject();
 		bottleService.newCrate(provider);
 	}
-	
+
 	@SuppressWarnings("serial")
 	protected void initCrateButton() {
 		BootstrapLink<Void> createBtn = new BootstrapLink<Void>("btn-crate",
@@ -207,24 +212,23 @@ public abstract class BasePage<T> extends GenericWebPage<T> {
 	@SuppressWarnings("serial")
 	protected void initConsumeButton() {
 
-		bottleBtn = new BootstrapLink<Void>("btn-get-bottle",  Buttons.Type.Primary) {
+		bottleBtn = new BootstrapLink<Void>("btn-get-bottle",
+				Buttons.Type.Primary) {
 
 			@Override
 			public void onClick() {
-				if(bottleService.getNumberOfNotConsumedBottles() > 0){
+				if (bottleService.getNumberOfNotConsumedBottles() > 0) {
 					consumeClicked();
 				}
 			}
 		};
-		
 
 		bottleBtn.setIconType(IconType.shoppingcart);
 		bottleBtn.setSize(Buttons.Size.Large);
 		bottleBtn.setLabel(Model.of("Erfrischung"));
 
 		add(bottleBtn);
-		
-		
+
 	}
 
 	protected Navbar newNavbar(String markupId) {
@@ -241,19 +245,18 @@ public abstract class BasePage<T> extends GenericWebPage<T> {
 
 		));
 
+		if (getUser().getObject().getRole() == Role.Admin) {
+			navbar.addComponents(NavbarComponents.transform(
+					Navbar.ComponentPosition.RIGHT,
+					new NavbarButton<UserPage>(UserPage.class, Model.of(_(
+							"menu.user").getString()))
+							.setIconType(IconType.user)));
 
-		navbar.addComponents(NavbarComponents.transform(
-				Navbar.ComponentPosition.RIGHT, new NavbarButton<UserPage>(
-						UserPage.class, Model.of(_("menu.user").getString()))
-						.setIconType(IconType.user)));
-		
-		if(getUser().getObject().getRole() == Role.Admin) {
-			navbar.addComponents(new ImmutableNavbarComponent(
-					new NavbarButton<LogoutPage>(LogoutPage.class, Model
-							.of("Logout")).setIconType(IconType.off),
-					Navbar.ComponentPosition.RIGHT));
 		}
-	
+		navbar.addComponents(new ImmutableNavbarComponent(
+				new NavbarButton<LogoutPage>(LogoutPage.class, Model
+						.of("Logout")).setIconType(IconType.off),
+				Navbar.ComponentPosition.RIGHT));
 
 		return navbar;
 	}
@@ -272,8 +275,8 @@ public abstract class BasePage<T> extends GenericWebPage<T> {
 		response.render(CssHeaderItem.forReference(new CssResourceReference(
 				BasePage.class, "bootstrap-select.min.css")));
 		response.render(JavaScriptHeaderItem
-				.forReference(new JavaScriptResourceReference(
-						BasePage.class, "bootstrap-select.min.js")));
+				.forReference(new JavaScriptResourceReference(BasePage.class,
+						"bootstrap-select.min.js")));
 		Bootstrap.renderHead(response);
 	}
 

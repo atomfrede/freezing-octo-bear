@@ -12,6 +12,7 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.validation.validator.EmailAddressValidator;
 
 import de.atomfrede.mate.application.wicket.base.AbstractBaseForm;
+import de.atomfrede.mate.application.wicket.login.LoginPage;
 import de.atomfrede.mate.application.wicket.logout.LogoutPage;
 import de.atomfrede.mate.application.wicket.security.UserAuthModel;
 import de.atomfrede.mate.domain.entities.user.AnonymousUser;
@@ -160,11 +161,11 @@ public class RegisterForm extends AbstractBaseForm<User> {
 			User user = userService.createUser(username, "", "", email,
 					password2);
 			
-			getSession().setUser(new UserAuthModel(User.class, user.getId()));
+			//getSession().setUser(new UserAuthModel(User.class, user.getId()));
 
 			LogoutPage.reset();
 
-			setResponsePage(getApp().getHomePage());
+			setResponsePage(LoginPage.class);
 			return;
 
 		} catch (UsernameAlreadyTakenException e) {
