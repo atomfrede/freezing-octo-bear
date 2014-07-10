@@ -1,0 +1,6 @@
+smtp.host=
+smtp.port=
+smtp.user=
+smtp.password=
+smtp.ssl=
+smtp.from=

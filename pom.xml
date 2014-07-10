@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project
-	xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<scm>
 		<url>https://github.com/atomfrede/freezing-octo-bear/</url>
 		<connection>scm:git:git://github.com/atomfrede/freezing-octo-bear.git</connection>
@@ -16,7 +13,7 @@
 	<version>0.1</version>
 	<properties>
 		<wicket.version>6.16.0</wicket.version>
-		<apache.wicket.bootstrap.version> 0.8.4 
+		<apache.wicket.bootstrap.version> 0.8.4
 		</apache.wicket.bootstrap.version>
 		<slf4j.version>1.6.6</slf4j.version>
 		<jetty.version>8.1.7.v20120910</jetty.version>
@@ -56,11 +53,11 @@
 			<artifactId>gson</artifactId>
 			<version>${gson.version}</version>
 		</dependency>
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.codehaus.jackson</groupId> -->
-<!-- 			<artifactId>jackson-mapper-asl</artifactId> -->
-<!-- 			<version>${jackson.mapper.version}</version> -->
-<!-- 		</dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>org.codehaus.jackson</groupId> -->
+		<!-- <artifactId>jackson-mapper-asl</artifactId> -->
+		<!-- <version>${jackson.mapper.version}</version> -->
+		<!-- </dependency> -->
 		<!-- LOGGING DEPENDENCIES - LOG4J -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -137,6 +134,12 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
 			<version>${spring.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.easytesting</groupId>
+			<artifactId>fest-assert-core</artifactId>
+			<version>2.0M10</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
