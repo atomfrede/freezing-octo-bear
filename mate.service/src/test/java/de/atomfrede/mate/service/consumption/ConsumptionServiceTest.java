@@ -47,5 +47,7 @@ public class ConsumptionServiceTest {
 		dummy = userService.getByUsername("dummy");
 		assertThat(dummy.getAccount().getValue()).isEqualTo(19.0);
 		assertThat(bottleService.getNumberOfNotConsumedBottles()).isEqualTo(19);
+		
+		assertThat(consumptionService.getConsumedBottles(dummy)).isEqualTo(1);
 	}
 }
