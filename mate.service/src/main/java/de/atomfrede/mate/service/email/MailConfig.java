@@ -1,4 +1,4 @@
-package de.atomfrede.mate.application.mail;
+package de.atomfrede.mate.service.email;
 
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
