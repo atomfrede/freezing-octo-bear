@@ -10,3 +10,5 @@
 .gitignore~
 .project
 *.*~
+
+target
