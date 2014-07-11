@@ -32,7 +32,7 @@ public class ConsumptionServiceTest {
 	@Before
 	public void setup() {
 		try {
-			dummy = userService.createUser("dummy", "Test", "Dummy", "dummy@example.com", "password");
+			dummy = userService.createUser("dummy-consume", "Test", "Dummy", "dummy@example.com", "password");
 			bottleService.newCrate(dummy);
 		} catch (UsernameAlreadyTakenException e) {
 			// TODO Auto-generated catch block
@@ -44,7 +44,7 @@ public class ConsumptionServiceTest {
 	public void assertThatConsumeSetsAllValues() {
 		consumptionService.consumeBottle(dummy);
 		
-		dummy = userService.getByUsername("dummy");
+		dummy = userService.getByUsername("dummy-consume");
 		assertThat(dummy.getAccount().getValue()).isEqualTo(19.0);
 		assertThat(bottleService.getNumberOfNotConsumedBottles()).isEqualTo(19);
 		
