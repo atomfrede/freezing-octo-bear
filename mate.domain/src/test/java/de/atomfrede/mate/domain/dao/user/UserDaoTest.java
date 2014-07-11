@@ -49,12 +49,23 @@ public class UserDaoTest {
 		User testUser2 = new User();
 		assertThat(testUser2.isNew()).isTrue();
 	}
-	
+
 	@Test
 	public void assertThatPersistedUserIsNotNew() {
 		assertThat(testUser.isNew()).isFalse();
 	}
 	
+	@Test
+	public void assertThatPersistedUserIsPersited() {
+		assertThat(testUser.isPersisted()).isTrue();
+	}
+	
+	@Test
+	public void assertThatNewUserIsNotPersited() {
+		User testUser2 = new User();
+		assertThat(testUser2.isPersisted()).isFalse();
+	}
+
 	@Test
 	public void findAllTest() {
 		List<User> allUsers = userDao.findAll();
@@ -94,7 +105,7 @@ public class UserDaoTest {
 		assertThat(retrieved).isNotEmpty();
 		assertThat(retrieved.size()).isEqualTo(1);
 		assertThat(retrieved.get(0).getUsername()).isEqualTo("mmuster");
-		
+
 		userDao.remove(testUser2);
 	}
 
@@ -113,7 +124,7 @@ public class UserDaoTest {
 
 		assertThat(retrieved).isNotEmpty();
 		assertThat(retrieved.get(0).getUsername()).isEqualTo("amuster");
-		
+
 		userDao.remove(testUser2);
 	}
 
@@ -132,14 +143,45 @@ public class UserDaoTest {
 
 		assertThat(retrieved).isNotEmpty();
 		assertThat(retrieved.get(0).getUsername()).isEqualTo("mmuster");
-		
+
 		userDao.remove(testUser2);
 	}
-	
+
 	@Test
-	public void assertThatCountReturnsCorrectCount(){
+	public void assertThatCountReturnsCorrectCount() {
 		assertThat(userDao.count()).isEqualTo(1L);
 	}
-	
+
+	@Test
+	public void assertThatAllCanBeFoundByProperty() {
+		// Second TestUser
+		User testUser2 = new User();
+		testUser2.setEmail("max@muster.org");
+		testUser2.setFirstname("Max");
+		testUser2.setLastname("Muster2");
+		testUser2.setUsername("amuster");
+		testUser2.setAccount(new Account());
+		userDao.persist(testUser2);
+
+		List<User> retrieved = userDao.findAllByProperty("firstname", "Max");
+
+		assertThat(retrieved).isNotEmpty();
+		assertThat(retrieved.size()).isEqualTo(2);
+
+		userDao.remove(testUser2);
+	}
+
+	@Test
+	public void assertThatUserCanBeRemovedById() {
+		User testUser2 = new User();
+		testUser2.setEmail("max@muster.org");
+		testUser2.setFirstname("Max");
+		testUser2.setLastname("Muster2");
+		testUser2.setUsername("amuster");
+		testUser2.setAccount(new Account());
+		userDao.persist(testUser2);
+		
+		userDao.remove(testUser2.getId());
+	}
 
 }
