@@ -34,11 +34,11 @@ public class MailServiceImpl implements MailService {
 	}
 	
 	@Override
-	public void sendNoMatesMail() {
+	public Email sendNoMatesMail() {
+		Email email = null;
 		List<User> allUsers = userService.findAll();
 		try {
-			
-			Email email = createSimpleMail();
+			email = createSimpleMail();
 			email.setSubject("No Mates left, oh Dear!");
 			email.setMsg("There are no mates left. We need supplies *now*!");
 
@@ -50,18 +50,19 @@ public class MailServiceImpl implements MailService {
 				
 			}
 			email.send();
+			return email;
 		} catch (EmailException | ConfigurationException emailEx) {
-
+			return email;
 		}
 
 	}
 
 	@Override
-	public void sendSupplyMail(int availableMates) {
+	public Email sendSupplyMail(int availableMates) {
+		Email email = null;
 		List<User> allUsers = userService.findAll();
 		try {
-
-			Email email = createSimpleMail();
+			email = createSimpleMail();
 			email.setSubject("There are "+availableMates+" left.");
 			email.setMsg("We are running low on Mate. Only "+availableMates+" left. You should resupply soon.");
 
@@ -73,8 +74,9 @@ public class MailServiceImpl implements MailService {
 				
 			}
 			email.send();
+			return email;
 		} catch (EmailException | ConfigurationException emailEx) {
-
+			return email;
 		}
 
 	}

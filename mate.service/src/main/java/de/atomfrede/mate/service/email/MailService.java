@@ -1,8 +1,10 @@
 package de.atomfrede.mate.service.email;
 
+import org.apache.commons.mail.Email;
+
 public interface MailService {
 
-	public void sendNoMatesMail();
+	public Email sendNoMatesMail();
 	
-	public void sendSupplyMail(int availableMates);
+	public Email sendSupplyMail(int availableMates);
 }
