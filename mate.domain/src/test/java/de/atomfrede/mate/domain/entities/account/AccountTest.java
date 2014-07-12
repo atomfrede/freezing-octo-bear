@@ -14,4 +14,11 @@ public class AccountTest {
 		
 		assertThat(a.getValue()).isEqualTo(before + 10.0);
 	}
+	
+	@Test
+	public void assertThatNewAccountHasNoId() {
+		Account a = new Account();
+		
+		assertThat(a.getId()).isNull();
+	}
 }
