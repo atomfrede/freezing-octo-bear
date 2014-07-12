@@ -15,8 +15,10 @@ import org.apache.wicket.protocol.https.Scheme;
 import org.apache.wicket.request.Request;
 import org.apache.wicket.request.Response;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 import org.wicketstuff.annotation.scan.AnnotatedMountScanner;
 
@@ -33,7 +35,7 @@ import de.atomfrede.mate.application.wicket.security.UserSession;
 
 @Component(value = "wicketApplication")
 public class WicketApplication extends WebApplication implements
-		ISecureApplication {
+		ISecureApplication, ApplicationContextAware {
 
 	private Properties properties;
 
@@ -85,8 +87,14 @@ public class WicketApplication extends WebApplication implements
 
 	protected void initSpring() {
 		// Initialize Spring Dependency Injection
-		getComponentInstantiationListeners().add(
-				new SpringComponentInjector(this));
+		if(mApplicationContext == null) {
+			getComponentInstantiationListeners().add(
+					new SpringComponentInjector(this));
+		} else {
+			getComponentInstantiationListeners().add(
+					new SpringComponentInjector(this, mApplicationContext, true));
+		}
+		
 	}
 
 	@Override
@@ -152,5 +160,12 @@ public class WicketApplication extends WebApplication implements
 	@Override
 	public RuntimeConfigurationType getConfigurationType() {
 		return RuntimeConfigurationType.DEVELOPMENT;
+	}
+
+	@Override
+	public void setApplicationContext(ApplicationContext applicationContext)
+			throws BeansException {
+		this.mApplicationContext = applicationContext;
+		
 	}
 }
