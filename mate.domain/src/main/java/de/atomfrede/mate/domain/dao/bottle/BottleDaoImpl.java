@@ -1,10 +1,6 @@
 package de.atomfrede.mate.domain.dao.bottle;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.hibernate.Criteria;
-import org.hibernate.FlushMode;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;

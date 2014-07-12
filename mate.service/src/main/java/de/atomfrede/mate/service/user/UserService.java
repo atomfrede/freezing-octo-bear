@@ -26,5 +26,7 @@ public interface UserService extends EntityService<User> {
 	public boolean canCreateUser(String username);
 	
 	public User deactivateUserByName(String username);
+	
+	public void deleteUser(String username);
 
 }

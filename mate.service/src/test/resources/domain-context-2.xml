@@ -27,7 +27,7 @@ http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 		</property>
 	</bean>
 	<bean
-		id="dataSource"
+		id="dataSource2"
 		class="com.mchange.v2.c3p0.ComboPooledDataSource">
 		<property name="driverClass">
 			<value>${jdbc.driver}</value>
@@ -62,10 +62,10 @@ http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 		</property>
 	</bean>
 	<bean
-		id="sessionFactory"
+		id="sessionFactory2"
 		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
 		<property name="dataSource">
-			<ref bean="dataSource"/>
+			<ref bean="dataSource2"/>
 		</property>
 		<property name="hibernateProperties">
 			<props>
@@ -84,7 +84,7 @@ http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
 		<property
 			name="sessionFactory"
-			ref="sessionFactory"/>
+			ref="sessionFactory2"/>
 	</bean>
 	<!-- tells Spring to put transactional advice on any class or method that
 		has an @Transactional annotation on it -->

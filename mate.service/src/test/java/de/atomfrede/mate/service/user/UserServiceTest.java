@@ -11,16 +11,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import de.atomfrede.mate.domain.dao.account.AccountDao;
 import de.atomfrede.mate.domain.entities.account.Account;
 import de.atomfrede.mate.domain.entities.user.Role;
 import de.atomfrede.mate.domain.entities.user.User;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:**/domain-context.xml" })
+@ContextConfiguration(locations = { "classpath:**/domain-context-2.xml" })
 public class UserServiceTest {
 
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+	AccountDao accountDao;
+	
 
 	@Before
 	public void clear() throws UsernameAlreadyTakenException {
@@ -28,6 +33,13 @@ public class UserServiceTest {
 		
 		for(User u:allUsers) {
 			userService.remove(u);
+		}
+		
+		List<Account> accounts = accountDao.findAll();
+		
+		System.out.println("#### accounts are "+accounts);
+		for(Account a:accounts) {
+			accountDao.remove(a);
 		}
 		
 		userService.createUser("dummy", "dummy", "dummy", "dummy", "dummy");

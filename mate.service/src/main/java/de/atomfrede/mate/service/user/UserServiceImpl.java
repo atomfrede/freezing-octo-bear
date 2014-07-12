@@ -124,6 +124,18 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 
+	@Override
+	@Transactional
+	public void deleteUser(String username) {
+		// TODO Auto-generated method stub
+		User toDelte = getByUsername(username);
+		
+		if(toDelte != null) {
+			userDao.remove(toDelte.getId());
+		}
+		
+	}
+
 	
 
 }
