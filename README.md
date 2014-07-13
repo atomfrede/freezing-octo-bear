@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/atomfrede/freezing-octo-bear.png?label=ready&title=Ready)](https://waffle.io/atomfrede/freezing-octo-bear)
 Office Mate Tracking
 ==================
 
