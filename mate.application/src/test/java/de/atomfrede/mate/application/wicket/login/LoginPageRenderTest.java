@@ -29,7 +29,7 @@ public class LoginPageRenderTest {
 	}
 
 	@Test
-	public void homepageRendersSuccessfully() {
+	public void assertThatLoginPageIsRendered() {
 		tester.startPage(LoginPage.class);
 		tester.assertRenderedPage(LoginPage.class);
 	}

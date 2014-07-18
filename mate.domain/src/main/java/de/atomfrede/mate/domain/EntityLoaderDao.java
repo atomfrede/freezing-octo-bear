@@ -13,10 +13,9 @@ public class EntityLoaderDao {
 
 	@Autowired
 	SessionFactory sessionFactory;
-
+	
 	@SuppressWarnings("unchecked")
 	public <T> T load(Class<T> clazz, Serializable id) {
-		System.out.println("Load on EntityLoaderDao");
 		return (T) getSession().load(clazz, id);
 	}
 	
