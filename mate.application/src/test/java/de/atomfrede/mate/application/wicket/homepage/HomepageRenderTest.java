@@ -13,6 +13,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.orm.hibernate4.SessionFactoryUtils;
 import org.springframework.orm.hibernate4.SessionHolder;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
@@ -72,6 +73,7 @@ public class HomepageRenderTest {
     }
 	
 	@Test
+	@DirtiesContext
 	public void assertThatHomepageIsRendered()
 			throws UsernameAlreadyTakenException {
 		User fred = userService.createAdminUser("fred", "fred", "fred", "fred",
