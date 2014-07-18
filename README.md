@@ -11,7 +11,7 @@ Small Wicket based Web Application with [Android Companion](https://github.com/a
        src="https://scan.coverity.com/projects/2584/badge.svg"/>
 </a>
 [![Stories in Ready](https://badge.waffle.io/atomfrede/freezing-octo-bear.png?label=ready&title=Ready)](https://waffle.io/atomfrede/freezing-octo-bear)
-[![Stories in Progress](https://badge.waffle.io/atomfrede/freezing-octo-bear.png?label=in%20progress&title=In%20Progress)](https://badge.waffle.io/atomfrede/freezing-octo-bear.png?label=in%20progress&title=In%20Progress)
+[![Stories in Progress](https://badge.waffle.io/atomfrede/freezing-octo-bear.png?label=in%20progress&title=In%20Progress)](https://waffle.io/atomfrede/freezing-octo-bear)
 [![endorse](http://api.coderwall.com/atomfrede/endorsecount.png)](http://coderwall.com/atomfrede)
 
 Example MySQL Properties
