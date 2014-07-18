@@ -13,6 +13,7 @@ import de.atomfrede.mate.domain.dao.user.UserDao;
 import de.atomfrede.mate.domain.entities.bottle.Bottle;
 import de.atomfrede.mate.domain.entities.consumption.Consumption;
 import de.atomfrede.mate.domain.entities.user.User;
+import de.atomfrede.mate.service.email.MailService;
 
 @Service(value = "consumptionService")
 @Transactional(rollbackFor = Exception.class)
@@ -27,18 +28,20 @@ public class ConsumptionServiceImpl implements ConsumptionService {
 	@Autowired
 	private BottleDao bottleDao;
 
+	@Autowired
+	private MailService mailService;
+
 	@Override
 	public List<Consumption> list(long offset, long count) {
 		return consumptionDao.list(offset, count);
 	}
-	
-	
+
 	@Override
 	public List<Consumption> list(long offset, long count,
 			String orderProperty, boolean desc) {
 		return consumptionDao.list(offset, count, orderProperty, desc);
 	}
-	
+
 	@Override
 	public List<Consumption> findAll() {
 		return consumptionDao.findAll();
@@ -76,26 +79,34 @@ public class ConsumptionServiceImpl implements ConsumptionService {
 		User mUser = userDao.findById(user.getId());
 		Bottle consumedBottle = bottleDao.getNextNotConsumedBottle();
 		consumedBottle.consume();
-		
+
 		bottleDao.persist(consumedBottle);
-		
+
 		Consumption consumption = new Consumption();
 		consumption.setBottle(consumedBottle);
 		consumption.setConsumedBy(mUser);
 		consumption.setConsumptionDate(new Date());
-		
+
 		consumptionDao.persist(consumption);
-		
+
 		mUser.consume(consumption);
-		
-	
+
 		userDao.persist(mUser);
 
+		maybeSendAlertMail();
 	}
 
 	@Override
 	public int getConsumedBottles(User user) {
 		return consumptionDao.findAllByProperty("consumedBy", user).size();
 	}
-	
+
+	private void maybeSendAlertMail() {
+		if (count() <= 4 && count() >= 1) {
+			mailService.sendSupplyMail((int) count());
+		} else if (count() == 0) {
+			mailService.sendNoMatesMail();
+		}
+	}
+
 }
