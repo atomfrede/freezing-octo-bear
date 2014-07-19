@@ -76,7 +76,7 @@ public class HomepageRenderTest {
 	@DirtiesContext
 	public void assertThatHomepageIsRendered()
 			throws UsernameAlreadyTakenException {
-		User fred = userService.createAdminUser("fred", "fred", "fred", "fred",
+		User fred = userService.createAdminUser("fred-homepage-render", "fred", "fred", "fred",
 				"fred");
 		Session session = tester.getSession();
 		((UserSession<UserAuthModel>) session).setUser(new UserAuthModel(
