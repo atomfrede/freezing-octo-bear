@@ -6,7 +6,7 @@ env:
   global:
    - secure: "XsNksW66VFNSPOwEekFWPJzsau0Hsn84LcoG4hdBXbnuUjPXnogQQw+h77uNfnsfZUcDsx5DV6Kzr7F492UTrw2BMf+VaheF9aE5oSOMRqu0KWo5ODbfFnlFKQbTiVtCDaCTFQWqVzOMAVIXL7kTBQw+Vn0Mv4OOi2q9A9CRKAQ="
 
-script: mvn --quiet install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+script: mvn --quiet install -DskipTests=true -Dmaven.javadoc.skip=true -Dorg.slf4j.simpleLogger.defaultLogLevel=error -B -V
 addons:
   coverity_scan:
     project:
@@ -18,5 +18,5 @@ addons:
     branch_pattern: coverity_scan
 
 after_success:
-  - mvn --quiet clean cobertura:cobertura coveralls:cobertura
+  - mvn --quiet clean cobertura:cobertura coveralls:cobertura -Dorg.slf4j.simpleLogger.defaultLogLevel=error
 
