@@ -19,6 +19,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import de.atomfrede.mate.application.wicket.WicketApplication;
+import de.atomfrede.mate.application.wicket.WicketPageRenderTest;
 import de.atomfrede.mate.application.wicket.security.UserAuthModel;
 import de.atomfrede.mate.application.wicket.security.UserSession;
 import de.atomfrede.mate.domain.entities.user.User;
@@ -27,51 +28,8 @@ import de.atomfrede.mate.service.user.UsernameAlreadyTakenException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:WEB-INF/applicationContext.xml" })
-public class HomepageRenderTest {
+public class HomepageRenderTest extends WicketPageRenderTest {
 
-	private WicketTester tester;
-
-	@Autowired
-	private ApplicationContext ctx;
-
-	@Autowired
-	private WicketApplication myWebApplication;
-
-	@Autowired
-	private UserService userService;
-
-
-	@Autowired
-	private SessionFactory sessionFactory;
-
-	protected FlushMode flushMode = FlushMode.MANUAL;
-
-	@Before
-	public void setUp() throws UsernameAlreadyTakenException {
-		 org.hibernate.Session session = getSession(this.sessionFactory);
-	        TransactionSynchronizationManager.bindResource(sessionFactory,new SessionHolder(session));
-		tester = new WicketTester(myWebApplication);
-	}
-	
-	@After
-	public void tearDown() {
-		SessionHolder sessionHolder = (SessionHolder) TransactionSynchronizationManager.unbindResource(sessionFactory);
-        closeSession(sessionHolder.getSession(), sessionFactory);
-	}
-
-	protected org.hibernate.Session getSession(SessionFactory sessionFactory) throws DataAccessResourceFailureException {
-        org.hibernate.Session session = sessionFactory.openSession();
-        FlushMode flushMode = this.flushMode;
-        if (flushMode != null) {
-            session.setFlushMode(flushMode);
-        }
-        return session;
-    }
-	
-	protected void closeSession(org.hibernate.Session session, SessionFactory sessionFactory) {
-        SessionFactoryUtils.closeSession(session);
-    }
-	
 	@Test
 	@DirtiesContext
 	public void assertThatHomepageIsRendered()
