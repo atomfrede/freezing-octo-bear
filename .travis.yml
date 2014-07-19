@@ -6,7 +6,7 @@ env:
   global:
    - secure: "XsNksW66VFNSPOwEekFWPJzsau0Hsn84LcoG4hdBXbnuUjPXnogQQw+h77uNfnsfZUcDsx5DV6Kzr7F492UTrw2BMf+VaheF9aE5oSOMRqu0KWo5ODbfFnlFKQbTiVtCDaCTFQWqVzOMAVIXL7kTBQw+Vn0Mv4OOi2q9A9CRKAQ="
 
-script: mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V -q
+script: mvn install --quiet -DskipTests=true -Dmaven.javadoc.skip=true -B -V
 addons:
   coverity_scan:
     project:
