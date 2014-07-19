@@ -18,5 +18,5 @@ addons:
     branch_pattern: coverity_scan
 
 after_success:
-  - mvn -q clean cobertura:cobertura coveralls:cobertura
+  - mvn -q clean cobertura:cobertura coveralls:cobertura -q
 
