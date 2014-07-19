@@ -28,7 +28,11 @@ public class MyAccountPanel extends Panel {
 	
 	private void updateLabels() {
 		double accountValue = model.getObject().getAccount().getValue();
-		int consumedBottles = model.getObject().getConsumptions().size();
+		int consumedBottles = 0;
+		
+		if(model.getObject().getConsumptions() != null) {
+			consumedBottles = model.getObject().getConsumptions().size();
+		}
 
 		if (myAccountValue != null) {
 			remove(myAccountValue);

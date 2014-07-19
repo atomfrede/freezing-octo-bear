@@ -7,7 +7,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import de.atomfrede.mate.application.wicket.WicketPageRenderTest;
-import de.atomfrede.mate.application.wicket.homepage.Homepage;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:WEB-INF/applicationContext.xml" })
