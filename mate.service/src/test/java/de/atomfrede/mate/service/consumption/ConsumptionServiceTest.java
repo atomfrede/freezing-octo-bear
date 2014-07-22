@@ -11,7 +11,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import de.atomfrede.mate.domain.dao.account.AccountDao;
-import de.atomfrede.mate.domain.entities.account.Account;
 import de.atomfrede.mate.domain.entities.user.User;
 import de.atomfrede.mate.service.bottle.BottleService;
 import de.atomfrede.mate.service.user.UserService;

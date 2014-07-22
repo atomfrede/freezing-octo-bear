@@ -2,7 +2,7 @@ package de.atomfrede.mate.service.admin;
 
 import de.atomfrede.mate.domain.entities.user.User;
 
-public interface AdminInterface {
+public interface AdminService {
 
 	/**
 	 * Clears all data. After calling this method *all* accounts are reset to zero, all bottles are removed and all consumptions are removed.

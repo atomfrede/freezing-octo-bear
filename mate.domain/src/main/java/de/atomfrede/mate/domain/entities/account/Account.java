@@ -49,4 +49,8 @@ public class Account extends AbstractEntity {
 		this.value -= decrement;
 		return this.value;
 	}
+	
+	public void reset() {
+		this.value = 0.0;
+	}
 }
