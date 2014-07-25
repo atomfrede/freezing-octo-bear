@@ -26,6 +26,7 @@ public class AdminServiceImpl implements AdminService {
 	private BottleDao bottles;
 	
 	@Override
+	@Transactional
 	public void clearAllData() {
 		for(User u:userdao.findAll()) {
 			u.getAccount().reset();
@@ -42,9 +43,13 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
+	@Transactional
 	public void clearData(User user) {
-		// TODO Auto-generated method stub
-
+		user.getAccount().reset();
+		
+		for(Consumption con:user.getConsumptions()) {
+			consumptions.remove(con);
+		}
 	}
 
 }
