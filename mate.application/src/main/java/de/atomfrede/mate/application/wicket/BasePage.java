@@ -33,6 +33,7 @@ import de.agilecoders.wicket.core.markup.html.bootstrap.navbar.Navbar;
 import de.agilecoders.wicket.core.markup.html.bootstrap.navbar.NavbarButton;
 import de.agilecoders.wicket.core.markup.html.bootstrap.navbar.NavbarComponents;
 import de.atomfrede.mate.application.wicket.account.MyAccountPage;
+import de.atomfrede.mate.application.wicket.admin.AdminPage;
 import de.atomfrede.mate.application.wicket.base.AbstractBasePage;
 import de.atomfrede.mate.application.wicket.footer.Footer;
 import de.atomfrede.mate.application.wicket.homepage.Homepage;
@@ -251,6 +252,12 @@ public abstract class BasePage<T> extends GenericWebPage<T> {
 					new NavbarButton<UserPage>(UserPage.class, Model.of(_(
 							"menu.user").getString()))
 							.setIconType(IconType.user)));
+
+			navbar.addComponents(NavbarComponents.transform(
+					Navbar.ComponentPosition.RIGHT,
+					new NavbarButton<AdminPage>(AdminPage.class, Model.of(_(
+							"menu.admin").getString()))
+							.setIconType(IconType.warningsign)));
 
 		}
 		navbar.addComponents(new ImmutableNavbarComponent(

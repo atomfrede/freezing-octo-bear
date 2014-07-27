@@ -1,7 +1,5 @@
 package de.atomfrede.mate.application.wicket.account;
 
-import org.apache.wicket.AttributeModifier;
-import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.panel.Panel;
 
