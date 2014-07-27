@@ -43,12 +43,12 @@ public class Consumption extends AbstractEntity {
 	@Column(name = "consumptiondate")
 	private java.util.Date consumptionDate;
 
-	@OneToOne(cascade = { CascadeType.ALL })
-	@JoinColumn(name = "bottle", nullable = false)
+	@OneToOne
+	@JoinColumn(name = "bottle", nullable = true)
 	private Bottle bottle;
 
-	@OneToOne(cascade = { CascadeType.ALL })
-	@JoinColumn(name = "consumedby", nullable = false)
+	@OneToOne
+	@JoinColumn(name = "consumedby", nullable = true)
 	private User consumedBy;
 
 	public java.util.Date getConsumptionDate() {

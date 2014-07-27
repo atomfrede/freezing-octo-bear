@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import de.atomfrede.mate.domain.dao.account.AccountDao;
 import de.atomfrede.mate.domain.dao.bottle.BottleDao;
 import de.atomfrede.mate.domain.dao.user.UserDao;
 import de.atomfrede.mate.domain.entities.bottle.Bottle;
@@ -17,15 +18,18 @@ public class BottleServiceImpl implements BottleService {
 
 	@Autowired
 	private BottleDao bottleDao;
-	
+
 	@Autowired
 	private UserDao userDao;
+	
+	@Autowired
+	private AccountDao accounts;
 
 	@Override
 	public List<Bottle> list(long offset, long count) {
 		return bottleDao.list(offset, count);
 	}
-	
+
 	@Override
 	public List<Bottle> list(long offset, long count, String orderProperty,
 			boolean desc) {
@@ -62,9 +66,10 @@ public class BottleServiceImpl implements BottleService {
 		return bottleDao.count();
 	}
 
-	public void newCrate(User provider){
+	@Transactional
+	public void newCrate(User provider) {
 		addBottles(20);
-		provider.getAccount().increaseBy(20*1.00);
+		provider.getAccount().increaseBy(20 * 1.00);
 		userDao.persist(provider);
 	}
 
