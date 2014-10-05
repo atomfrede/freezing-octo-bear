@@ -28,38 +28,26 @@ http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 	</bean>
 	<bean
 		id="dataSource2"
-		class="com.mchange.v2.c3p0.ComboPooledDataSource">
-		<property name="driverClass">
+        class="com.zaxxer.hikari.HikariDataSource">
+		<property name="driverClassName">
 			<value>${jdbc.driver}</value>
 		</property>
 		<property name="jdbcUrl">
 			<value>${jdbc.url}</value>
 		</property>
-		<property name="user">
+		<property name="username">
 			<value>${jdbc.username}</value>
 		</property>
 		<property name="password">
 			<value>${jdbc.password}</value>
 		</property>
-		<property name="minPoolSize">
-			<value>${c3p0.minPoolSize}</value>
-		</property>
-		<property name="maxPoolSize">
+		<property name="maximumPoolSize">
 			<value>${c3p0.maxPoolSize}</value>
 		</property>
-		<property name="checkoutTimeout">
-			<!-- Give up waiting for a connection after this many milliseconds -->
-			<value>${c3p0.checkoutTimeout}</value>
-		</property>
-		<property name="maxIdleTime">
-			<value>${c3p0.maxIdleTime}</value>
-		</property>
-		<property name="idleConnectionTestPeriod">
+		<property name="idleTimeout">
 			<value>${c3p0.idleConnectionTestPeriod}</value>
 		</property>
-		<property name="automaticTestTable">
-			<value>${c3p0.automaticTestTable}</value>
-		</property>
+
 	</bean>
 	<bean
 		id="sessionFactory2"
