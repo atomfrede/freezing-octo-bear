@@ -12,6 +12,7 @@ import org.springframework.context.ApplicationContextException;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -24,8 +25,8 @@ import java.util.List;
 
 @Configuration
 @EnableJpaRepositories("de.atomfrede.matetracker.repository")
-@EnableTransactionManagement
 @EnableJpaAuditing(auditorAwareRef = "springSecurityAuditorAware")
+@EnableTransactionManagement
 public class DatabaseConfiguration implements EnvironmentAware {
 
     private final Logger log = LoggerFactory.getLogger(DatabaseConfiguration.class);
@@ -41,7 +42,8 @@ public class DatabaseConfiguration implements EnvironmentAware {
     }
 
     @Bean(destroyMethod = "shutdown")
-    @ConditionalOnMissingClass(name = "de.atomfrede.matetracker.config.HerokuDatabaseConfiguration.class")
+    @ConditionalOnMissingClass(name = "de.atomfrede.matetracker.config.HerokuDatabaseConfiguration")
+    @Profile("!cloud")
     public DataSource dataSource() {
         log.debug("Configuring Datasource");
         if (propertyResolver.getProperty("url") == null && propertyResolver.getProperty("databaseName") == null) {
@@ -72,13 +74,6 @@ public class DatabaseConfiguration implements EnvironmentAware {
         return new HikariDataSource(config);
     }
 
-    @Bean(name = {"org.springframework.boot.autoconfigure.AutoConfigurationUtils.basePackages"})
-    public List<String> getBasePackages() {
-        List<String> basePackages = new ArrayList<>();
-        basePackages.add("de.atomfrede.matetracker.domain");
-        return basePackages;
-    }
-
     @Bean
     public SpringLiquibase liquibase(DataSource dataSource) {
         log.debug("Configuring Liquibase");
@@ -94,4 +89,3 @@ public class DatabaseConfiguration implements EnvironmentAware {
         return new Hibernate4Module();
     }
 }
-

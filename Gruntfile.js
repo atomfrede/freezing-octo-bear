@@ -1,4 +1,4 @@
-// Generated on 2014-10-23 using generator-jhipster 1.2.1
+// Generated on 2014-11-05 using generator-jhipster 1.7.0
 'use strict';
 
 // # Globbing
@@ -30,6 +30,7 @@ module.exports = function (grunt) {
                 },
                 files: [
                     'src/main/webapp/**/*.html',
+                    'src/main/webapp/**/*.json',
                     '.tmp/styles/**/*.css',
                     '{.tmp/,}src/main/webapp/scripts/**/*.js',
                     'src/main/webapp/images/**/*.{png,jpg,jpeg,gif,webp,svg}'
@@ -64,18 +65,25 @@ module.exports = function (grunt) {
                     changeOrigin: false
                 },
                 {
-                context: '/dump',
-                host: 'localhost',
-                port: 8080,
-                https: false,
-                changeOrigin: false
+                    context: '/dump',
+                    host: 'localhost',
+                    port: 8080,
+                    https: false,
+                    changeOrigin: false
                 },
                 {
-                context: '/api-docs',
-                host: 'localhost',
-                port: 8080,
-                https: false,
-                changeOrigin: false
+                    context: '/health',
+                    host: 'localhost',
+                    port: 8080,
+                    https: false,
+                    changeOrigin: false
+                },
+                {
+                    context: '/api-docs',
+                    host: 'localhost',
+                    port: 8080,
+                    https: false,
+                    changeOrigin: false
                 },
                 {
                     context: '/oauth/token',

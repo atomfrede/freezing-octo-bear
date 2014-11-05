@@ -69,6 +69,13 @@ matetrackerApp
                         authorizedRoles: [USER_ROLES.admin]
                     }
                 })
+                .when('/health', {
+                    templateUrl: 'views/health.html',
+                    controller: 'HealthController',
+                    access: {
+                        authorizedRoles: [USER_ROLES.admin]
+                    }
+                })
                 .when('/logs', {
                     templateUrl: 'views/logs.html',
                     controller: 'LogsController',
@@ -125,6 +132,7 @@ matetrackerApp
             httpHeaders = $httpProvider.defaults.headers;
         })
         .run(function($rootScope, $location, $http, AuthenticationSharedService, Session, USER_ROLES) {
+                $rootScope.authenticated = false;
                 $rootScope.$on('$routeChangeStart', function (event, next) {
                     $rootScope.isAuthorized = AuthenticationSharedService.isAuthorized;
                     $rootScope.userRoles = USER_ROLES;

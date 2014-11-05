@@ -3,6 +3,10 @@
 /* Controllers */
 
 matetrackerApp.controller('MainController', function ($scope) {
+    angular.element(document).ready(function () {
+       console.log("On ready");
+        $.material.init();
+    });
     });
 
 matetrackerApp.controller('AdminController', function ($scope) {
@@ -143,23 +147,37 @@ matetrackerApp.controller('SessionsController', function ($scope, resolvedSessio
         };
     });
 
- matetrackerApp.controller('MetricsController', function ($scope, MetricsService, HealthCheckService, ThreadDumpService) {
+ matetrackerApp.controller('HealthController', function ($scope, HealthCheckService) {
+     $scope.updatingHealth = true;
 
+     $scope.refresh = function() {
+         $scope.updatingHealth = true;
+         HealthCheckService.check().then(function(promise) {
+             $scope.healthCheck = promise;
+             $scope.updatingHealth = false;
+         },function(promise) {
+             $scope.healthCheck = promise.data;
+             $scope.updatingHealth = false;
+         });
+     }
+
+     $scope.refresh();
+
+     $scope.getLabelClass = function(statusState) {
+         if (statusState == 'UP') {
+             return "label-success";
+         } else {
+             return "label-danger";
+         }
+     }
+ });
+
+matetrackerApp.controller('MetricsController', function ($scope, MetricsService, HealthCheckService, ThreadDumpService) {
         $scope.metrics = {};
-		$scope.updatingHealth = true;
 		$scope.updatingMetrics = true;
- 
+
         $scope.refresh = function() {
-			$scope.updatingHealth = true;
 			$scope.updatingMetrics = true;
-        	HealthCheckService.check().then(function(promise) {
-        		$scope.healthCheck = promise;
-				$scope.updatingHealth = false;
-        	},function(promise) {
-        		$scope.healthCheck = promise.data;
-				$scope.updatingHealth = false;
-        	});
-			
 			MetricsService.get().then(function(promise) {
         		$scope.metrics = promise;
 				$scope.updatingMetrics = false;
@@ -167,10 +185,8 @@ matetrackerApp.controller('SessionsController', function ($scope, resolvedSessio
         		$scope.metrics = promise.data;
 				$scope.updatingMetrics = false;
         	});
-
-            
         };
-		
+
 		$scope.$watch('metrics', function(newValue, oldValue) {
 			$scope.servicesStats = {};
             $scope.cachesStats = {};
@@ -280,4 +296,3 @@ matetrackerApp.controller('AuditsController', function ($scope, $translate, $fil
             $scope.audits = data;
         });
     });
-
