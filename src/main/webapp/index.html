@@ -16,9 +16,10 @@
         <!-- endbuild -->
         <!-- build:css styles/vendor/bootstrap.css -->
         <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+        <!--<link rel="stylesheet" href="bower_components/bootswatch/paper/bootstrap.css">-->
         <link rel="stylesheet" href="bower_components/bootstrap-material-design/dist/css/ripples.min.css">
-        <link rel="stylesheet" href="bower_components/bootstrap-material-design/dist/css/material-wfont.css">
-        <link rel="stylesheet" href="bower_components/bootstrap-material-design/dist/css/material.css">
+        <link rel="stylesheet" href="bower_components/bootstrap-material-design/dist/css/material-wfont.min.css">
+
         <!-- endbuild -->
         <!-- build:css(.tmp) styles/main.css -->
         <link rel="stylesheet" href="styles/main.css">
@@ -170,5 +171,11 @@
         <script src="bower_components/bootstrap-material-design/dist/js/ripples.js"></script>
         <script src="bower_components/bootstrap-material-design/dist/js/material.js"></script>
         <!-- endbuild -->
+
+        <script>
+            $(function() {
+                $.material.init();
+            });
+        </script>
 </body>
 </html>
