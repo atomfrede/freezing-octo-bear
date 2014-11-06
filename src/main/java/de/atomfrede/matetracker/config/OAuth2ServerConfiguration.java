@@ -87,7 +87,7 @@ public class OAuth2ServerConfiguration {
         private static final String PROP_TOKEN_VALIDITY_SECONDS = "tokenValidityInSeconds";
 
         private RelaxedPropertyResolver propertyResolver;
-        
+
         @Inject
         private DataSource dataSource;
 
