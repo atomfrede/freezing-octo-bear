@@ -16,3 +16,5 @@ build
 
 _old_wicket
 src/main/resources/config/application-prod.yml
+
+*.*~
