@@ -3,9 +3,6 @@
 /* Controllers */
 
 matetrackerApp.controller('MainController', function ($scope) {
-    angular.element(document).ready(function () {
-            $.material.init();
-        });
     });
 
 matetrackerApp.controller('AdminController', function ($scope) {
