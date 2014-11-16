@@ -1,5 +1,6 @@
 package de.atomfrede.matetracker.config;
 
+import com.codahale.metrics.MetricRegistry;
 import com.fasterxml.jackson.datatype.hibernate4.Hibernate4Module;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -44,11 +45,11 @@ public class DatabaseConfiguration implements EnvironmentAware {
     @Bean(destroyMethod = "shutdown")
     @ConditionalOnMissingClass(name = "de.atomfrede.matetracker.config.HerokuDatabaseConfiguration")
     @Profile("!cloud")
-    public DataSource dataSource() {
+    public DataSource dataSource(MetricRegistry metricRegistry) {
         log.debug("Configuring Datasource");
         if (propertyResolver.getProperty("url") == null && propertyResolver.getProperty("databaseName") == null) {
             log.error("Your database connection pool configuration is incorrect! The application" +
-                    "cannot start. Please check your Spring profile, current profiles are: {}",
+                            "cannot start. Please check your Spring profile, current profiles are: {}",
                     Arrays.toString(environment.getActiveProfiles()));
 
             throw new ApplicationContextException("Database connection pool is not configured correctly");
@@ -71,6 +72,7 @@ public class DatabaseConfiguration implements EnvironmentAware {
             config.addDataSourceProperty("prepStmtCacheSqlLimit", propertyResolver.getProperty("prepStmtCacheSqlLimit", "2048"));
             config.addDataSourceProperty("useServerPrepStmts", propertyResolver.getProperty("useServerPrepStmts", "true"));
         }
+        config.setMetricRegistry(metricRegistry);
         return new HikariDataSource(config);
     }
 

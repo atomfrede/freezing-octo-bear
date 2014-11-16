@@ -36,9 +36,4 @@
     <cache name="de.atomfrede.matetracker.domain.User.persistentTokens"
            timeToLiveSeconds="3600">
     </cache>
-
-    <cache name="de.atomfrede.matetracker.domain.PersistentAuditEvent"
-           timeToLiveSeconds="3600">
-    </cache>
 </ehcache>
-

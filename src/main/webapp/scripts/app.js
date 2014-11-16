@@ -76,6 +76,18 @@ matetrackerApp
                         authorizedRoles: [USER_ROLES.admin]
                     }
                 })
+                .when('/configuration', {
+                    templateUrl: 'views/configuration.html',
+                    controller: 'ConfigurationController',
+                    resolve: {
+                        resolvedConfiguration: ['ConfigurationService', function (ConfigurationService) {
+                            return ConfigurationService.get();
+                        }]
+                    },
+                    access: {
+                        authorizedRoles: [USER_ROLES.admin]
+                    }
+                })
                 .when('/logs', {
                     templateUrl: 'views/logs.html',
                     controller: 'LogsController',
@@ -128,7 +140,6 @@ matetrackerApp
 
             tmhDynamicLocaleProvider.localeLocationPattern('bower_components/angular-i18n/angular-locale_{{locale}}.js')
             tmhDynamicLocaleProvider.useCookieStorage('NG_TRANSLATE_LANG_KEY');
-            
             httpHeaders = $httpProvider.defaults.headers;
         })
         .run(function($rootScope, $location, $http, AuthenticationSharedService, Session, USER_ROLES) {
