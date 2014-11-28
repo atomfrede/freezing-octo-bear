@@ -42,7 +42,7 @@
                 "register": "¿No tienes una cuenta todavía? <a href=\"#/register\">Crear una cuenta</a>"
             },
             "error": {
-                "dontmatch": "¡La contraseña y la confirmación no coinciden!"
+                "dontmatch" : "¡La contraseña y la confirmación no coinciden!"
             },
             "validate": {
                 "newpassword": {
@@ -98,7 +98,8 @@
                 "login": {
                     "required": "Se requiere que ingrese un usuario.",
                     "minlength": "Se requiere que su usuario tenga por lo menos 1 carácter",
-                    "maxlength": "Su usuario no puede tener mas de 50 carácteres"
+                    "maxlength": "Su usuario no puede tener mas de 50 carácteres",
+                    "pattern": "Your login can only contain lower-case letters and digits"
                 }
             },
             "success": "<strong>¡El registro de la cuenta ha sido guardado!</strong> Por favor revisa su correo electrónico para confirmar.",
@@ -158,7 +159,7 @@
             "button": "Guardar"
         },
         "messages": {
-            "error": "<strong>¡Ha ocurrido un error!</strong> La contraseña no pudo ser cambiada.",
+            "error":  "<strong>¡Ha ocurrido un error!</strong> La contraseña no pudo ser cambiada.",
             "success": "<strong>¡La contraseña ha sido cambiada!</strong>"
         }
     },
@@ -265,6 +266,7 @@
             "mean": "Mean get time (ms)"
         },
         "datasource": {
+        	"usage": "Usage",
             "title": "DataSource statistics (time in millisecond)",
             "name": "Pool usage",
             "count": "Count",
@@ -283,6 +285,7 @@
         "stacktrace": "Stacktrace",
         "indicator": {
             "db": "Database",
+            "diskSpace": "Disk space",
             "mail": "Email",
             "mongo": "Mongo DB"
         },

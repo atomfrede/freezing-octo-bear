@@ -19,15 +19,13 @@
         <tbody>
         <tr ng-repeat="(k, v) in healthCheck" ng-show="k != 'status'">
             <td>{{'health.indicator.' + k | translate}}</td>
-            <td><span class="label"
-                      ng-class="getLabelClass(v.status)">{{'health.status.' + v.status | translate}}</span></td>
+            <td><span class="label" ng-class="getLabelClass(v.status)">{{'health.status.' + v.status | translate}}</span></td>
             <td>
                 <div id="healthCheck" class="row" ng-show="v.error">
                     <div class="col-md-4">
                         <a class="hand" ng-click="showEmailException = !showEmailException">
                             <i class="glyphicon glyphicon-eye-open"></i>
                         </a>
-
                         <div class="popover" ng-show="showEmailException">
                             <div class="popover-title">
                                 <h4>{{'health.stacktrace' | translate}}

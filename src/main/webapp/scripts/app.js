@@ -4,10 +4,14 @@
 var httpHeaders;
 
 var matetrackerApp = angular.module('matetrackerApp', ['http-auth-interceptor', 'tmh.dynamicLocale',
-    'ngResource', 'ngRoute', 'ngCookies', 'matetrackerAppUtils', 'pascalprecht.translate', 'truncate']);
+    'ngResource', 'ngRoute', 'ngCookies', 'matetrackerAppUtils', 'pascalprecht.translate', 'truncate', 'ngCacheBuster']);
 
 matetrackerApp
-    .config(function ($routeProvider, $httpProvider, $translateProvider, tmhDynamicLocaleProvider, USER_ROLES) {
+    .config(function ($routeProvider, $httpProvider, $translateProvider, tmhDynamicLocaleProvider, httpRequestInterceptorCacheBusterProvider, USER_ROLES) {
+
+            //Cache everything except rest api requests
+            httpRequestInterceptorCacheBusterProvider.setMatchlist([/.*rest.*/],true);
+
             $routeProvider
                 .when('/register', {
                     templateUrl: 'views/register.html',
@@ -79,8 +83,8 @@ matetrackerApp
                 .when('/configuration', {
                     templateUrl: 'views/configuration.html',
                     controller: 'ConfigurationController',
-                    resolve: {
-                        resolvedConfiguration: ['ConfigurationService', function (ConfigurationService) {
+                    resolve:{
+                        resolvedConfiguration:['ConfigurationService', function (ConfigurationService) {
                             return ConfigurationService.get();
                         }]
                     },

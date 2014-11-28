@@ -42,7 +42,7 @@
                 "register": "Har du inget konto? <a href=\"#/register\">Du kan registrera ett konto</a>"
             },
             "error": {
-                "dontmatch": "Lösenorden stämmer inte med varandra!"
+                "dontmatch" : "Lösenorden stämmer inte med varandra!"
             },
             "validate": {
                 "newpassword": {
@@ -98,7 +98,8 @@
                 "login": {
                     "required": "Din inloggning krävs.",
                     "minlength": "Ditt användarnamn måste vara minst ett tecken",
-                    "maxlength": "Ditt användarnamn kan inte vara längre än 50 tecken"
+                    "maxlength": "Ditt användarnamn kan inte vara längre än 50 tecken",
+                    "pattern": "Your login can only contain lower-case letters and digits"
                 }
             },
             "success": "<strong>Användarnamn sparat!</strong> Kontrollera din e-post för konfirmation.",
@@ -158,7 +159,7 @@
             "button": "Spara"
         },
         "messages": {
-            "error": "<strong>Det blev fel!</strong> Lösenordet kunde inte ändras.",
+            "error":  "<strong>Det blev fel!</strong> Lösenordet kunde inte ändras.",
             "success": "<strong>Lösenord ändrat!</strong>"
         }
     },
@@ -265,6 +266,7 @@
             "mean": "Medeltid för GET (ms)"
         },
         "datasource": {
+        	"usage": "Usage",
             "title": "DataSource statistics (time in millisecond)",
             "name": "Pool usage",
             "count": "Count",
@@ -283,6 +285,7 @@
         "stacktrace": "Stacktrace",
         "indicator": {
             "db": "Databas",
+            "diskSpace": "Disk space",
             "mail": "E-post",
             "mongo": "Mongo DB"
         },

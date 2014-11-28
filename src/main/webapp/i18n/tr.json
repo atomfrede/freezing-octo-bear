@@ -42,7 +42,7 @@
                 "register": "Henüz bir hesabınız yok mu? <a href=\"#/register\">Yeni hesap oluştur</a>"
             },
             "error": {
-                "dontmatch": "Şifreler eşleşmedi!"
+                "dontmatch" : "Şifreler eşleşmedi!"
             },
             "validate": {
                 "newpassword": {
@@ -98,7 +98,8 @@
                 "login": {
                     "required": "Kullanıcı adı zorunlu.",
                     "minlength": "Kullanıcı adı en az 1 karakter olmak zorundadır",
-                    "maxlength": "Kullanıcı adı en fazla 50 karakter olabilir"
+                    "maxlength": "Kullanıcı adı en fazla 50 karakter olabilir",
+                    "pattern": "Your login can only contain lower-case letters and digits"
                 }
             },
             "success": "<strong>Kayıt işlemi yapıldı!</strong> Lütfen onay için e-posta'nızı kontrol edin.",
@@ -158,7 +159,7 @@
             "button": "Kaydet"
         },
         "messages": {
-            "error": "<strong>Bir hata oluştu!</strong> Şifre değiştirilemedi.",
+            "error":  "<strong>Bir hata oluştu!</strong> Şifre değiştirilemedi.",
             "success": "<strong>Şifre değiştirildi!</strong>"
         }
     },
@@ -265,6 +266,7 @@
             "mean": "Mean get time (ms)"
         },
         "datasource": {
+        	"usage": "Usage",
             "title": "DataSource statistics (time in millisecond)",
             "name": "Pool usage",
             "count": "Count",
@@ -283,6 +285,7 @@
         "stacktrace": "Stacktrace",
         "indicator": {
             "db": "Veritabanı",
+            "diskSpace": "Disk space",
             "mail": "E-posta",
             "mongo": "Mongo DB"
         },

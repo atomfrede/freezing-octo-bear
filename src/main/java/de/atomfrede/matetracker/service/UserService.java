@@ -1,10 +1,8 @@
 package de.atomfrede.matetracker.service;
 
 import de.atomfrede.matetracker.domain.Authority;
-import de.atomfrede.matetracker.domain.PersistentToken;
 import de.atomfrede.matetracker.domain.User;
 import de.atomfrede.matetracker.repository.AuthorityRepository;
-import de.atomfrede.matetracker.repository.PersistentTokenRepository;
 import de.atomfrede.matetracker.repository.UserRepository;
 import de.atomfrede.matetracker.security.SecurityUtils;
 import de.atomfrede.matetracker.service.util.RandomUtil;
@@ -37,9 +35,6 @@ public class UserService {
 
     @Inject
     private UserRepository userRepository;
-
-    @Inject
-    private PersistentTokenRepository persistentTokenRepository;
 
     @Inject
     private AuthorityRepository authorityRepository;
@@ -104,26 +99,6 @@ public class UserService {
         User currentUser = userRepository.findOne(SecurityUtils.getCurrentLogin());
         currentUser.getAuthorities().size(); // eagerly load the association
         return currentUser;
-    }
-
-    /**
-     * Persistent Token are used for providing automatic authentication, they should be automatically deleted after
-     * 30 days.
-     * <p/>
-     * <p>
-     * This is scheduled to get fired everyday, at midnight.
-     * </p>
-     */
-    @Scheduled(cron = "0 0 0 * * ?")
-    public void removeOldPersistentTokens() {
-        LocalDate now = new LocalDate();
-        List<PersistentToken> tokens = persistentTokenRepository.findByTokenDateBefore(now.minusMonths(1));
-        for (PersistentToken token : tokens) {
-            log.debug("Deleting token {}", token.getSeries());
-            User user = token.getUser();
-            user.getPersistentTokens().remove(token);
-            persistentTokenRepository.delete(token);
-        }
     }
 
     /**
