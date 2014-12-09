@@ -40,16 +40,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring()
+            .antMatchers("/app/**/*.{js,html}")
             .antMatchers("/bower_components/**")
+            .antMatchers("/components/**")
             .antMatchers("/fonts/**")
-            .antMatchers("/images/**")
-            .antMatchers("/scripts/**")
-            .antMatchers("/styles/**")
-            .antMatchers("/views/**")
             .antMatchers("/i18n/**")
+            .antMatchers("/images/**")
+            .antMatchers("/styles/**")
             .antMatchers("/swagger-ui/**")
-            .antMatchers("/app/rest/register")
-            .antMatchers("/app/rest/activate")
+            .antMatchers("/api/register")
+            .antMatchers("/api/activate")
+            .antMatchers("/test/**")
             .antMatchers("/console/**");
     }
 

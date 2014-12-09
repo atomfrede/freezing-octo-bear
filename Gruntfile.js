@@ -1,7 +1,28 @@
-// Generated on 2014-11-28 using generator-jhipster 1.10.0
+// Generated on 2014-12-09 using generator-jhipster 1.10.0
 'use strict';
 
 var proxySnippet = require('grunt-connect-proxy/lib/utils').proxyRequest;
+
+// usemin custom step
+var path = require('path');
+var useminAutoprefixer = {
+    name: 'autoprefixer',
+    createConfig: function(context, block) {
+        var cfg = { files: [] };
+        var outfile = path.join(context.outDir, block.dest);
+
+        var files = {};
+        files.dest = outfile;
+        files.src = [];
+        context.inFiles.forEach(function (f) {
+            files.src.push(path.join(context.inDir, f));
+        });
+        cfg.files.push(files);
+        context.outFiles = [block.dest];
+
+        return cfg;
+    }
+};
 
 module.exports = function (grunt) {
     require('load-grunt-tasks')(grunt);
@@ -15,8 +36,7 @@ module.exports = function (grunt) {
         },
         watch: {
             styles: {
-                files: ['src/main/webapp/styles/**/*.css'],
-                tasks: ['copy:styles', 'autoprefixer']
+                files: ['src/main/webapp/styles/**/*.css']
             },
             livereload: {
                 options: {
@@ -26,26 +46,28 @@ module.exports = function (grunt) {
                     'src/main/webapp/**/*.html',
                     'src/main/webapp/**/*.json',
                     '.tmp/styles/**/*.css',
-                    '{.tmp/,}src/main/webapp/scripts/**/*.js',
+                    '{.tmp/,}src/main/webapp/app/**/*.js',
+                    '{.tmp/,}src/main/webapp/components/**/*.js',
                     'src/main/webapp/images/**/*.{png,jpg,jpeg,gif,webp,svg}'
                 ]
             }
         },
         autoprefixer: {
-            options: ['last 1 version'],
-            dist: {
-                files: [{
-                    expand: true,
-                    cwd: '.tmp/styles/',
-                    src: '**/*.css',
-                    dest: '.tmp/styles/'
-                }]
-            }
+        // not used since Uglify task does autoprefixer,
+        //    options: ['last 1 version'],
+        //    dist: {
+        //        files: [{
+        //            expand: true,
+        //            cwd: '.tmp/styles/',
+        //            src: '**/*.css',
+        //            dest: '.tmp/styles/'
+        //        }]
+        //    }
         },
         connect: {
             proxies: [
                 {
-                    context: '/app',
+                    context: '/api',
                     host: 'localhost',
                     port: 8080,
                     https: false,
@@ -212,7 +234,16 @@ module.exports = function (grunt) {
         useminPrepare: {
             html: 'src/main/webapp/**/*.html',
             options: {
-                dest: '<%= yeoman.dist %>'
+                dest: '<%= yeoman.dist %>',
+                flow: {
+                    html: {
+                        steps: {
+                            js: ['concat', 'uglifyjs'],
+                            css: ['concat', useminAutoprefixer, 'cssmin']
+                        },
+                            post: {}
+                        }
+                    }
             }
         },
         usemin: {
@@ -300,12 +331,6 @@ module.exports = function (grunt) {
                     ]
                 }]
             },
-            styles: {
-                expand: true,
-                cwd: 'src/main/webapp/styles',
-                dest: '.tmp/styles/',
-                src: '{,*/}*.css'
-            },
             generateHerokuDirectory: {
                     expand: true,
                     dest: 'deploy/heroku',
@@ -325,20 +350,17 @@ module.exports = function (grunt) {
         },
         concurrent: {
             server: [
-                'copy:styles'
             ],
             test: [
-                'copy:styles'
             ],
             dist: [
-                'copy:styles',
                 'imagemin',
                 'svgmin'
             ]
         },
         karma: {
             unit: {
-                configFile: 'src/test/javascript/karma.conf.js',
+                configFile: 'src/main/webapp/test/karma.conf.js',
                 singleRun: true
             }
         },
@@ -408,7 +430,6 @@ module.exports = function (grunt) {
         grunt.task.run([
             'clean:server',
             'concurrent:server',
-            'autoprefixer',
             'configureProxies',
             'connect:livereload',
             'watch'
@@ -418,7 +439,6 @@ module.exports = function (grunt) {
     grunt.registerTask('test', [
         'clean:server',
         'concurrent:test',
-        'autoprefixer',
         'connect:test',
         'karma'
     ]);
@@ -427,8 +447,8 @@ module.exports = function (grunt) {
         'clean:dist',
         'useminPrepare',
         'concurrent:dist',
-        'autoprefixer',
         'concat',
+        'autoprefixer',
         'copy:dist',
         'ngAnnotate',
         'cssmin',

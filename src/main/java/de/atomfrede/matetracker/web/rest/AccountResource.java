@@ -11,19 +11,13 @@ import de.atomfrede.matetracker.web.rest.dto.UserDTO;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.thymeleaf.context.IWebContext;
-import org.thymeleaf.spring4.SpringTemplateEngine;
-import org.thymeleaf.spring4.context.SpringWebContext;
 
 import javax.inject.Inject;
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -34,19 +28,10 @@ import java.util.stream.Collectors;
  * REST controller for managing the current user's account.
  */
 @RestController
-@RequestMapping("/app")
+@RequestMapping("/api")
 public class AccountResource {
 
     private final Logger log = LoggerFactory.getLogger(AccountResource.class);
-
-    @Inject
-    private ServletContext servletContext;
-
-    @Inject
-    private ApplicationContext applicationContext;
-
-    @Inject
-    private SpringTemplateEngine templateEngine;
 
     @Inject
     private UserRepository userRepository;
@@ -58,47 +43,50 @@ public class AccountResource {
     private MailService mailService;
 
     /**
-     * POST  /rest/register -> register the user.
+     * POST  /register -> register the user.
      */
-    @RequestMapping(value = "/rest/register",
+    @RequestMapping(value = "/register",
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<?> registerAccount(@Valid @RequestBody UserDTO userDTO, HttpServletRequest request,
-                                             HttpServletResponse response) {
-        return Optional.ofNullable(userRepository.findOne(userDTO.getLogin()))
-            .map(user -> new ResponseEntity<String>("login already in use", HttpStatus.BAD_REQUEST))
-            .orElseGet(() -> {
-                if (userRepository.findOneByEmail(userDTO.getEmail()) != null) {
-                    return new ResponseEntity<String>("e-mail address already in use", HttpStatus.BAD_REQUEST);
-                }
-                User user = userService.createUserInformation(userDTO.getLogin(), userDTO.getPassword(),
-                        userDTO.getFirstName(), userDTO.getLastName(), userDTO.getEmail().toLowerCase(),
-                        userDTO.getLangKey());
-                final Locale locale = Locale.forLanguageTag(user.getLangKey());
-                String content = createHtmlContentFromTemplate(user, locale, request, response);
-                mailService.sendActivationEmail(user.getEmail(), content, locale);
-                return new ResponseEntity<>(HttpStatus.CREATED);});
+    public ResponseEntity<?> registerAccount(@Valid @RequestBody UserDTO userDTO, HttpServletRequest request) {
+        return Optional.ofNullable(userRepository.findOneByLogin(userDTO.getLogin()))
+            .map(user -> ResponseEntity.badRequest().contentType(MediaType.TEXT_PLAIN).body("login already in use"))
+            .orElseGet(() -> Optional.ofNullable(userRepository.findOneByEmail(userDTO.getEmail()))
+                .map(user -> ResponseEntity.badRequest().contentType(MediaType.TEXT_PLAIN).body("e-mail address already in use"))
+                .orElseGet(() -> {
+                    User user = userService.createUserInformation(userDTO.getLogin(), userDTO.getPassword(),
+                    userDTO.getFirstName(), userDTO.getLastName(), userDTO.getEmail().toLowerCase(),
+                    userDTO.getLangKey());
+
+                    String baseUrl = request.getScheme() + // "http"
+                    "://" +                                // "://"
+                    request.getServerName() +              // "myhost"
+                    ":" +                                  // ":"
+                    request.getServerPort();               // "80"
+
+                    mailService.sendActivationEmail(user, baseUrl);
+                    return new ResponseEntity<>(HttpStatus.CREATED);
+                })
+        );
     }
     /**
-     * GET  /rest/activate -> activate the registered user.
+     * GET  /activate -> activate the registered user.
      */
-    @RequestMapping(value = "/rest/activate",
+    @RequestMapping(value = "/activate",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity<String> activateAccount(@RequestParam(value = "key") String key) {
         return Optional.ofNullable(userService.activateRegistration(key))
-            .map(user -> new ResponseEntity<String>(
-                    user.getLogin(),
-                    HttpStatus.OK))
+            .map(user -> new ResponseEntity<String>(HttpStatus.OK))
             .orElse(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
     }
 
     /**
-     * GET  /rest/authenticate -> check if the user is authenticated, and return its login.
+     * GET  /authenticate -> check if the user is authenticated, and return its login.
      */
-    @RequestMapping(value = "/rest/authenticate",
+    @RequestMapping(value = "/authenticate",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
@@ -108,9 +96,9 @@ public class AccountResource {
     }
 
     /**
-     * GET  /rest/account -> get the current user.
+     * GET  /account -> get the current user.
      */
-    @RequestMapping(value = "/rest/account",
+    @RequestMapping(value = "/account",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
@@ -130,25 +118,25 @@ public class AccountResource {
     }
 
     /**
-     * POST  /rest/account -> update the current user information.
+     * POST  /account -> update the current user information.
      */
-    @RequestMapping(value = "/rest/account",
+    @RequestMapping(value = "/account",
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity<?> saveAccount(@RequestBody UserDTO userDTO) {
         User userHavingThisEmail = userRepository.findOneByEmail(userDTO.getEmail());
         if (userHavingThisEmail != null && !userHavingThisEmail.getLogin().equals(SecurityUtils.getCurrentLogin())) {
-            return new ResponseEntity<String>("e-mail address already in use", HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().contentType(MediaType.TEXT_PLAIN).body("e-mail address already in use");
         }
         userService.updateUserInformation(userDTO.getFirstName(), userDTO.getLastName(), userDTO.getEmail());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     /**
-     * POST  /rest/change_password -> changes the current user's password
+     * POST  /change_password -> changes the current user's password
      */
-    @RequestMapping(value = "/rest/account/change_password",
+    @RequestMapping(value = "/account/change_password",
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
@@ -158,17 +146,5 @@ public class AccountResource {
         }
         userService.changePassword(password);
         return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    private String createHtmlContentFromTemplate(final User user, final Locale locale, final HttpServletRequest request,
-                                                 final HttpServletResponse response) {
-        Map<String, Object> variables = new HashMap<>();
-        variables.put("user", user);
-        variables.put("baseUrl", request.getScheme() + "://" +   // "http" + "://
-                                 request.getServerName() +       // "myhost"
-                                 ":" + request.getServerPort());
-        IWebContext context = new SpringWebContext(request, response, servletContext,
-                locale, variables, applicationContext);
-        return templateEngine.process("activationEmail", context);
     }
 }

@@ -30,7 +30,7 @@ public class ExceptionHandlingAsyncTaskExecutor implements AsyncTaskExecutor,
         executor.execute(createWrappedRunnable(task), startTimeout);
     }
 
-    private <T> Callable<T> createCallable(final Callable<T> task) {
+    private <T> Callable<T> createCallable(Callable<T> task) {
         return () -> {
             try {
                 return task.call();
@@ -41,7 +41,7 @@ public class ExceptionHandlingAsyncTaskExecutor implements AsyncTaskExecutor,
         };
     }
 
-    private Runnable createWrappedRunnable(final Runnable task) {
+    private Runnable createWrappedRunnable(Runnable task) {
         return () -> {
             try {
                 task.run();
