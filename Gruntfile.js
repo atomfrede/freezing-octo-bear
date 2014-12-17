@@ -1,4 +1,4 @@
-// Generated on 2014-12-09 using generator-jhipster 1.10.0
+// Generated on 2014-12-17 using generator-jhipster 1.10.0
 'use strict';
 
 var proxySnippet = require('grunt-connect-proxy/lib/utils').proxyRequest;
@@ -46,8 +46,7 @@ module.exports = function (grunt) {
                     'src/main/webapp/**/*.html',
                     'src/main/webapp/**/*.json',
                     '.tmp/styles/**/*.css',
-                    '{.tmp/,}src/main/webapp/app/**/*.js',
-                    '{.tmp/,}src/main/webapp/components/**/*.js',
+                    '{.tmp/,}src/main/webapp/scripts/**/*.js',
                     'src/main/webapp/images/**/*.{png,jpg,jpeg,gif,webp,svg}'
                 ]
             }
@@ -214,11 +213,11 @@ module.exports = function (grunt) {
                 }]
             }
         },
+        concat: {
         // not used since Uglify task does concat,
         // but still available if needed
-        /*concat: {
-            dist: {}
-        },*/
+            //    dist: {}
+        },
         rev: {
             dist: {
                 files: {
@@ -249,8 +248,14 @@ module.exports = function (grunt) {
         usemin: {
             html: ['<%= yeoman.dist %>/**/*.html'],
             css: ['<%= yeoman.dist %>/styles/**/*.css'],
+            js: '/scripts/**/*.js',
             options: {
                 assetsDirs: ['<%= yeoman.dist %>/**/'],
+                patterns: {
+                    js: [
+                        [/(images\/.*?\.(?:gif|jpeg|jpg|png|webp|svg))/gm, 'Update the JS to reference our revved images']
+                    ]
+                },
                 dirs: ['<%= yeoman.dist %>']
             }
         },
@@ -287,6 +292,28 @@ module.exports = function (grunt) {
             //     }
             // }
         },
+        ngtemplates: {
+            dist: {
+                cwd: 'src/main/webapp',
+                src: ['scripts/app/**/*.html', 'scripts/components/**/*.html', ],
+                dest: '.tmp/templates/templates.js',
+                options: {
+                    module: 'matetrackerApp',
+                    usemin: 'scripts/scripts.js',
+                    htmlmin: {
+                        removeCommentsFromCDATA: true,
+                        // https://github.com/yeoman/grunt-usemin/issues/44
+                        collapseWhitespace: true,
+                        collapseBooleanAttributes: true,
+                        conservativeCollapse: true,
+                        removeAttributeQuotes: true,
+                        removeRedundantAttributes: true,
+                        useShortDoctype: true,
+                        removeEmptyAttributes: true
+                    }
+                }
+            }
+        },
         htmlmin: {
             dist: {
                 options: {
@@ -298,12 +325,13 @@ module.exports = function (grunt) {
                     removeAttributeQuotes: true,
                     removeRedundantAttributes: true,
                     useShortDoctype: true,
-                    removeEmptyAttributes: true
+                    removeEmptyAttributes: true,
+                    keepClosingSlash: true
                 },
                 files: [{
                     expand: true,
                     cwd: '<%= yeoman.dist %>',
-                    src: ['*.html', 'views/**/*.html'],
+                    src: ['*.html'],
                     dest: '<%= yeoman.dist %>'
                 }]
             }
@@ -318,7 +346,7 @@ module.exports = function (grunt) {
                     dest: '<%= yeoman.dist %>',
                     src: [
                         '*.html',
-                        'views/*.html',
+                        'views/**/*.html',
                         'images/**/*.{png,gif,webp}',
                         'fonts/*'
                     ]
@@ -360,7 +388,7 @@ module.exports = function (grunt) {
         },
         karma: {
             unit: {
-                configFile: 'src/main/webapp/test/karma.conf.js',
+                configFile: 'src/test/javascript/karma.conf.js',
                 singleRun: true
             }
         },
@@ -390,13 +418,14 @@ module.exports = function (grunt) {
                 }
             },
         uglify: {
-            dist: {
-                files: {
-                    '<%= yeoman.dist %>/scripts/scripts.js': [
-                        '<%= yeoman.dist %>/scripts/scripts.js'
-                    ]
-                }
-            }
+            // not used since Uglify task does uglify
+            //    dist: {
+            //     files: {
+            //            '<%= yeoman.dist %>/scripts/scripts.js': [
+            //                '<%= yeoman.dist %>/scripts/scripts.js'
+            //            ]
+            //        }
+            //    }
         },
         buildcontrol: {
             options: {
@@ -446,6 +475,7 @@ module.exports = function (grunt) {
     grunt.registerTask('build', [
         'clean:dist',
         'useminPrepare',
+        'ngtemplates',
         'concurrent:dist',
         'concat',
         'autoprefixer',
