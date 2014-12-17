@@ -1,7 +1,6 @@
 package de.atomfrede.matetracker.security;
 
 import de.atomfrede.matetracker.domain.PersistentToken;
-import de.atomfrede.matetracker.domain.User;
 import de.atomfrede.matetracker.repository.PersistentTokenRepository;
 import de.atomfrede.matetracker.repository.UserRepository;
 import org.joda.time.LocalDate;
@@ -11,6 +10,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.codec.Base64;
 import org.springframework.security.web.authentication.rememberme.AbstractRememberMeServices;
 import org.springframework.security.web.authentication.rememberme.CookieTheftException;
@@ -27,9 +27,9 @@ import java.util.Arrays;
 
 /**
  * Custom implementation of Spring Security's RememberMeServices.
- * <p/>
+ * <p>
  * Persistent tokens are used by Spring Security to automatically log in users.
- * <p/>
+ * <p>
  * This is a specific implementation of Spring Security's remember-me authentication, but it is much
  * more powerful than the standard implementations:
  * <ul>
@@ -37,17 +37,17 @@ import java.util.Arrays;
  * <li>It stores more information, such as the IP address and the user agent, for audit purposes<li>
  * <li>When a user logs out, only his current session is invalidated, and not all of his sessions</li>
  * </ul>
- * <p/>
+ * <p>
  * This is inspired by:
  * <ul>
  * <li><a href="http://jaspan.com/improved_persistent_login_cookie_best_practice">Improved Persistent Login Cookie
  * Best Practice</a></li>
  * <li><a href="https://github.com/blog/1661-modeling-your-app-s-user-session">Github's "Modeling your App's User Session"</a></li></li>
  * </ul>
- * <p/>
+ * <p>
  * The main algorithm comes from Spring Security's PersistentTokenBasedRememberMeServices, but this class
  * couldn't be cleanly extended.
- * <p/>
+ * <p>
  */
 @Service
 public class CustomPersistentRememberMeServices extends
@@ -107,15 +107,16 @@ public class CustomPersistentRememberMeServices extends
         String login = successfulAuthentication.getName();
 
         log.debug("Creating new persistent login for user {}", login);
-        User user = userRepository.findOne(login);
-
-        PersistentToken token = new PersistentToken();
-        token.setSeries(generateSeriesData());
-        token.setUser(user);
-        token.setTokenValue(generateTokenData());
-        token.setTokenDate(new LocalDate());
-        token.setIpAddress(request.getRemoteAddr());
-        token.setUserAgent(request.getHeader("User-Agent"));
+        PersistentToken token = userRepository.findOneByLogin(login).map(u -> {
+            PersistentToken t = new PersistentToken();
+            t.setSeries(generateSeriesData());
+            t.setUser(u);
+            t.setTokenValue(generateTokenData());
+            t.setTokenDate(new LocalDate());
+            t.setIpAddress(request.getRemoteAddr());
+            t.setUserAgent(request.getHeader("User-Agent"));
+            return t;
+        }).orElseThrow(() -> new UsernameNotFoundException("User " + login + " was not found in the database"));
         try {
             persistentTokenRepository.saveAndFlush(token);
             addCookie(token, request, response);
@@ -126,7 +127,7 @@ public class CustomPersistentRememberMeServices extends
 
     /**
      * When logout occurs, only invalidate the current token, and not all user sessions.
-     * <p/>
+     * <p>
      * The standard Spring Security implementations are too basic: they invalidate all tokens for the
      * current user, so when he logs out from one browser, all his other sessions are destroyed.
      */

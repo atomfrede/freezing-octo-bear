@@ -50,14 +50,14 @@ angular.module('matetrackerApp')
                         _authenticated = true;
                         deferred.resolve(_identity);
                     })
-                    .catch(function () {
+                    .catch(function() {
                         _identity = null;
                         _authenticated = false;
                         deferred.resolve(_identity);
                     });
                 return deferred.promise;
             },
-            roles: function () {
+            roles: function() {
                 return _roles;
             }
         };

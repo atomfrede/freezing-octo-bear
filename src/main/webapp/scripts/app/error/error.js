@@ -15,7 +15,7 @@ angular.module('matetrackerApp')
                     }
                 },
                 resolve: {
-                    mainTranslatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
+                    mainTranslatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate,$translatePartialLoader) {
                         $translatePartialLoader.addPart('error');
                         return $translate.refresh();
                     }]
@@ -33,7 +33,7 @@ angular.module('matetrackerApp')
                     }
                 },
                 resolve: {
-                    mainTranslatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
+                    mainTranslatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate,$translatePartialLoader) {
                         $translatePartialLoader.addPart('error');
                         return $translate.refresh();
                     }]

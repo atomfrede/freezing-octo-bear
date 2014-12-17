@@ -216,7 +216,7 @@ module.exports = function (grunt) {
         concat: {
         // not used since Uglify task does concat,
         // but still available if needed
-            //    dist: {}
+        //    dist: {}
         },
         rev: {
             dist: {
@@ -292,15 +292,15 @@ module.exports = function (grunt) {
             //     }
             // }
         },
-        ngtemplates: {
+        ngtemplates:    {
             dist: {
                 cwd: 'src/main/webapp',
-                src: ['scripts/app/**/*.html', 'scripts/components/**/*.html', ],
+                src: ['scripts/app/**/*.html', 'scripts/components/**/*.html',],
                 dest: '.tmp/templates/templates.js',
                 options: {
                     module: 'matetrackerApp',
                     usemin: 'scripts/scripts.js',
-                    htmlmin: {
+                    htmlmin:  {
                         removeCommentsFromCDATA: true,
                         // https://github.com/yeoman/grunt-usemin/issues/44
                         collapseWhitespace: true,
@@ -418,14 +418,14 @@ module.exports = function (grunt) {
                 }
             },
         uglify: {
-            // not used since Uglify task does uglify
-            //    dist: {
-            //     files: {
-            //            '<%= yeoman.dist %>/scripts/scripts.js': [
-            //                '<%= yeoman.dist %>/scripts/scripts.js'
-            //            ]
-            //        }
-            //    }
+        // not used since Uglify task does uglify
+        //    dist: {
+        //     files: {
+        //            '<%= yeoman.dist %>/scripts/scripts.js': [
+        //                '<%= yeoman.dist %>/scripts/scripts.js'
+        //            ]
+        //        }
+        //    }
         },
         buildcontrol: {
             options: {

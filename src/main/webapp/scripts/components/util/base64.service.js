@@ -89,7 +89,7 @@ angular.module('matetrackerApp')
                 localStorage.removeItem(key);
             },
 
-            clearAll: function () {
+            clearAll : function () {
                 localStorage.clear();
             }
         };

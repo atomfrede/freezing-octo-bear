@@ -3,7 +3,7 @@
 angular.module('matetrackerApp')
     .factory('AuthServerProvider', function loginService($http, localStorageService, Base64) {
         return {
-            login: function (credentials) {
+            login: function(credentials) {
                 var data = "username=" + credentials.username + "&password="
                     + credentials.password + "&grant_type=password&scope=read%20write&" +
                     "client_secret=mySecretOAuthSecret&client_id=matetrackerapp";
@@ -21,9 +21,9 @@ angular.module('matetrackerApp')
                     return response;
                 });
             },
-            logout: function () {
+            logout: function() {
                 // logout from the server
-                $http.post('api/logout').then(function () {
+                $http.post('api/logout').then(function() {
                     localStorageService.clearAll();
                 });
             },

@@ -16,7 +16,7 @@ angular.module('matetrackerApp')
                     }
                 },
                 resolve: {
-                    mainTranslatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
+                    mainTranslatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate,$translatePartialLoader) {
                         $translatePartialLoader.addPart('main');
                         return $translate.refresh();
                     }]
@@ -24,7 +24,7 @@ angular.module('matetrackerApp')
             });
     })
     .controller('MainController', function ($scope, Principal) {
-        Principal.identity().then(function (account) {
+        Principal.identity().then(function(account) {
             $scope.account = account;
             $scope.isAuthenticated = Principal.isAuthenticated;
         });

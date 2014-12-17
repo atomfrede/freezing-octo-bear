@@ -10,7 +10,7 @@ angular.module('matetrackerApp')
             },
             findByDates: function (fromDate, toDate) {
 
-                var formatDate = function (dateToFormat) {
+                var formatDate =  function (dateToFormat) {
                     if (dateToFormat !== undefined && !angular.isString(dateToFormat)) {
                         return dateToFormat.getYear() + "-" + dateToFormat.getMonth() + "-" + dateToFormat.getDay();
                     }
