@@ -40,7 +40,7 @@ public class UserResource {
     @RolesAllowed(AuthoritiesConstants.ADMIN)
     ResponseEntity<User> getUser(@PathVariable String login) {
         log.debug("REST request to get User : {}", login);
-        return Optional.ofNullable(userRepository.findOneByLogin(login))
+        return userRepository.findOneByLogin(login)
                 .map(user -> new ResponseEntity<>(user, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }

@@ -39,9 +39,9 @@ public class UserService {
     @Inject
     private AuthorityRepository authorityRepository;
 
-    public User activateRegistration(String key) {
+    public Optional<User> activateRegistration(String key) {
         log.debug("Activating user for activation key {}", key);
-        return userRepository.findOneByActivationKey(key)
+        userRepository.findOneByActivationKey(key)
             .map(user -> {
                 // activate given user for the registration key.
                 user.setActivated(true);
@@ -49,8 +49,8 @@ public class UserService {
                 userRepository.save(user);
                 log.debug("Activated user: {}", user);
                 return user;
-            })
-            .orElse(null);
+            });
+        return Optional.empty();
     }
 
     public User createUserInformation(String login, String password, String firstName, String lastName, String email,
@@ -78,28 +78,31 @@ public class UserService {
     }
 
     public void updateUserInformation(String firstName, String lastName, String email) {
-        User currentUser = userRepository.findOneByLogin(SecurityUtils.getCurrentLogin());
-        currentUser.setFirstName(firstName);
-        currentUser.setLastName(lastName);
-        currentUser.setEmail(email);
-        userRepository.save(currentUser);
-        log.debug("Changed Information for User: {}", currentUser);
+        userRepository.findOneByLogin(SecurityUtils.getCurrentLogin()).ifPresent(u -> {
+            u.setFirstName(firstName);
+            u.setLastName(lastName);
+            u.setEmail(email);
+            userRepository.save(u);
+            log.debug("Changed Information for User: {}", u);
+        });
     }
 
     public void changePassword(String password) {
-        User currentUser = userRepository.findOneByLogin(SecurityUtils.getCurrentLogin());
-        String encryptedPassword = passwordEncoder.encode(password);
-        currentUser.setPassword(encryptedPassword);
-        userRepository.save(currentUser);
-        log.debug("Changed password for User: {}", currentUser);
+        userRepository.findOneByLogin(SecurityUtils.getCurrentLogin()).ifPresent(u-> {
+            String encryptedPassword = passwordEncoder.encode(password);
+            u.setPassword(encryptedPassword);
+            userRepository.save(u);
+            log.debug("Changed password for User: {}", u);
+        } );
     }
 
     @Transactional(readOnly = true)
     public User getUserWithAuthorities() {
-        User currentUser = userRepository.findOneByLogin(SecurityUtils.getCurrentLogin());
+        User currentUser = userRepository.findOneByLogin(SecurityUtils.getCurrentLogin()).get();
         currentUser.getAuthorities().size(); // eagerly load the association
         return currentUser;
     }
+
 
     /**
      * Not activated users should be automatically deleted after 3 days.
