@@ -3,7 +3,7 @@ package de.atomfrede.matetracker.repository;
 import de.atomfrede.matetracker.domain.User;
 
 import org.joda.time.DateTime;
-import org.springframework.data.repository.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.Query;
 
@@ -13,7 +13,7 @@ import java.util.Optional;
 /**
  * Spring Data JPA repository for the User entity.
  */
-public interface UserRepository extends Repository<User, String> {
+public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findOneByActivationKey(String activationKey);
 
@@ -22,8 +22,6 @@ public interface UserRepository extends Repository<User, String> {
     Optional<User> findOneByEmail(String email);
 
     Optional<User> findOneByLogin(String login);
-
-    Optional<User> save(User t);
 
     void delete(User t);
 

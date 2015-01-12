@@ -6,7 +6,7 @@
             "home": "Home",
             "entities": {
                 "main": "Entities",
-                "book": "Book"
+                "additionalEntity": "JHipster will add addtional entities"
             },
             "account": {
                 "main": "Account",
@@ -64,6 +64,23 @@
                     "maxlength": "Your e-mail cannot be longer than 50 characters"
                 }
             }
+        }
+    },
+    "entity": {
+        "action": {
+            "back": "Back",
+            "cancel": "Cancel",
+            "delete": "Delete",
+            "edit": "Edit",
+            "save": "Save",
+            "view": "View"
+        },
+        "detail": {
+            "field": "Field",
+            "value": "Value"
+        },
+        "delete": {
+            "title": "Confirm delete operation"
         }
     },
     "footer": "This is your footer"

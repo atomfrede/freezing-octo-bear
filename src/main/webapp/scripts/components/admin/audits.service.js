@@ -12,7 +12,7 @@ angular.module('matetrackerApp')
 
                 var formatDate =  function (dateToFormat) {
                     if (dateToFormat !== undefined && !angular.isString(dateToFormat)) {
-                        return dateToFormat.getYear() + "-" + dateToFormat.getMonth() + "-" + dateToFormat.getDay();
+                        return dateToFormat.getYear() + '-' + dateToFormat.getMonth() + '-' + dateToFormat.getDay();
                     }
                     return dateToFormat;
                 };
@@ -21,5 +21,5 @@ angular.module('matetrackerApp')
                     return response.data;
                 });
             }
-        }
+        };
     });

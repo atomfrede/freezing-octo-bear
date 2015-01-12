@@ -6,7 +6,7 @@
             "home": "Accueil",
             "entities": {
                 "main": "Entités",
-                "book": "Livre"
+                "additionalEntity": "JHipster will add addtional entities"
             },
             "account": {
                 "main": "Compte",
@@ -64,6 +64,23 @@
                     "invalid": "Votre email n'est pas valide."
                 }
             }
+        }
+    },
+    "entity": {
+        "action": {
+            "back": "Retour",
+            "cancel": "Annuler",
+            "edit": "Editer",
+            "delete": "Suppriner",
+            "save": "Sauvegarder",
+            "view": "Voir"
+        },
+        "detail": {
+            "field": "Champ",
+            "value": "Valeur"
+        },
+        "delete": {
+            "title": "Confirmation de suppression"
         }
     },
     "footer": "Ceci est votre pied de page"

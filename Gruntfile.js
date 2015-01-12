@@ -1,4 +1,4 @@
-// Generated on 2014-12-17 using generator-jhipster 1.10.0
+// Generated on 2015-01-12 using generator-jhipster 2.0.0
 'use strict';
 
 var proxySnippet = require('grunt-connect-proxy/lib/utils').proxyRequest;
@@ -36,7 +36,7 @@ module.exports = function (grunt) {
         },
         watch: {
             styles: {
-                files: ['src/main/webapp/styles/**/*.css']
+                files: ['src/main/webapp/assets/styles/**/*.css']
             },
             livereload: {
                 options: {
@@ -45,9 +45,9 @@ module.exports = function (grunt) {
                 files: [
                     'src/main/webapp/**/*.html',
                     'src/main/webapp/**/*.json',
-                    '.tmp/styles/**/*.css',
+                    '{.tmp/,}src/main/webapp/assets/styles/**/*.css',
                     '{.tmp/,}src/main/webapp/scripts/**/*.js',
-                    'src/main/webapp/images/**/*.{png,jpg,jpeg,gif,webp,svg}'
+                    'src/main/webapp/assets/images/**/*.{png,jpg,jpeg,gif,webp,svg}'
                 ]
             }
         },
@@ -186,7 +186,9 @@ module.exports = function (grunt) {
             },
             all: [
                 'Gruntfile.js',
-                'src/main/webapp/scripts/{,*/}*.js'
+                'src/main/webapp/scripts/app.js',
+                'src/main/webapp/scripts/app/**/*.js',
+                'src/main/webapp/scripts/components/**/*.js'
             ]
         },
         coffee: {
@@ -198,7 +200,7 @@ module.exports = function (grunt) {
                 files: [{
                     expand: true,
                     cwd: 'src/main/webapp/scripts',
-                    src: '**/*.coffee',
+                    src: ['scripts/app/**/*.coffee', 'scripts/components/**/*.coffee'],
                     dest: '.tmp/scripts',
                     ext: '.js'
                 }]
@@ -223,9 +225,9 @@ module.exports = function (grunt) {
                 files: {
                     src: [
                         '<%= yeoman.dist %>/scripts/**/*.js',
-                        '<%= yeoman.dist %>/styles/**/*.css',
-                        '<%= yeoman.dist %>/images/**/*.{png,jpg,jpeg,gif,webp,svg}',
-                        '<%= yeoman.dist %>/fonts/*'
+                        '<%= yeoman.dist %>/assets/styles/**/*.css',
+                        '<%= yeoman.dist %>/assets/images/**/*.{png,jpg,jpeg,gif,webp,svg}',
+                        '<%= yeoman.dist %>/assets/fonts/*'
                     ]
                 }
             }
@@ -247,13 +249,13 @@ module.exports = function (grunt) {
         },
         usemin: {
             html: ['<%= yeoman.dist %>/**/*.html'],
-            css: ['<%= yeoman.dist %>/styles/**/*.css'],
-            js: '/scripts/**/*.js',
+            css: ['<%= yeoman.dist %>/assets/styles/**/*.css'],
+            js: ['<%= yeoman.dist %>/scripts/**/*.js'],
             options: {
-                assetsDirs: ['<%= yeoman.dist %>/**/'],
+                assetsDirs: ['<%= yeoman.dist %>', '<%= yeoman.dist %>/assets/styles', '<%= yeoman.dist %>/assets/images', '<%= yeoman.dist %>/assets/fonts'],
                 patterns: {
                     js: [
-                        [/(images\/.*?\.(?:gif|jpeg|jpg|png|webp|svg))/gm, 'Update the JS to reference our revved images']
+                        [/(assets\/images\/.*?\.(?:gif|jpeg|jpg|png|webp|svg))/gm, 'Update the JS to reference our revved images']
                     ]
                 },
                 dirs: ['<%= yeoman.dist %>']
@@ -263,9 +265,9 @@ module.exports = function (grunt) {
             dist: {
                 files: [{
                     expand: true,
-                    cwd: 'src/main/webapp/images',
-                src: '**/*.{jpg,jpeg}', // we don't optimize PNG files as it doesn't work on Linux. If you are not on Linux, feel free to use '{,*/}*.{png,jpg,jpeg}'
-                    dest: '<%= yeoman.dist %>/images'
+                    cwd: 'src/main/webapp/assets/images',
+                    src: '**/*.{jpg,jpeg}', // we don't optimize PNG files as it doesn't work on Linux. If you are not on Linux, feel free to use '**/*.{png,jpg,jpeg}'
+                    dest: '<%= yeoman.dist %>/assets/images'
                 }]
             }
         },
@@ -273,9 +275,9 @@ module.exports = function (grunt) {
             dist: {
                 files: [{
                     expand: true,
-                    cwd: 'src/main/webapp/images',
+                    cwd: 'src/main/webapp/assets/images',
                     src: '**/*.svg',
-                    dest: '<%= yeoman.dist %>/images'
+                    dest: '<%= yeoman.dist %>/assets/images'
                 }]
             }
         },
@@ -286,8 +288,8 @@ module.exports = function (grunt) {
             // dist: {
             //     files: {
             //         '<%= yeoman.dist %>/styles/main.css': [
-            //             '.tmp/styles/{,*/}*.css',
-            //             'styles/{,*/}*.css'
+            //             '.tmp/styles/**/*.css',
+            //             'styles/**/*.css'
             //         ]
             //     }
             // }
@@ -299,7 +301,7 @@ module.exports = function (grunt) {
                 dest: '.tmp/templates/templates.js',
                 options: {
                     module: 'matetrackerApp',
-                    usemin: 'scripts/scripts.js',
+                    usemin: 'scripts/app.js',
                     htmlmin:  {
                         removeCommentsFromCDATA: true,
                         // https://github.com/yeoman/grunt-usemin/issues/44
@@ -346,14 +348,14 @@ module.exports = function (grunt) {
                     dest: '<%= yeoman.dist %>',
                     src: [
                         '*.html',
-                        'views/**/*.html',
-                        'images/**/*.{png,gif,webp}',
-                        'fonts/*'
+                        'scripts/**/*.html',
+                        'assets/images/**/*.{png,gif,webp}',
+                        'assets/fonts/*'
                     ]
                 }, {
                     expand: true,
-                    cwd: '.tmp/images',
-                    dest: '<%= yeoman.dist %>/images',
+                    cwd: '.tmp/assets/images',
+                    dest: '<%= yeoman.dist %>/assets/images',
                     src: [
                         'generated/*'
                     ]
@@ -451,7 +453,7 @@ module.exports = function (grunt) {
         }
     });
 
-    grunt.registerTask('server', function (target) {
+    grunt.registerTask('serve', function (target) {
         if (target === 'dist') {
             return grunt.task.run(['build', 'connect:dist:keepalive']);
         }
@@ -463,6 +465,11 @@ module.exports = function (grunt) {
             'connect:livereload',
             'watch'
         ]);
+    });
+
+    grunt.registerTask('server', function (target) {
+        grunt.log.warn('The `server` task has been deprecated. Use `grunt serve` to start a server.');
+        grunt.task.run([target ? ('serve:' + target) : 'serve']);
     });
 
     grunt.registerTask('test', [

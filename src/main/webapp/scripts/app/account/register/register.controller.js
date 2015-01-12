@@ -1,38 +1,19 @@
 'use strict';
 
 angular.module('matetrackerApp')
-    .config(function ($stateProvider) {
-        $stateProvider
-            .state('register', {
-                parent: 'account',
-                url: '/register',
-                data: {
-                    roles: []
-                },
-                views: {
-                    'content@': {
-                        templateUrl: 'scripts/app/account/register/register.html',
-                        controller: 'RegisterController'
-                    }
-                },
-                resolve: {
-                    translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
-                        $translatePartialLoader.addPart('register');
-                        return $translate.refresh();
-                    }]
-                }
-            });
-    })
-    .controller('RegisterController', function ($scope, $translate, Auth) {
+    .controller('RegisterController', function ($scope, $translate, $timeout, Auth) {
         $scope.success = null;
         $scope.error = null;
         $scope.doNotMatch = null;
         $scope.errorUserExists = null;
         $scope.registerAccount = {};
+        $timeout(function () {
+            angular.element('[ng-model="registerAccount.login"]').focus();
+        });
 
         $scope.register = function () {
-            if ($scope.registerAccount.password != $scope.confirmPassword) {
-                $scope.doNotMatch = "ERROR";
+            if ($scope.registerAccount.password !== $scope.confirmPassword) {
+                $scope.doNotMatch = 'ERROR';
             } else {
                 $scope.registerAccount.langKey = $translate.use();
                 $scope.doNotMatch = null;
@@ -40,18 +21,18 @@ angular.module('matetrackerApp')
                 $scope.errorUserExists = null;
                 $scope.errorEmailExists = null;
 
-                Auth.createAccount($scope.registerAccount).then(function (account) {
+                Auth.createAccount($scope.registerAccount).then(function () {
                     $scope.success = 'OK';
                 }).catch(function (response) {
                     $scope.success = null;
-                    if (response.status === 400 && response.data === "login already in use") {
-                        $scope.errorUserExists = "ERROR";
-                    } else if (response.status === 400 && response.data === "e-mail address already in use") {
-                        $scope.errorEmailExists = "ERROR";
+                    if (response.status === 400 && response.data === 'login already in use') {
+                        $scope.errorUserExists = 'ERROR';
+                    } else if (response.status === 400 && response.data === 'e-mail address already in use') {
+                        $scope.errorEmailExists = 'ERROR';
                     } else {
-                        $scope.error = "ERROR";
+                        $scope.error = 'ERROR';
                     }
                 });
             }
-        }
+        };
     });

@@ -1,33 +1,14 @@
 'use strict';
 
 angular.module('matetrackerApp')
-    .config(function ($stateProvider) {
-        $stateProvider
-            .state('login', {
-                parent: 'account',
-                url: '/login',
-                data: {
-                    roles: []
-                },
-                views: {
-                    'content@': {
-                        templateUrl: 'scripts/app/account/login/login.html',
-                        controller: 'LoginController'
-                    }
-                },
-                resolve: {
-                    translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
-                        $translatePartialLoader.addPart('login');
-                        return $translate.refresh();
-                    }]
-                }
-            });
-    })
-    .controller('LoginController', function ($rootScope, $scope, $state, Auth) {
+    .controller('LoginController', function ($rootScope, $scope, $state, $timeout, Auth) {
         $scope.user = {};
         $scope.errors = {};
 
         $scope.rememberMe = true;
+        $timeout(function () {
+            angular.element('[ng-model="username"]').focus();
+        });
         $scope.login = function () {
             Auth.login({
                 username: $scope.username,
@@ -36,8 +17,8 @@ angular.module('matetrackerApp')
             }).then(function () {
                 $scope.authenticationError = false;
                 $rootScope.back();
-            }).catch(function (err) {
+            }).catch(function () {
                 $scope.authenticationError = true;
             });
-        }
+        };
     });

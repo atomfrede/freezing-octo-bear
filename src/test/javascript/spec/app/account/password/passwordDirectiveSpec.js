@@ -14,19 +14,14 @@ describe('Directive Tests ', function () {
         elm = angular.element(html);
         $compile(elm)(scope);
 
-        var req = 'protected/authentication_check.gif';
-        var regex_friendly_req = req.replace(/\//g, '\\/');
-        var expected = new RegExp(regex_friendly_req + '\\?cacheBuster=[0-9]+');
-        $httpBackend.expectGET(expected).respond({});
-
         $httpBackend.expectGET('api/account').respond({});
         $httpBackend.expectGET('i18n/en/global.json').respond({});
         $httpBackend.expectGET('i18n/en/language.json').respond({});
-        $httpBackend.expectGET('components/navbar/navbar.html').respond({});
+        $httpBackend.expectGET('scripts/components/navbar/navbar.html').respond({});
         $httpBackend.expectGET('i18n/en/global.json').respond({});
         $httpBackend.expectGET('i18n/en/language.json').respond({});
         $httpBackend.expectGET('i18n/en/main.json').respond({});
-        $httpBackend.expectGET('app/main/main.html').respond({});
+        $httpBackend.expectGET('scripts/app/main/main.html').respond({});
     }));
 
     afterEach(function() {

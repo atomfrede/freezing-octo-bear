@@ -125,13 +125,13 @@ public class AccountResource {
     @Timed
     public ResponseEntity<String> saveAccount(@RequestBody UserDTO userDTO) {
         return userRepository
-            .findOneByEmail(userDTO.getEmail())
+            .findOneByLogin(userDTO.getLogin())
             .filter(u -> u.getLogin().equals(SecurityUtils.getCurrentLogin()))
             .map(u -> {
                 userService.updateUserInformation(userDTO.getFirstName(), userDTO.getLastName(), userDTO.getEmail());
                 return new ResponseEntity<String>(HttpStatus.OK);
             })
-            .orElseGet(() -> ResponseEntity.badRequest().contentType(MediaType.TEXT_PLAIN).body("e-mail address already in use"));
+            .orElseGet(() -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
     }
 
     /**
