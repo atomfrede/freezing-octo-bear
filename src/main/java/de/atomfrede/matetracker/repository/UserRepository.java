@@ -1,22 +1,28 @@
 package de.atomfrede.matetracker.repository;
 
 import de.atomfrede.matetracker.domain.User;
+
 import org.joda.time.DateTime;
 import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Spring Data JPA repository for the User entity.
  */
-public interface UserRepository extends JpaRepository<User, String> {
+public interface UserRepository extends JpaRepository<User, Long> {
 
-    @Query("select u from User u where u.activationKey = ?1")
-    User getUserByActivationKey(String activationKey);
+    Optional<User> findOneByActivationKey(String activationKey);
 
-    @Query("select u from User u where u.activated = false and u.createdDate > ?1")
-    List<User> findNotActivatedUsersByCreationDateBefore(DateTime dateTime);
+    List<User> findAllByActivatedIsFalseAndCreatedDateBefore(DateTime dateTime);
 
-    User findOneByEmail(String email);
+    Optional<User> findOneByEmail(String email);
+
+    Optional<User> findOneByLogin(String login);
+
+    void delete(User t);
+
 }

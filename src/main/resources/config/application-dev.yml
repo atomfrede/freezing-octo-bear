@@ -2,11 +2,11 @@ server:
     port: 8080
 
 spring:
-    profiles: dev
-    
+    profiles:
+        active: dev
     datasource:
         dataSourceClassName: org.h2.jdbcx.JdbcDataSource
-        url: jdbc:h2:mem:jhipster
+        url: jdbc:h2:mem:jhipster;DB_CLOSE_DELAY=-1
         databaseName: 
         serverName: 
         username: 
@@ -33,10 +33,13 @@ spring:
     thymeleaf:
         mode: XHTML
         cache: false
-        viewNames: error
 
 metrics:
     jmx.enabled: true
+    spark:
+        enabled: false
+        host: localhost
+        port: 9999
     graphite:
         enabled: false
         host: localhost

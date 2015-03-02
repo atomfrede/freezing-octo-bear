@@ -4,7 +4,7 @@ server:
 
 
 # security configuration (this key should be unique for your application, and kept secret)
-jhipster.security.rememberme.key: matetracker
+jhipster.security.rememberme.key: 668553ea1bfb6397865ef99794a561ed0ba624a8
 
 async:
     corePoolSize: 2
@@ -12,11 +12,9 @@ async:
     queueCapacity: 10000
 
 spring:
-    
-    
     datasource:
         dataSourceClassName: org.h2.jdbcx.JdbcDataSource
-        url: jdbc:h2:mem:matetracker
+        url: jdbc:h2:mem:matetracker;DB_CLOSE_DELAY=-1
         databaseName:
         serverName:
         username:

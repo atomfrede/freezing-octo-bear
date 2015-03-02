@@ -6,7 +6,7 @@ security.basic.enabled: false
 endpoints.jolokia.enabled: false
 
 # security configuration (this key should be unique for your application, and kept secret)
-jhipster.security.rememberme.key: matetracker
+jhipster.security.rememberme.key: 668553ea1bfb6397865ef99794a561ed0ba624a8
 
 async:
     corePoolSize: 2
@@ -26,13 +26,6 @@ spring:
 
     messageSource:
         cacheSeconds: 1
-
-authentication:
-    oauth:
-        clientid: matetrackerapp
-        secret: mySecretOAuthSecret
-        # Token is valid 30 minutes
-        tokenValidityInSeconds: 1800
 
 swagger:
     title: matetracker API

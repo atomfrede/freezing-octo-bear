@@ -1,13 +1,15 @@
-apply plugin: 'node'
+import org.apache.tools.ant.taskdefs.condition.Os
+apply plugin: 'com.moowork.node'
 apply plugin: 'grunt'
 
-task bower(dependsOn: 'npmInstall', type: NodeTask){
-    script = file('node_modules/bower/bin/bower')
-    args = ['install']
+task bower(type: Exec) {
+    if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+        commandLine 'cmd', '/c', 'bower', 'install'
+    }else{
+        commandLine 'bower', 'install'
+    }
 }
 
 
-grunt_build.dependsOn 'npmInstall'
-grunt_build.dependsOn 'bower'
-processResources.dependsOn grunt_build
-test.dependsOn grunt_test
+processResources.dependsOn 'bower'
+
