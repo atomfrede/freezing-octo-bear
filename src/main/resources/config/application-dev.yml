@@ -25,7 +25,9 @@ spring:
             hibernate.cache.use_second_level_cache: true
             hibernate.cache.use_query_cache: false
             hibernate.generate_statistics: true
-            hibernate.cache.region.factory_class: org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory
+            hibernate.cache.region.factory_class: de.atomfrede.matetracker.web.config.hazelcast.HazelcastCacheRegionFactory
+            hibernate.cache.use_minimal_puts: true
+            hibernate.cache.hazelcast.use_lite_member: true
 
     mail:
         baseUrl: http://localhost:8080
@@ -48,5 +50,7 @@ metrics:
 
 cache:
     timeToLiveSeconds: 3600
-    ehcache:
-        maxBytesLocalHeap: 16M
+    hazelcast:
+        debug: true
+        stickySession: false
+        backupCount: 1

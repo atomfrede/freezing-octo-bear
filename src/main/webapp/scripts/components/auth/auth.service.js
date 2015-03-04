@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('matetrackerApp')
-    .factory('Auth', function Auth($rootScope, $state, $q, $translate, Principal, AuthServerProvider, Account, Register, Activate, Password) {
+    .factory('Auth', function Auth($rootScope, $state, $q, $translate, Principal, AuthServerProvider, Account, Register, Activate, Password, Tracker) {
         return {
             login: function (credentials, callback) {
                 var cb = callback || angular.noop;
@@ -13,6 +13,7 @@ angular.module('matetrackerApp')
                         // After the login the language will be changed to
                         // the language selected by the user during his registration
                         $translate.use(account.langKey);
+                        Tracker.sendActivity();
                     });
                     deferred.resolve(data);
 

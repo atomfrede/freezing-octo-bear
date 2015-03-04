@@ -1,12 +1,12 @@
 {
   "generator-jhipster": {
     "baseName": "matetracker",
-    "packageName": "de.atomfrede.matetracker",
-    "packageFolder": "de/atomfrede/matetracker",
-    "authenticationType": "token",
-    "hibernateCache": "ehcache",
-    "clusteredHttpSession": "no",
-    "websocket": "no",
+    "packageName": "de.atomfrede.matetracker.web",
+    "packageFolder": "de/atomfrede/matetracker/web",
+    "authenticationType": "oauth2",
+    "hibernateCache": "hazelcast",
+    "clusteredHttpSession": "hazelcast",
+    "websocket": "spring-websocket",
     "databaseType": "sql",
     "devDatabaseType": "h2Memory",
     "prodDatabaseType": "mysql",
@@ -14,6 +14,6 @@
     "buildTool": "gradle",
     "frontendBuilder": "grunt",
     "javaVersion": "8",
-    "rememberMeKey": "668553ea1bfb6397865ef99794a561ed0ba624a8"
+    "rememberMeKey": "7670d484940d8831a4da2bb11d0e1e354b7daff1"
   }
 }

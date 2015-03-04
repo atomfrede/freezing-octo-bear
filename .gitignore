@@ -13,8 +13,3 @@ node_modules
 src/main/webapp/dist
 .gradle
 build
-
-_old_wicket
-src/main/resources/config/application-prod.yml
-
-*.*~

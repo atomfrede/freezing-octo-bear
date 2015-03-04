@@ -14,6 +14,8 @@ module.exports = function (config) {
             // bower:js
             'main/webapp/bower_components/modernizr/modernizr.js',
             'main/webapp/bower_components/jquery/dist/jquery.js',
+            'main/webapp/bower_components/stomp-websocket/lib/stomp.min.js',
+            'main/webapp/bower_components/sockjs-client/dist/sockjs.js',
             'main/webapp/bower_components/bootstrap/dist/js/bootstrap.js',
             'main/webapp/bower_components/json3/lib/json3.js',
             'main/webapp/bower_components/angular/angular.js',

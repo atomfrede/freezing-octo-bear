@@ -20,11 +20,11 @@ apply plugin: 'spring-boot'
 apply plugin: 'war'
 
 bootRepackage {
-   mainClass = 'de.atomfrede.matetracker.Application'
+   mainClass = 'de.atomfrede.matetracker.web.Application'
 }
 
 springBoot {
-    mainClass = 'de.atomfrede.matetracker.Application'
+    mainClass = 'de.atomfrede.matetracker.web.Application'
 }
 
 apply from: 'yeoman.gradle'
@@ -48,7 +48,7 @@ if (profile == 'prod') {
     apply from: 'profile_dev.gradle'
 }
 
-group = 'de.atomfrede.matetracker'
+group = 'de.atomfrede.matetracker.web'
 version = '0.1-SNAPSHOT'
 
 description = ''
@@ -73,7 +73,6 @@ repositories {
 
 dependencies {
     compile group: 'com.codahale.metrics', name: 'metrics-core', version: codahale_metrics_version
-    compile group: 'com.codahale.metrics', name: 'metrics-ehcache', version: codahale_metrics_version
     compile group: 'com.codahale.metrics', name: 'metrics-graphite', version: codahale_metrics_version
     compile group: 'com.codahale.metrics', name: 'metrics-jvm', version: codahale_metrics_version
     compile group: 'com.codahale.metrics', name: 'metrics-servlet', version: codahale_metrics_version
@@ -86,6 +85,10 @@ dependencies {
     compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-joda', version: jackson_version
     compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-hibernate4', version: jackson_version
     compile group: 'com.ryantenney.metrics', name: 'metrics-spring', version: metrics_spring_version
+    compile group: 'com.hazelcast', name: 'hazelcast', version: hazelcast_version
+    compile group: 'com.hazelcast', name: 'hazelcast-hibernate4', version: hazelcast_version
+    compile group: 'com.hazelcast', name: 'hazelcast-spring', version: hazelcast_version
+    compile group: 'com.hazelcast', name: 'hazelcast-wm', version: hazelcast_version
     compile(group: 'com.zaxxer', name: 'HikariCP', version: HikariCP_version) {
         exclude(module: 'tools')
     }
@@ -98,7 +101,6 @@ dependencies {
     compile group: 'org.apache.geronimo.javamail', name: 'geronimo-javamail_1.4_mail', version: geronimo_javamail_1_4_mail_version
     compile group: 'org.hibernate', name: 'hibernate-core', version: hibernate_entitymanager_version
     compile group: 'org.hibernate', name: 'hibernate-envers', version: hibernate_entitymanager_version
-    compile group: 'org.hibernate', name: 'hibernate-ehcache', version: hibernate_entitymanager_version
     compile group: 'org.hibernate', name: 'hibernate-validator', version: hibernate_validator_version
     compile group: 'org.jadira.usertype', name: 'usertype.core', version: usertype_core_version
     compile (group: 'org.liquibase', name: 'liquibase-core', version: liquibase_core_version) {
@@ -115,6 +117,7 @@ dependencies {
     compile(group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: spring_boot_version) {
         exclude module: 'spring-boot-starter-tomcat'
     }
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-websocket', version: spring_boot_version
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf', version: spring_boot_version
     compile group: 'org.springframework.cloud', name: 'spring-cloud-cloudfoundry-connector', version: spring_cloud_version
     compile group: 'org.springframework.cloud', name: 'spring-cloud-spring-service-connector', version: spring_cloud_version
@@ -122,6 +125,7 @@ dependencies {
     compile(group: 'org.springframework', name: 'spring-context-support') {
         exclude(module: 'quartz')
     }
+    compile group: 'org.springframework.security.oauth', name: 'spring-security-oauth2', version: spring_security_oauth2_version
     compile(group: 'com.mangofactory', name: 'swagger-springmvc', version: swagger_springmvc_version) {
         exclude(module: 'jackson-module-scala_2.10')
         exclude(module: 'scalap')

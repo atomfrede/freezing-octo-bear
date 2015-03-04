@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('matetrackerApp')
-    .factory('Principal', function Principal($q, Account) {
+    .factory('Principal', function Principal($q, Account, Tracker) {
         var _identity,
             _authenticated = false;
 
@@ -57,6 +57,7 @@ angular.module('matetrackerApp')
                         _identity = account.data;
                         _authenticated = true;
                         deferred.resolve(_identity);
+                        Tracker.connect();
                     })
                     .catch(function() {
                         _identity = null;
